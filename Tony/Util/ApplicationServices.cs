@@ -12,5 +12,6 @@ internal static class ApplicationServices {
         services.AddSingleton<ITonyEnvironment, TonyEnvironment>();
 
         services.AddSingleton<IWebSocketServer, WebSocketServer>();
+        services.AddSingleton<ISocketEventHandler, SocketEventHandler>();
     }
 }
