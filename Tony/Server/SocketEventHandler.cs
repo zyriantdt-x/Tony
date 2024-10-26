@@ -34,6 +34,12 @@ internal class SocketEventHandler : ISocketEventHandler {
     }
 
     public async Task SocketMessage( IWebSocketConnection socket, string message ) {
+        ITonyClient? client = await this.client_service.GetClient( socket );
+        if( client == null )
+            return; // handle this better
+
+        await this.message_sender.SendAsync( client, message );
+
         this.logger.LogInformation( $"Socket sent message -> {socket.ConnectionInfo.ClientIpAddress} says {message}" );
     }
 }
