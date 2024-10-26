@@ -9,4 +9,6 @@ namespace Tony.Server.Clients;
 internal interface ITonyClient {
     string Uuid { get; }
     IWebSocketConnection FleckConnection { get; init; }
+
+    void Dispose();
 }
