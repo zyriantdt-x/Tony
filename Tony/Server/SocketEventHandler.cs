@@ -7,15 +7,15 @@ using System.Threading.Tasks;
 
 namespace Tony.Server;
 internal class SocketEventHandler : ISocketEventHandler {
-    public void SocketOpen( IWebSocketConnection socket ) {
+    public async Task SocketOpen( IWebSocketConnection socket ) {
 
     }
 
-    public void SocketClose( IWebSocketConnection socket ) {
+    public async Task SocketClose( IWebSocketConnection socket ) {
 
     }
 
-    public void SocketMessage( IWebSocketConnection socket, string message ) {
+    public async Task SocketMessage( IWebSocketConnection socket, string message ) {
     
     }
 }

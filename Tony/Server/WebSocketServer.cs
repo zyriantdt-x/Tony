@@ -49,22 +49,22 @@ internal class WebSocketServer : IWebSocketServer {
 
     public async Task StartListening() {
         this.fleck_server.Start( socket => {
-            socket.OnOpen = () => {
+            socket.OnOpen = async () => {
                 this.logger.LogInformation( $"Socket opened -> {socket.ConnectionInfo.ClientIpAddress}" );
 
-                this.socket_event_handler.SocketOpen( socket );
+                await this.socket_event_handler.SocketOpen( socket );
             };
 
-            socket.OnClose = () => {
+            socket.OnClose = async () => {
                 this.logger.LogInformation( $"Socket closed -> {socket.ConnectionInfo.ClientIpAddress}" );
 
-                this.socket_event_handler.SocketClose( socket );
+                await this.socket_event_handler.SocketClose( socket );
             };
 
-            socket.OnMessage = ( message ) => {
+            socket.OnMessage = async ( message ) => {
                 this.logger.LogInformation( $"Socket sent message -> {socket.ConnectionInfo.ClientIpAddress} says {message}" );
 
-                this.socket_event_handler.SocketMessage( socket, message );
+                await this.socket_event_handler.SocketMessage( socket, message );
             };
         } );
 

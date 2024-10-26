@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Tony.Server;
 internal interface ISocketEventHandler {
-    void SocketOpen( IWebSocketConnection socket );
-    void SocketClose( IWebSocketConnection socket );
-    void SocketMessage( IWebSocketConnection socket, string message );
+    Task SocketOpen( IWebSocketConnection socket );
+    Task SocketClose( IWebSocketConnection socket );
+    Task SocketMessage( IWebSocketConnection socket, string message );
 }
