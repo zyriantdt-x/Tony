@@ -14,11 +14,14 @@ internal class WebSocketServer : IWebSocketServer {
     private const string ADDRESS = "ws://0.0.0.0:1232";
 
     private readonly ILogger<WebSocketServer> logger;
+    private readonly ISocketEventHandler socket_event_handler;
 
     private Fleck.IWebSocketServer fleck_server;
 
-    public WebSocketServer( ILogger<WebSocketServer> logger ) {
+    public WebSocketServer( ILogger<WebSocketServer> logger,
+                            ISocketEventHandler socket_event_handler ) {
         this.logger = logger;
+        this.socket_event_handler = socket_event_handler;
 
         this.fleck_server = new Fleck.WebSocketServer( ADDRESS );
 
@@ -39,12 +42,29 @@ internal class WebSocketServer : IWebSocketServer {
                     break;
             }
         };
+
+        // will remove this later on
+        FleckLog.Level = LogLevel.Debug;
     }
 
     public async Task StartListening() {
         this.fleck_server.Start( socket => {
             socket.OnOpen = () => {
+                this.logger.LogInformation( $"Socket opened -> {socket.ConnectionInfo.ClientIpAddress}" );
 
+                this.socket_event_handler.SocketOpen( socket );
+            };
+
+            socket.OnClose = () => {
+                this.logger.LogInformation( $"Socket closed -> {socket.ConnectionInfo.ClientIpAddress}" );
+
+                this.socket_event_handler.SocketClose( socket );
+            };
+
+            socket.OnMessage = ( message ) => {
+                this.logger.LogInformation( $"Socket sent message -> {socket.ConnectionInfo.ClientIpAddress} says {message}" );
+
+                this.socket_event_handler.SocketMessage( socket, message );
             };
         } );
 
