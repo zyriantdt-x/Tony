@@ -49,23 +49,11 @@ internal class WebSocketServer : IWebSocketServer {
 
     public async Task StartListening() {
         this.fleck_server.Start( socket => {
-            socket.OnOpen = async () => {
-                this.logger.LogInformation( $"Socket opened -> {socket.ConnectionInfo.ClientIpAddress}" );
+            socket.OnOpen = async () => await this.socket_event_handler.SocketOpen( socket );
 
-                await this.socket_event_handler.SocketOpen( socket );
-            };
+            socket.OnClose = async () => await this.socket_event_handler.SocketClose( socket );
 
-            socket.OnClose = async () => {
-                this.logger.LogInformation( $"Socket closed -> {socket.ConnectionInfo.ClientIpAddress}" );
-
-                await this.socket_event_handler.SocketClose( socket );
-            };
-
-            socket.OnMessage = async ( message ) => {
-                this.logger.LogInformation( $"Socket sent message -> {socket.ConnectionInfo.ClientIpAddress} says {message}" );
-
-                await this.socket_event_handler.SocketMessage( socket, message );
-            };
+            socket.OnMessage = async ( message ) => await this.socket_event_handler.SocketMessage( socket, message );
         } );
 
         this.logger.LogInformation( "Tony Server Started" );
