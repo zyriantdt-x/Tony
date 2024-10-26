@@ -68,6 +68,6 @@ internal class WebSocketServer : IWebSocketServer {
             };
         } );
 
-        this.logger.LogInformation( "tony server started" );
+        this.logger.LogInformation( "Tony Server Started" );
     }
 }
