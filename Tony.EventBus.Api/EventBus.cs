@@ -15,6 +15,8 @@ public class EventBus : IEventBus {
     }
 
     private async Task ListenToBus() {
+        string event_bus_address = Environment.GetEnvironmentVariable( "event_bus_address" ) ?? EVENT_BUS_ADDRESS;
+
         using ClientWebSocket socket = new();
         await socket.ConnectAsync( new Uri( "wss://echo.websocket.org" ), CancellationToken.None );
 
