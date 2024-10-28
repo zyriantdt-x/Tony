@@ -21,7 +21,9 @@ internal class WebSocketServer {
         this.logger = logger;
         this.socket_event_handler = socket_event_handler;
 
-        this.fleck_server = new Fleck.WebSocketServer( ADDRESS );
+        string address = Environment.GetEnvironmentVariable( "ws_address" ) ?? ADDRESS;
+
+        this.fleck_server = new Fleck.WebSocketServer( address );
 
         // configure fleck to use microsoft logging
         FleckLog.LogAction = ( level, message, ex ) => {

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tony.EventBus.Api;
 using Tony.Server.Clients;
 
 namespace Tony.Server;
@@ -15,7 +16,8 @@ internal class SocketEventHandler : ISocketEventHandler {
 
     public SocketEventHandler( ILogger<SocketEventHandler> logger,
                                ITonyClientService client_service,
-                               IMessageSender message_sender ) {
+                               IMessageSender message_sender,
+                               IEventBus event_bus ) {
         this.logger = logger;
         this.client_service = client_service;
         this.message_sender = message_sender;
