@@ -19,6 +19,7 @@ public class EventBus : IEventBus {
 
         using ClientWebSocket socket = new();
         await socket.ConnectAsync( new Uri( event_bus_address ), CancellationToken.None );
+        this.logger.LogInformation( $"Connected to TonyEventBus -> {event_bus_address}" );
 
         byte[] buffer = new byte[ 16384 ]; // buf size -> change this?
 
@@ -27,9 +28,11 @@ public class EventBus : IEventBus {
             switch( result.MessageType ) {
                 case WebSocketMessageType.Close:
                     await socket.CloseAsync( WebSocketCloseStatus.NormalClosure, String.Empty, CancellationToken.None );
+                    this.logger.LogInformation( $"Disconnected from TonyEventBus" );
                     break;
                 default:
                     await this.HandleBusMessage( buffer, result.Count );
+                    this.logger.LogInformation( $"Message from TonyEventBus handled -> {Encoding.Default.GetString( buffer )}" );
                     break;
             }
         }
