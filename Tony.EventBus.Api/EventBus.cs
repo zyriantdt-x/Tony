@@ -18,7 +18,7 @@ public class EventBus : IEventBus {
         string event_bus_address = Environment.GetEnvironmentVariable( "event_bus_address" ) ?? EVENT_BUS_ADDRESS;
 
         using ClientWebSocket socket = new();
-        await socket.ConnectAsync( new Uri( "wss://echo.websocket.org" ), CancellationToken.None );
+        await socket.ConnectAsync( new Uri( event_bus_address ), CancellationToken.None );
 
         byte[] buffer = new byte[ 16384 ]; // buf size -> change this?
 
