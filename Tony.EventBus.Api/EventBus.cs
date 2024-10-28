@@ -36,7 +36,7 @@ public class EventBus : IEventBus {
     }
 
     private async Task HandleBusMessage( byte[] buffer, int count ) {
-        string message = BitConverter.ToString( buffer, 0, count );
+        string message = Encoding.Default.GetString( buffer );
 
         this.logger.LogInformation( $"Event Bus Message Rcvd : {message}" );
     }
