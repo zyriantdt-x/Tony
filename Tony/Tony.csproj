@@ -12,8 +12,4 @@
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.1" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Tony.EventBus.Api\Tony.EventBus.Api.csproj" />
-  </ItemGroup>
-
 </Project>

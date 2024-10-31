@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Tony.EventBus.Api;
 using Tony.Server;
 using Tony.Server.Clients;
 
@@ -18,7 +17,5 @@ internal static class ApplicationServices {
 
         services.AddSingleton<ITonyClientService, TonyClientService>();
         services.AddSingleton<IMessageSender, MessageSender>();
-
-        services.AddSingleton<IEventBus, Tony.EventBus.Api.EventBus>();
     }
 }
