@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Tony.Listener.Handlers;
 using Tony.Listener.Handlers.Handshake;
+using Tony.Listener.Handlers.Player;
 using Tony.Listener.Options;
 using Tony.Listener.Parsers;
 using Tony.Listener.Services.Player;
@@ -29,8 +30,11 @@ IHost host = Host.CreateDefaultBuilder( args )
         services.AddTransient<GenerateKeyHandler>();
         services.AddTransient<TryLoginHandler>();
 
+        services.AddTransient<GetInfoHandler>();
+
         // grpc interfaces
         services.AddTransient<AuthService>();
+        services.AddTransient<PlayerDataService>();
 
         services.AddOptions<ServerOptions>()
             .Bind( ctx.Configuration.GetSection( nameof( ServerOptions ) ) );
