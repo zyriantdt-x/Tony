@@ -5,6 +5,7 @@ option csharp_namespace = "Tony.Protos";
 package PlayerData;
 service PlayerDataEndpoint {
   rpc GetUserObject (UserObjectRequest) returns (UserObjectResponse);
+  rpc GetCredits (GetCreditsRequest) returns (GetCreditsResponse);
 }
 
 message UserObjectRequest {
@@ -21,4 +22,12 @@ message UserObjectResponse {
 	string PoolFigure = 7;
 	int32 Film = 8;
 	bool ReceiveNews = 9;
+}
+
+message GetCreditsRequest {
+	int32 Id = 1;
+}
+
+message GetCreditsResponse {
+	int32 Credits = 1;
 }

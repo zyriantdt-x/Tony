@@ -29,4 +29,14 @@ public class PlayerDataEndpoint : Protos.PlayerDataEndpoint.PlayerDataEndpointBa
             ReceiveNews = player.ReceiveNews
         };
     }
+
+    public async override Task<GetCreditsResponse> GetCredits( GetCreditsRequest request, ServerCallContext context ) {
+        PlayerData? player = await this.storage.PlayerData.FindAsync( request.Id );
+        if( player is null )
+            return null;
+
+        return new() {
+            Credits = player.Credits
+        };
+    }
 }

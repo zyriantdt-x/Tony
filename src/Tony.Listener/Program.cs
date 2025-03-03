@@ -31,6 +31,7 @@ IHost host = Host.CreateDefaultBuilder( args )
         services.AddTransient<TryLoginHandler>();
 
         services.AddTransient<GetInfoHandler>();
+        services.AddTransient<GetCreditsHandler>();
 
         // grpc interfaces
         services.AddTransient<AuthService>();
