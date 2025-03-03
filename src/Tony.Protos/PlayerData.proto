@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+option csharp_namespace = "Tony.Protos";
+
+package PlayerData;
+service PlayerDataEndpoint {
+  rpc GetUserObject (UserObjectRequest) returns (UserObjectResponse);
+}
+
+message UserObjectRequest {
+	int32 Id = 1;
+}
+
+message UserObjectResponse {
+	int32 Id = 1;
+	string Username = 2;
+	string Figure = 3;
+	string Sex = 4;
+	string Mission = 5;
+	int32 Tickets = 6;
+	string PoolFigure = 7;
+	int32 Film = 8;
+	bool ReceiveNews = 9;
+}
