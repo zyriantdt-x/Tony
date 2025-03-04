@@ -1,9 +1,7 @@
 ﻿using StackExchange.Redis;
 using System.Text.Json;
-using Tony.Shared.Protos;
 
-namespace Tony.Player.Services;
-
+namespace Tony.Shared;
 public class PublisherService {
     private const string QUEUE_NAME = "tony";
 

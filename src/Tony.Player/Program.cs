@@ -4,6 +4,7 @@ using Tony.Player.Cache;
 using Tony.Player.Endpoints;
 using Tony.Player.Services;
 using Tony.Player.Storage;
+using Tony.Shared;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder( args );
 

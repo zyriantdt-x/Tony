@@ -1,9 +1,9 @@
-﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Tony.Player.Cache;
 using Tony.Player.Dto;
 using Tony.Player.Storage;
 using Tony.Player.Storage.Entities;
+using Tony.Shared;
 using Tony.Shared.Events.Player;
 
 namespace Tony.Player.Services;
@@ -13,7 +13,7 @@ public class PlayerService {
     private readonly PlayerStorage storage;
     private readonly PublisherService pub;
 
-    public PlayerService( PlayerDataCache cache, PlayerStorage storage, PublisherService pub ) { 
+    public PlayerService( PlayerDataCache cache, PlayerStorage storage, PublisherService pub ) {
         this.cache = cache;
         this.storage = storage;
         this.pub = pub;
@@ -32,11 +32,11 @@ public class PlayerService {
         return player;
     }
 
-    public async Task<PlayerDto?> GetPlayer( string username, string password ) { 
-        PlayerData? entity = 
+    public async Task<PlayerDto?> GetPlayer( string username, string password ) {
+        PlayerData? entity =
             await this.storage.PlayerData
-            .Where(p => p.Username == username)
-            .Where(p => p.Password == password)
+            .Where( p => p.Username == username )
+            .Where( p => p.Password == password )
             .FirstOrDefaultAsync();
 
         if( entity is null )
@@ -44,7 +44,7 @@ public class PlayerService {
 
         PlayerDto player = this.MapEntityToDto( entity );
 
-        await this.cache.SavePlayer(player);
+        await this.cache.SavePlayer( player );
 
         await this.pub.Publish( new LoginEvent() {
             Audience = [ 0 ],
