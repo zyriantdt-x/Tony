@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+option csharp_namespace = "Tony.Protos";
+
+package Navigator;
+service NavigatorEndpoint {
+  rpc GetCategoryById (GetCategoryByIdRequest) returns (GetCategoryByIdResponse);
+  rpc GetFlatsByCategoryId (GetFlatsByCategoryIdRequest) returns (GetFlatsByCategoryIdResponse);
+  rpc GetNavigatorCategoriesByParentId (GetNavigatorCategoriesByParentIdRequest) returns (GetNavigatorCategoriesByParentIdResponse);
+}
+
+message GetCategoryById {
+	int32 Id = 1;
+}
+
+message GetCategoryByIdResponse {
+	int32 Id = 1;
+	int32 ParentId = 2;
+	string Name = 3;
+	bool IsNode = 4;
+	bool IsPublicSpace = 5;
+	bool IsTradingAllowed = 6;
+	int32 MinAccess = 7;
+	int32 MinAssign = 8;
+}
