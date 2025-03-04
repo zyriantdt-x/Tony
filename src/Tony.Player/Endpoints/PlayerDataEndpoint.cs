@@ -1,19 +1,20 @@
 ﻿using Grpc.Core;
-using Tony.Player.Storage;
+using Tony.Player.Dto;
+using Tony.Player.Services;
 using Tony.Player.Storage.Entities;
 using Tony.Protos;
 
 namespace Tony.Player.Endpoints;
 
 public class PlayerDataEndpoint : Protos.PlayerDataEndpoint.PlayerDataEndpointBase {
-    private readonly PlayerStorage storage;
+    private readonly PlayerService player;
 
-    public PlayerDataEndpoint( PlayerStorage storage ) {
-        this.storage = storage;
+    public PlayerDataEndpoint( PlayerService player ) {
+        this.player = player;
     }
 
     public async override Task<UserObjectResponse> GetUserObject( UserObjectRequest request, ServerCallContext context ) {
-        PlayerData? player = await this.storage.PlayerData.FindAsync( request.Id );
+        PlayerDto? player = await this.player.GetPlayer( request.Id );
         if( player is null )
             return null;
 
@@ -31,7 +32,7 @@ public class PlayerDataEndpoint : Protos.PlayerDataEndpoint.PlayerDataEndpointBa
     }
 
     public async override Task<GetCreditsResponse> GetCredits( GetCreditsRequest request, ServerCallContext context ) {
-        PlayerData? player = await this.storage.PlayerData.FindAsync( request.Id );
+        PlayerDto? player = await this.player.GetPlayer( request.Id );
         if( player is null )
             return null;
 

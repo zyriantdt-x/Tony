@@ -13,38 +13,43 @@ internal class TcpService : IHostedService {
 
     private readonly TcpListener tcp_listener;
 
+    private CancellationTokenSource? internal_cts;
+
     public TcpService( ILogger<TcpService> logger, IOptions<ServerOptions> options, TcpClientHandler handler ) {
         this.logger = logger;
         this.options = options.Value;
         this.handler = handler;
-
-        this.tcp_listener = this.CreateTcpListener();
+        this.tcp_listener = new TcpListener( IPAddress.Parse( this.options.ListeningAddress ), this.options.Port );
     }
 
-    private TcpListener CreateTcpListener() {
-        IPAddress address = IPAddress.Parse( this.options.ListeningAddress );
-        return new TcpListener( address, this.options.Port );
-    }
-
-    public async Task StartAsync( CancellationToken cancellation_token ) {
+    public Task StartAsync( CancellationToken cancellation_token ) {
+        this.logger.LogInformation( "Starting TCP Server on {Address}:{Port}", this.options.ListeningAddress, this.options.Port );
         this.tcp_listener.Start();
-        this.logger.LogInformation( "Server has started listening." );
 
-        while( !cancellation_token.IsCancellationRequested ) {
-            TcpClient client = await this.tcp_listener.AcceptTcpClientAsync();
+        this.internal_cts = CancellationTokenSource.CreateLinkedTokenSource( cancellation_token );
 
-            _ = Task.Run( () => this.handler.HandleClient( client, cancellation_token ) );
-
-            this.logger.LogInformation( "client connected" );
-        }
-
-        this.tcp_listener.Stop();
+        _ = this.AcceptClientsAsync( this.internal_cts.Token ); // Run listener in background
+        return Task.CompletedTask;
     }
 
-    public Task StopAsync( CancellationToken cancellation_token ) {
-        _ = 1 + 1;
-        this.tcp_listener.Stop();
+    private async Task AcceptClientsAsync( CancellationToken cancellation_token ) {
+        try {
+            while( !cancellation_token.IsCancellationRequested ) {
+                TcpClient client = await this.tcp_listener.AcceptTcpClientAsync();
+                this.logger.LogInformation( "Client connected from {Address}", (( IPEndPoint )client.Client.RemoteEndPoint)?.ToString() );
 
+                _ = Task.Run( () => this.handler.HandleClient( client, cancellation_token ), cancellation_token );
+            }
+        } catch( Exception ex ) when( ex is not OperationCanceledException ) {
+            this.logger.LogError( ex, "Error in AcceptClientsAsync" );
+        }
+    }
+
+    public Task StopAsync( CancellationToken cancellationToken ) {
+        this.logger.LogInformation( "Stopping TCP Server..." );
+        this.internal_cts.Cancel();
+        this.tcp_listener.Stop();
+        this.logger.LogInformation( "TCP Server stopped." );
         return Task.CompletedTask;
     }
 }

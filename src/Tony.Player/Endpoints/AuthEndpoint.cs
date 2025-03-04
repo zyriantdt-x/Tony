@@ -1,24 +1,19 @@
 ﻿using Grpc.Core;
-using Microsoft.EntityFrameworkCore;
-using Tony.Player.Storage;
-using Tony.Player.Storage.Entities;
+using Tony.Player.Dto;
+using Tony.Player.Services;
 using Tony.Protos;
 
 namespace Tony.Player.Endpoints;
 
 public class AuthEndpoint : Protos.AuthEndpoint.AuthEndpointBase {
-    private readonly PlayerStorage storage;
+    private readonly PlayerService player;
 
-    public AuthEndpoint( PlayerStorage storage ) {
-        this.storage = storage;
+    public AuthEndpoint( PlayerService player ) {
+        this.player = player;
     }
 
     public async override Task<LoginResponse> Login( LoginRequest request, ServerCallContext context ) {
-        PlayerData? player =
-            await this.storage.PlayerData
-            .Where( p => p.Username == request.Username )
-            .Where( p => p.Password == request.Password )
-            .FirstOrDefaultAsync();
+        PlayerDto? player = await this.player.GetPlayer( request.Username, request.Password );
         if( player is null )
             return null;
 

@@ -60,7 +60,7 @@ internal class TcpClientHandler {
             return;
         }
 
-        IHandler? handler = this.handler_registry.GetHandler( message.Header );
+        Handlers.IHandler? handler = this.handler_registry.GetHandler( message.Header );
         if( handler is null ) {
             this.logger.LogWarning( $"Failed to find handler for header {message.Header}" );
             return;

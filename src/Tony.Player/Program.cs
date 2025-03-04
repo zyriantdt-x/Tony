@@ -1,12 +1,20 @@
 using Microsoft.EntityFrameworkCore;
+using StackExchange.Redis;
+using Tony.Player.Cache;
 using Tony.Player.Endpoints;
+using Tony.Player.Services;
 using Tony.Player.Storage;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder( args );
 
 // Add services to the container.
 builder.Services.AddGrpc();
-builder.Services.AddDbContext<PlayerStorage>(options => options.UseSqlite("Data Source=C:\\etc\\tony.player.db"));
+builder.Services.AddDbContext<PlayerStorage>(options => options.UseSqlite( builder.Configuration.GetValue<string>( "SqliteConnectionString" ) ?? "Data Source=C:\\etc\\tony.player.db"));
+builder.Services.AddSingleton<IConnectionMultiplexer>( ConnectionMultiplexer.Connect( builder.Configuration.GetValue<string>("RedisServer") ?? "localhost" ) );
+
+builder.Services.AddScoped<PlayerDataCache>();
+builder.Services.AddScoped<PlayerService>();
+builder.Services.AddScoped<PublisherService>();
 
 WebApplication app = builder.Build();
 
