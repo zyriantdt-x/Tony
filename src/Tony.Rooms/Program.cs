@@ -1,9 +1,13 @@
-var builder = WebApplication.CreateBuilder( args );
+using Microsoft.EntityFrameworkCore;
+using Tony.Rooms.Storage;
+
+WebApplicationBuilder builder = WebApplication.CreateBuilder( args );
 
 // Add services to the container.
 builder.Services.AddGrpc();
+builder.Services.AddDbContext<RoomStorage>( options => options.UseSqlite( builder.Configuration.GetValue<string>( "SqliteConnectionString" ) ?? "Data Source=C:\\etc\\tony.player.db" ) );
 
-var app = builder.Build();
+WebApplication app = builder.Build();
 
 // Configure the HTTP request pipeline.
 //app.MapGrpcService<GreeterService>();
