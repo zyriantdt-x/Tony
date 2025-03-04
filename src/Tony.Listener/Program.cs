@@ -46,8 +46,8 @@ IHost host = Host.CreateDefaultBuilder( args )
         services.AddOptions<ServerOptions>()
             .Bind( ctx.Configuration.GetSection( nameof( ServerOptions ) ) );
 
-        services.AddOptions<PlayerOptions>()
-            .Bind( ctx.Configuration.GetSection( nameof( PlayerOptions ) ) );
+        services.AddOptions<ServiceOptions>()
+            .Bind( ctx.Configuration.GetSection( nameof( ServiceOptions ) ) );
 
         // pub sub
         services.AddSingleton<IConnectionMultiplexer>( ConnectionMultiplexer.Connect( ctx.Configuration.GetValue<string>( "RedisServer" ) ?? "localhost" ) );

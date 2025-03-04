@@ -5,11 +5,11 @@ option csharp_namespace = "Tony.Shared.Protos";
 package Navigator;
 service NavigatorEndpoint {
   rpc GetCategoryById (GetCategoryByIdRequest) returns (GetCategoryByIdResponse);
-  rpc GetFlatsByCategoryId (GetFlatsByCategoryIdRequest) returns (GetFlatsByCategoryIdResponse);
-  rpc GetNavigatorCategoriesByParentId (GetNavigatorCategoriesByParentIdRequest) returns (GetNavigatorCategoriesByParentIdResponse);
+  //rpc GetFlatsByCategoryId (GetFlatsByCategoryIdRequest) returns (GetFlatsByCategoryIdResponse);
+  //rpc GetNavigatorCategoriesByParentId (GetNavigatorCategoriesByParentIdRequest) returns (GetNavigatorCategoriesByParentIdResponse);
 }
 
-message GetCategoryById {
+message GetCategoryByIdRequest {
 	int32 Id = 1;
 }
 

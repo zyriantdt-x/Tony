@@ -1,10 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Tony.Rooms.Storage.Entities;
 
 [Table( "navigator_categories" )]
 public class Category {
-    [Column( "id" )] public required int Id { get; set; }
+    [Column( "id" )] [Key] public required int Id { get; set; }
     [Column( "parent_id" )] public required int ParentId { get; set; }
     [Column( "name" )] public required string Name { get; set; }
     [Column( "is_node" )] public required bool IsNode { get; set; }

@@ -1,0 +1,23 @@
+﻿using Grpc.Net.Client;
+using Microsoft.Extensions.Options;
+using Tony.Listener.Options;
+using Tony.Shared.Dto;
+using Tony.Shared.Protos;
+using Tony.Shared.Mappers;
+
+namespace Tony.Listener.Services.Rooms;
+internal class NavigatorService {
+    private readonly NavigatorEndpoint.NavigatorEndpointClient client;
+
+    public NavigatorService( IOptions<ServiceOptions> options ) {
+        this.client = new( GrpcChannel.ForAddress( options.Value.RoomServiceAddress ) );
+    }
+
+    public async Task<CategoryDto?> GetCategory( int id ) {
+        GetCategoryByIdResponse? res = await this.client.GetCategoryByIdAsync( new() {
+            Id = id
+        }, new() );
+
+        return res?.ToDto();
+    }
+}

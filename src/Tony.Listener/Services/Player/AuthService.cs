@@ -7,7 +7,7 @@ namespace Tony.Listener.Services.Player;
 internal class AuthService {
     private readonly AuthEndpoint.AuthEndpointClient client;
 
-    public AuthService( IOptions<PlayerOptions> options ) {
+    public AuthService( IOptions<ServiceOptions> options ) {
         this.client = new( GrpcChannel.ForAddress( options.Value.PlayerServiceAddress ) );
     }
 

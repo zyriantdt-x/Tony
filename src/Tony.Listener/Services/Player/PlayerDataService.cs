@@ -7,7 +7,7 @@ namespace Tony.Listener.Services.Player;
 internal class PlayerDataService {
     private readonly PlayerDataEndpoint.PlayerDataEndpointClient client;
 
-    public PlayerDataService( IOptions<PlayerOptions> options ) {
+    public PlayerDataService( IOptions<ServiceOptions> options ) {
         this.client = new( GrpcChannel.ForAddress( options.Value.PlayerServiceAddress ) );
     }
 
