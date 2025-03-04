@@ -1,11 +1,11 @@
 ﻿using Grpc.Core;
 using Tony.Player.Dto;
 using Tony.Player.Services;
-using Tony.Protos;
+using Tony.Shared.Protos;
 
 namespace Tony.Player.Endpoints;
 
-public class AuthEndpoint : Protos.AuthEndpoint.AuthEndpointBase {
+public class AuthEndpoint : Shared.Protos.AuthEndpoint.AuthEndpointBase {
     private readonly PlayerService player;
 
     public AuthEndpoint( PlayerService player ) {

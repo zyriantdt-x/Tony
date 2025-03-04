@@ -2,11 +2,11 @@
 using Tony.Player.Dto;
 using Tony.Player.Services;
 using Tony.Player.Storage.Entities;
-using Tony.Protos;
+using Tony.Shared.Protos;
 
 namespace Tony.Player.Endpoints;
 
-public class PlayerDataEndpoint : Protos.PlayerDataEndpoint.PlayerDataEndpointBase {
+public class PlayerDataEndpoint : Shared.Protos.PlayerDataEndpoint.PlayerDataEndpointBase {
     private readonly PlayerService player;
 
     public PlayerDataEndpoint( PlayerService player ) {

@@ -3,7 +3,7 @@ using Tony.Listener.Messages.Player;
 using Tony.Listener.Parsers;
 using Tony.Listener.Services.Player;
 using Tony.Listener.Tcp.Clients;
-using Tony.Protos;
+using Tony.Shared.Protos;
 
 namespace Tony.Listener.Handlers.Player;
 [Header( 7 )]

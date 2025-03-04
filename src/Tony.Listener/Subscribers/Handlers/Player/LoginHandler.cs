@@ -1,7 +1,7 @@
 ﻿using Tony.Listener.Composers.Alerts;
 using Tony.Listener.Tcp.Clients;
-using Tony.Protos;
-using Tony.Protos.Player;
+using Tony.Shared.Events;
+using Tony.Shared.Events.Player;
 
 namespace Tony.Listener.Subscribers.Handlers.Player;
 [Queue("login")]

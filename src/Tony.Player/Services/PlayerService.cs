@@ -4,7 +4,7 @@ using Tony.Player.Cache;
 using Tony.Player.Dto;
 using Tony.Player.Storage;
 using Tony.Player.Storage.Entities;
-using Tony.Protos.Player;
+using Tony.Shared.Events.Player;
 
 namespace Tony.Player.Services;
 

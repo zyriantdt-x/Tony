@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Tony.Protos\Tony.Protos.csproj" />
+    <ProjectReference Include="..\Tony.Shared\Tony.Shared.csproj" />
   </ItemGroup>
 
 </Project>

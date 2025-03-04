@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option csharp_namespace = "Tony.Protos";
+option csharp_namespace = "Tony.Shared.Protos";
 
 package PlayerData;
 service PlayerDataEndpoint {

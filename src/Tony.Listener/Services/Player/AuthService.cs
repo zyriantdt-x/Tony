@@ -1,7 +1,7 @@
 ﻿using Grpc.Net.Client;
 using Microsoft.Extensions.Options;
 using Tony.Listener.Options;
-using Tony.Protos;
+using Tony.Shared.Protos;
 
 namespace Tony.Listener.Services.Player;
 internal class AuthService {

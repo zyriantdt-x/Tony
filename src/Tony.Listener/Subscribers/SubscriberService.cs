@@ -3,8 +3,8 @@ using Microsoft.Extensions.Logging;
 using StackExchange.Redis;
 using System.Text.Json;
 using Tony.Listener.Subscribers.Handlers;
-using Tony.Protos;
-using Tony.Protos.Player;
+using Tony.Shared.Events;
+using Tony.Shared.Events.Player;
 
 namespace Tony.Listener.Subscribers;
 internal class SubscriberService : IHostedService {

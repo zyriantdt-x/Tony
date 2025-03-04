@@ -1,7 +1,7 @@
 ﻿using System.Text.Json.Serialization;
 using System.Text.Json;
-using Tony.Protos;
-using Tony.Protos.Player;
+using Tony.Shared.Events;
+using Tony.Shared.Events.Player;
 
 // this is so fucking ugly but it works
 internal class EventJsonConverter : JsonConverter<IEvent> {

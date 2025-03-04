@@ -1,6 +1,6 @@
 ﻿using StackExchange.Redis;
 using System.Text.Json;
-using Tony.Protos;
+using Tony.Shared.Protos;
 
 namespace Tony.Player.Services;
 

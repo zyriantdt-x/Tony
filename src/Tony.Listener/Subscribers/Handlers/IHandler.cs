@@ -1,4 +1,4 @@
-﻿using Tony.Protos;
+﻿using Tony.Shared.Events;
 
 internal interface IHandler {
     Task Handle( IEvent message ); // Non-generic for type safety in registry

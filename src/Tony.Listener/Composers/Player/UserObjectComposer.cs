@@ -1,5 +1,5 @@
 ﻿using Tony.Listener.Tcp;
-using Tony.Protos;
+using Tony.Shared.Protos;
 
 namespace Tony.Listener.Composers.Player;
 internal class UserObjectComposer : ComposerBase {
