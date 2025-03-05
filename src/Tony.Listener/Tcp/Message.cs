@@ -71,10 +71,11 @@ internal class Message {
     }
 
     public int ReadInt() {
-        //byte[] remaining = this.RemainingBytes();
+        List<byte> remaining = this.RemainingBytes;
 
-        int length = (this.Body[ this.Index++ ] >> 3) & 7;
-        int value = VL64Encoding.Decode( this.ReadBytes( length ) );
+        int length = (remaining[ 0 ] >> 3) & 7;
+        int value = VL64Encoding.Decode( remaining.ToArray() );
+        this.Index += length;
 
         return value;
     }
@@ -101,4 +102,6 @@ internal class Message {
 
         return payload;
     }
+
+    public List<byte> RemainingBytes => this.Body[ this.Index.. ];
 }

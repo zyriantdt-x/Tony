@@ -17,7 +17,20 @@ public class NavigatorEndpoint : Shared.Protos.NavigatorEndpoint.NavigatorEndpoi
         if( category is null )
             return null;
 
-        return new() {
+        return this.MapCategoryResponse( category );
+    }
+
+    public async override Task<GetNavigatorCategoriesByParentIdResponse> GetNavigatorCategoriesByParentId( GetNavigatorCategoriesByParentIdRequest request, ServerCallContext context ) {
+        IEnumerable<CategoryDto> categories = await this.navigator.GetCategoriesByParentId( request.ParentId );
+
+        GetNavigatorCategoriesByParentIdResponse res = new();
+        res.Categories.AddRange( categories.Select( this.MapCategoryResponse ) );
+
+        return res;
+    }
+
+    private GetCategoryByIdResponse MapCategoryResponse( CategoryDto category )
+        => new() {
             Id = category.Id,
             ParentId = category.ParentId,
             Name = category.Name,
@@ -27,5 +40,4 @@ public class NavigatorEndpoint : Shared.Protos.NavigatorEndpoint.NavigatorEndpoi
             MinAccess = category.MinAccess,
             MinAssign = category.MinAssign
         };
-    }
 }

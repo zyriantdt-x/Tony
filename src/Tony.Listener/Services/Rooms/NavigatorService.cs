@@ -20,4 +20,12 @@ internal class NavigatorService {
 
         return res?.ToDto();
     }
+
+    public async Task<IEnumerable<CategoryDto>> GetCategoriesByParentId( int id ) {
+        GetNavigatorCategoriesByParentIdResponse res = await this.client.GetNavigatorCategoriesByParentIdAsync( new GetNavigatorCategoriesByParentIdRequest() {
+            ParentId = id
+        }, new() );
+
+        return res.Categories.Select( c => c.ToDto() );
+    }
 }

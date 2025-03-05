@@ -6,7 +6,7 @@ package Navigator;
 service NavigatorEndpoint {
   rpc GetCategoryById (GetCategoryByIdRequest) returns (GetCategoryByIdResponse);
   //rpc GetFlatsByCategoryId (GetFlatsByCategoryIdRequest) returns (GetFlatsByCategoryIdResponse);
-  //rpc GetNavigatorCategoriesByParentId (GetNavigatorCategoriesByParentIdRequest) returns (GetNavigatorCategoriesByParentIdResponse);
+  rpc GetNavigatorCategoriesByParentId (GetNavigatorCategoriesByParentIdRequest) returns (GetNavigatorCategoriesByParentIdResponse);
 }
 
 message GetCategoryByIdRequest {
@@ -22,4 +22,12 @@ message GetCategoryByIdResponse {
 	bool IsTradingAllowed = 6;
 	int32 MinAccess = 7;
 	int32 MinAssign = 8;
+}
+
+message GetNavigatorCategoriesByParentIdRequest {
+	int32 ParentId = 1;
+}
+
+message GetNavigatorCategoriesByParentIdResponse {
+	repeated GetCategoryByIdResponse Categories = 1;
 }
