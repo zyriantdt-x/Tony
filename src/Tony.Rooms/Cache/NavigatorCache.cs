@@ -22,12 +22,30 @@ public class NavigatorCache {
         return JsonSerializer.Deserialize<CategoryDto>( serialised_category );
     }
 
+    public async Task<IEnumerable<CategoryDto>> GetSubcategories( int parent_id ) {
+        string subcategories_key = $"navigator:{parent_id}:subcategories";
+
+        string? serialised_subcategories = await this.redis.StringGetAsync( subcategories_key );
+        if( serialised_subcategories is null )
+            return null;
+
+        return JsonSerializer.Deserialize<IEnumerable<CategoryDto>>( serialised_subcategories );
+    }
+
     public async Task SaveCategory( CategoryDto category ) {
         string category_key = $"navigator:{category.Id}";
 
-        string serialised_category = JsonSerializer.Serialize(category );
+        string serialised_category = JsonSerializer.Serialize( category );
 
         await this.redis.StringSetAsync( category_key, serialised_category );
+    }
+
+    public async Task SaveSubcategories( int parent_id, IEnumerable<CategoryDto> children ) {
+        string subcategory_key = $"navigator:{parent_id}:subcategories";
+
+        string serialised_subcategories = JsonSerializer.Serialize( children );
+
+        await this.redis.StringSetAsync( subcategory_key, serialised_subcategories );
     }
 
     public async Task RemoveCategory( int id ) {

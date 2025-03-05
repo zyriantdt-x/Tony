@@ -46,6 +46,7 @@ internal class TcpClientHandler {
             this.logger.LogError( $"Client error: {ex}" );
         } finally {
             client.Close();
+            this.client_service.DeregisterClient( tony_client );
             this.logger.LogInformation( "Client disconnected." );
         }
     }

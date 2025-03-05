@@ -2,25 +2,49 @@
 using Tony.Rooms.Storage;
 using Tony.Rooms.Storage.Entities;
 using Microsoft.EntityFrameworkCore;
+using Tony.Rooms.Cache;
 
 namespace Tony.Rooms.Services;
 
 public class NavigatorService {
     private readonly RoomStorage storage;
+    private readonly NavigatorCache navi_cache;
 
-    public NavigatorService( RoomStorage storage ) {
+    public NavigatorService( RoomStorage storage, NavigatorCache navi_cache ) {
         this.storage = storage;
+        this.navi_cache = navi_cache;
     }
 
     public async Task<CategoryDto?> GetCategory( int id ) {
-        Category? category_entity = await this.storage.Categories.FindAsync( id );
-        return category_entity is null ? null : this.MapCategoryDto( category_entity );
+        CategoryDto? category = await this.navi_cache.GetCategory( id );
+
+        // not in redis
+        if(category is null) {
+            Category? category_entity = await this.storage.Categories.FindAsync( id );
+            if( category_entity is null )
+                return null;
+
+            category = this.MapCategoryDto( category_entity );
+            await this.navi_cache.SaveCategory( category );
+        }
+
+        return category;
     }
 
     public async Task<IEnumerable<CategoryDto>> GetCategoriesByParentId( int id ) {
-        List<Category> category_entities = await this.storage.Categories.Where( c => c.ParentId == id ).ToListAsync();
+        IEnumerable<CategoryDto> subcategories = await this.navi_cache.GetSubcategories( id );
 
-        return category_entities.Select( c => this.MapCategoryDto( c ) );
+        // not in redis
+        if( subcategories is null ) {
+            List<Category> subcategory_entities = await this.storage.Categories.Where( c => c.ParentId == id ).ToListAsync();
+            if( subcategory_entities.Count < 1 )
+                return [];
+
+            subcategories = subcategory_entities.Select( this.MapCategoryDto );
+            await this.navi_cache.SaveSubcategories( id, subcategories );
+        }
+
+        return subcategories;
     }
 
     public async Task<IEnumerable<NavNodeDto>> GetNavNodesByCategoryId( int id ) {
