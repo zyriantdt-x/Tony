@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Tony.Rooms.Storage;
 
@@ -10,9 +11,11 @@ using Tony.Rooms.Storage;
 namespace Tony.Rooms.Migrations
 {
     [DbContext(typeof(RoomStorage))]
-    partial class RoomStorageModelSnapshot : ModelSnapshot
+    [Migration("20250305095720_add_rooms")]
+    partial class add_rooms
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.2");
