@@ -1,5 +1,5 @@
 ﻿namespace Tony.Shared.Dto;
-public class RoomNodeDto {
+public class NavNodeDto {
     public int Id { get; set; }
     public bool IsPublicRoom { get; set; }
     public string Name { get; set; } = "noname";

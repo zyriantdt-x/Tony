@@ -5,7 +5,7 @@ option csharp_namespace = "Tony.Shared.Protos";
 package Navigator;
 service NavigatorEndpoint {
   rpc GetCategoryById (GetCategoryByIdRequest) returns (GetCategoryByIdResponse);
-  //rpc GetFlatsByCategoryId (GetFlatsByCategoryIdRequest) returns (GetFlatsByCategoryIdResponse);
+  rpc GetNavNodesByCategoryId (GetNavNodesByCategoryIdRequest) returns (GetNavNodesByCategoryIdResponse);
   rpc GetNavigatorCategoriesByParentId (GetNavigatorCategoriesByParentIdRequest) returns (GetNavigatorCategoriesByParentIdResponse);
 }
 
@@ -30,4 +30,25 @@ message GetNavigatorCategoriesByParentIdRequest {
 
 message GetNavigatorCategoriesByParentIdResponse {
 	repeated GetCategoryByIdResponse Categories = 1;
+}
+
+message GetNavNodesByCategoryIdRequest {
+	int32 Id = 1;
+}
+
+message NavNode {
+	int32 Id = 1;
+    bool IsPublicRoom = 2;
+    string Name = 3;
+    string Description = 4;
+    int32 VisitorsNow = 5;
+    int32 VisitorsMax = 6;
+    int32 CategoryId = 7;
+    string Ccts = 8;
+    string OwnerName = 9;
+    int32 AccessType = 10;
+}
+
+message GetNavNodesByCategoryIdResponse {
+	repeated NavNode Rooms = 1;
 }

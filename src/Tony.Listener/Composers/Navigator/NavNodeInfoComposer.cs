@@ -7,7 +7,7 @@ internal class NavNodeInfoComposer : ComposerBase {
 
     public required CategoryDto ParentCategory { get; set; }
     public required ICollection<CategoryDto> Subcategories { get; set; }
-    public required ICollection<RoomNodeDto> Rooms { get; set; }
+    public required ICollection<NavNodeDto> Rooms { get; set; }
     public required bool HideFull { get; set; }
 
     public override Message Compose() {
@@ -25,7 +25,7 @@ internal class NavNodeInfoComposer : ComposerBase {
             msg.Write( this.Rooms.Count );
         }
 
-        foreach( RoomNodeDto room in this.Rooms ) {
+        foreach( NavNodeDto room in this.Rooms ) {
             if( room.IsPublicRoom) { // public room
                 int idx = 0;
                 string desc = room.Description;

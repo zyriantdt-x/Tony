@@ -17,11 +17,12 @@ internal class NavigateHandler : IHandler<NavigateMessage> {
     public async Task Handle( TonyClient client, NavigateMessage message ) {
         CategoryDto? category = await this.navigator.GetCategory( message.CategoryId );
         IEnumerable<CategoryDto> subcategories = await this.navigator.GetCategoriesByParentId( message.CategoryId );
+        IEnumerable<NavNodeDto> navnodes = await this.navigator.GetNavNodesByCategoryId( message.CategoryId );
 
         await client.SendAsync( new NavNodeInfoComposer() {
             ParentCategory = category,
             Subcategories = subcategories.ToList(),
-            Rooms = [],
+            Rooms = navnodes.ToList(),
             HideFull = false
         } );
     }

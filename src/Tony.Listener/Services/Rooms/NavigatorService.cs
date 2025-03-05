@@ -28,4 +28,23 @@ internal class NavigatorService {
 
         return res.Categories.Select( c => c.ToDto() );
     }
+
+    public async Task<IEnumerable<NavNodeDto>> GetNavNodesByCategoryId( int id ) {
+        GetNavNodesByCategoryIdResponse res = await this.client.GetNavNodesByCategoryIdAsync( new GetNavNodesByCategoryIdRequest() {
+            Id = id
+        }, new() );
+
+        return res.Rooms.Select( room => new NavNodeDto() {
+            Id = room.Id,
+            IsPublicRoom = false,
+            Name = room.Name,
+            Description = room.Description,
+            VisitorsMax = room.VisitorsMax,
+            VisitorsNow = room.VisitorsNow,
+            CategoryId = room.CategoryId,
+            Ccts = room.Ccts,
+            OwnerName = room.OwnerName,
+            AccessType = ( AccessType )room.AccessType
+        } );
+    }
 }

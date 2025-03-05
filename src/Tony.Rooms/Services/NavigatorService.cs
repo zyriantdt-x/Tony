@@ -23,6 +23,23 @@ public class NavigatorService {
         return category_entities.Select( c => this.MapCategoryDto( c ) );
     }
 
+    public async Task<IEnumerable<NavNodeDto>> GetNavNodesByCategoryId( int id ) {
+        List<RoomData> room_entities = await this.storage.RoomData.Where( r => r.Category == id ).ToListAsync();
+
+        return room_entities.Select( room => new NavNodeDto() {
+            Id = room.Id,
+            IsPublicRoom = false,
+            Name = room.Name,
+            Description = room.Description,
+            VisitorsMax = room.VisitorsMax,
+            VisitorsNow = room.VisitorsNow,
+            CategoryId = room.Category,
+            Ccts = room.Ccts,
+            OwnerName = "ellis",
+            AccessType = AccessType.OPEN
+        } );
+    }
+
     private CategoryDto MapCategoryDto( Category category )
         => new() {
             Id = category.Id,
