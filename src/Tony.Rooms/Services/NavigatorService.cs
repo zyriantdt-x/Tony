@@ -32,7 +32,7 @@ public class NavigatorService {
     }
 
     public async Task<IEnumerable<CategoryDto>> GetCategoriesByParentId( int id ) {
-        IEnumerable<CategoryDto> subcategories = await this.navi_cache.GetSubcategories( id );
+        IEnumerable<CategoryDto>? subcategories = await this.navi_cache.GetSubcategories( id );
 
         // not in redis
         if( subcategories is null ) {
@@ -48,20 +48,29 @@ public class NavigatorService {
     }
 
     public async Task<IEnumerable<NavNodeDto>> GetNavNodesByCategoryId( int id ) {
-        List<RoomData> room_entities = await this.storage.RoomData.Where( r => r.Category == id ).ToListAsync();
+        IEnumerable<NavNodeDto>? nav_nodes = await this.navi_cache.GetNavNodes( id );
+        // not in redis
+        if( nav_nodes is null ) {
+            List<RoomData> room_entities = await this.storage.RoomData.Where( r => r.Category == id ).ToListAsync();
+            if( room_entities.Count < 1 )
+                return [];
 
-        return room_entities.Select( room => new NavNodeDto() {
-            Id = room.Id,
-            IsPublicRoom = false,
-            Name = room.Name,
-            Description = room.Description,
-            VisitorsMax = room.VisitorsMax,
-            VisitorsNow = room.VisitorsNow,
-            CategoryId = room.Category,
-            Ccts = room.Ccts,
-            OwnerName = "ellis",
-            AccessType = AccessType.OPEN
-        } );
+            nav_nodes = room_entities.Select( room => new NavNodeDto() {
+                Id = room.Id,
+                IsPublicRoom = false,
+                Name = room.Name,
+                Description = room.Description,
+                VisitorsMax = room.VisitorsMax,
+                VisitorsNow = room.VisitorsNow,
+                CategoryId = room.Category,
+                Ccts = room.Ccts,
+                OwnerName = "ellis",
+                AccessType = AccessType.OPEN
+            } );
+            await this.navi_cache.SaveNavNodes( id, nav_nodes );
+        }
+
+        return nav_nodes;
     }
 
     private CategoryDto MapCategoryDto( Category category )
