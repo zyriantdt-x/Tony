@@ -23,4 +23,10 @@ internal class PlayerDataService {
         GetCreditsResponse res = await this.client.GetCreditsAsync( new() { Id = id }, new() );
         return res.Credits;
     }
+
+    public async Task<string> GetUsernameById( int id ) {
+        UserObjectResponse obj = await this.GetUserObject( id ); // we will make this nicer later
+
+        return obj.Username;
+    }
 }

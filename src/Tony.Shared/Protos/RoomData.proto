@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+option csharp_namespace = "Tony.Shared.Protos";
+
+package RoomData;
+service RoomDataEndpoint {
+	rpc GetRoomDataById (GetRoomDataByIdRequest) returns (GetRoomDataResponse);
+}
+
+message GetRoomDataByIdRequest {
+	int32 Id = 1;
+}
+
+message GetRoomDataResponse {
+    int32 id = 1;
+    int32 owner_id = 2;
+    int32 category = 3;
+    string name = 4;
+    string description = 5;
+    string model = 6;
+    optional string ccts = 7;
+    int32 wallpaper = 8;
+    int32 floor = 9;
+    bool showname = 10;
+    bool superusers = 11;
+    int32 accesstype = 12;
+    optional string password = 13;
+    int32 visitors_now = 14;
+    int32 visitors_max = 15;
+    int32 rating = 16;
+    bool is_hidden = 17;
+    string created_at = 18;
+    string updated_at = 19;
+}

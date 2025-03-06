@@ -10,6 +10,7 @@
 		<Protobuf Include="Protos\Auth.proto" GrpcServices="Client,Server" />
 		<Protobuf Include="Protos\PlayerData.proto" GrpcServices="Client,Server" />
 		<Protobuf Include="Protos\Navigator.proto" GrpcServices="Client,Server" />
+		<Protobuf Include="Protos\RoomData.proto" GrpcServices="Client,Server" />
 		<!-- You can add more proto files as needed -->
 	</ItemGroup>
 
