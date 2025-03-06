@@ -44,6 +44,7 @@ IHost host = Host.CreateDefaultBuilder( args )
         services.AddTransient<GetRoomInfoHandler>();
         services.AddTransient<GetInterestHandler>();
         services.AddTransient<RoomDirectoryHandler>();
+        services.AddTransient<TryRoomHandler>();
 
         // grpc interfaces
         services.AddTransient<AuthService>();
