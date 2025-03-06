@@ -6,6 +6,7 @@ using Tony.Listener.Handlers;
 using Tony.Listener.Handlers.Handshake;
 using Tony.Listener.Handlers.Navigator;
 using Tony.Listener.Handlers.Player;
+using Tony.Listener.Handlers.Rooms;
 using Tony.Listener.Options;
 using Tony.Listener.Parsers;
 using Tony.Listener.Services.Player;
@@ -40,10 +41,13 @@ IHost host = Host.CreateDefaultBuilder( args )
 
         services.AddTransient<NavigateHandler>();
 
+        services.AddTransient<GetRoomInfoHandler>();
+
         // grpc interfaces
         services.AddTransient<AuthService>();
         services.AddTransient<PlayerDataService>();
         services.AddTransient<NavigatorService>();
+        services.AddTransient<RoomDataService>();
 
         services.AddOptions<ServerOptions>()
             .Bind( ctx.Configuration.GetSection( nameof( ServerOptions ) ) );

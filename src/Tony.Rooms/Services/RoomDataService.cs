@@ -19,13 +19,20 @@ public class RoomDataService {
 
         // not in redis
         if(room_data is null) {
-            RoomData? room_data_entity = await this.storage.RoomData.FindAsync( id );
-            if( room_data_entity is null )
+            RoomData? room = await this.storage.RoomData.FindAsync( id );
+            if( room is null )
                 return null;
 
             room_data = new() {
-                Id = room_data_entity.Id,
-                Name = room_data_entity.Name,
+                Id = room.Id,
+                Name = room.Name,
+                Description = room.Description,
+                VisitorsMax = room.VisitorsMax,
+                VisitorsNow = room.VisitorsNow,
+                Category = room.Category,
+                Ccts = room.Ccts,
+                OwnerId = room.OwnerId,
+                AccessType = room.AccessType
             };
             await this.cache.SaveRoomData( room_data );
         }

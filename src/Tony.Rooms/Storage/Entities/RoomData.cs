@@ -11,7 +11,7 @@ public class RoomData {
 
     [Required]
     [Column( "owner_id", TypeName = "varchar(11)" )]
-    public required string OwnerId { get; set; }
+    public required int OwnerId { get; set; }
 
     [Column( "category" )]
     public int Category { get; set; } = 2;
