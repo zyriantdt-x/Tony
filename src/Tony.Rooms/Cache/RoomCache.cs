@@ -1,4 +1,5 @@
-﻿using StackExchange.Redis;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using StackExchange.Redis;
 using System.Text.Json;
 using Tony.Shared.Dto;
 
@@ -29,5 +30,32 @@ public class RoomCache {
             return;
 
         await this.redis.StringSetAsync( room_key, serialized_room );
+    }
+
+    public async Task<RoomDataDto?> GetPlayerRoomData( int player_id ) {
+        string playermap_key = $"room:playermap:{player_id}";
+        string? room_id = await this.redis.StringGetAsync( playermap_key );
+        if( room_id is null )
+            return null;
+
+        return await this.GetRoomDataById( Convert.ToInt32( room_id ) );
+    }
+
+    public async Task<RoomModelDto?> GetRoomModelById( string model_id ) {
+        string model_key = $"room:models:{model_id}";
+        string? model = await this.redis.StringGetAsync( model_key );
+        if( model is null )
+            return null;
+
+        return JsonSerializer.Deserialize<RoomModelDto>( model );
+    }
+
+    public async Task SaveRoomModel( RoomModelDto model ) {
+        string model_key = $"room:models:{model.Id}";
+        string? serialised_model = JsonSerializer.Serialize( model );
+        if( serialised_model is null )
+            return;
+
+        await this.redis.StringSetAsync( model_key, serialised_model );
     }
 }

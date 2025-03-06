@@ -70,5 +70,6 @@ internal class TcpClientHandler {
         object parsed_message = parser.Parse( message );
 
         await handler.Handle(client, parsed_message);
+        this.logger.LogInformation( $"Handler {handler.GetType().Name} completed." );
     }
 }

@@ -27,7 +27,44 @@ public class RoomDataEndpoint : Shared.Protos.RoomDataEndpoint.RoomDataEndpointB
             Category = room.Category,
             Ccts = room.Ccts,
             OwnerId = 1,
-            Accesstype = 1
+            Accesstype = 1,
+            Model = room.Model
+        };
+    }
+
+    public async override Task<GetRoomDataResponse> GetPlayerRoomData( GetPlayerRoomDataRequest request, ServerCallContext context ) {
+        RoomDataDto? room = await this.room_data.GetPlayerRoomData( request.PlayerId );
+
+        if( room is null )
+            return null;
+
+        return new() {
+            Id = room.Id,
+            Name = room.Name,
+            Description = room.Description,
+            VisitorsMax = room.VisitorsMax,
+            VisitorsNow = room.VisitorsNow,
+            Category = room.Category,
+            Ccts = room.Ccts,
+            OwnerId = 1,
+            Accesstype = 1,
+            Model = room.Model
+        };
+    }
+
+    public async override Task<GetRoomModelResponse> GetRoomModelById( GetRoomModelByIdRequest request, ServerCallContext context ) {
+        RoomModelDto? room_model = await this.room_data.GetRoomModelById( request.Id );
+        if( room_model is null )
+            return null;
+
+        return new() {
+            Id = room_model.Id,
+            DoorX = room_model.DoorX,
+            DoorY = room_model.DoorY,
+            DoorZ = room_model.DoorZ,
+            DoorDir = room_model.DoorDir,
+            Heightmap = room_model.Heightmap,
+            TriggerClass = room_model.TriggerClass,
         };
     }
 }

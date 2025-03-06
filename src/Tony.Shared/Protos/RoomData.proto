@@ -5,10 +5,20 @@ option csharp_namespace = "Tony.Shared.Protos";
 package RoomData;
 service RoomDataEndpoint {
 	rpc GetRoomDataById (GetRoomDataByIdRequest) returns (GetRoomDataResponse);
+    rpc GetPlayerRoomData (GetPlayerRoomDataRequest) returns (GetRoomDataResponse);
+    rpc GetRoomModelById (GetRoomModelByIdRequest) returns (GetRoomModelResponse);
 }
 
 message GetRoomDataByIdRequest {
 	int32 Id = 1;
+}
+
+message GetPlayerRoomDataRequest {
+    int32 PlayerId = 1;
+}
+
+message GetRoomModelByIdRequest {
+    string Id = 1;
 }
 
 message GetRoomDataResponse {
@@ -31,4 +41,14 @@ message GetRoomDataResponse {
     bool is_hidden = 17;
     string created_at = 18;
     string updated_at = 19;
+}
+
+message GetRoomModelResponse {
+    string Id = 1;
+    int32 DoorX = 2;
+    int32 DoorY = 3;
+    int32 DoorZ = 4;
+    int32 DoorDir = 5;
+    string Heightmap = 6;
+    string TriggerClass = 7;
 }

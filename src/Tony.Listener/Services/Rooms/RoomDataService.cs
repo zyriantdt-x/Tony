@@ -26,7 +26,43 @@ internal class RoomDataService {
             Category = room.Category,
             Ccts = room.Ccts,
             OwnerId = room.OwnerId,
-            AccessType = room.Accesstype
+            AccessType = room.Accesstype,
+            Model = room.Model,
+        };
+    }
+
+    public async Task<RoomDataDto?> GetPlayerRoomData( int player_id ) {
+        GetRoomDataResponse? room = await this.client.GetPlayerRoomDataAsync( new() {
+            PlayerId = player_id
+        } );
+
+        return room is null ? null : new() {
+            Id = room.Id,
+            Name = room.Name,
+            Description = room.Description,
+            VisitorsMax = room.VisitorsMax,
+            VisitorsNow = room.VisitorsNow,
+            Category = room.Category,
+            Ccts = room.Ccts,
+            OwnerId = room.OwnerId,
+            AccessType = room.Accesstype,
+            Model = room.Model
+        };
+    }
+
+    public async Task<RoomModelDto?> GetRoomModelById( string id ) {
+        GetRoomModelResponse? room_model = await this.client.GetRoomModelByIdAsync( new() {
+            Id = id
+        } );
+
+        return room_model is null ? null : new() {
+            Id = room_model.Id,
+            DoorX = room_model.DoorX,
+            DoorY = room_model.DoorY,
+            DoorZ = room_model.DoorZ,
+            DoorDir = room_model.DoorDir,
+            Heightmap = room_model.Heightmap,
+            TriggerClass = room_model.TriggerClass,
         };
     }
 }
