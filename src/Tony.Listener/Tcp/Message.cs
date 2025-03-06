@@ -65,8 +65,12 @@ internal class Message {
         this.Body.Add( 13 );
     }
 
-    public void WriteDelimiter( object key, object value ) {
+    public void WriteDelimiter( object key, object value, string? delim = null ) {
         this.Body.AddRange( System.Text.Encoding.Default.GetBytes( key.ToString()! ) );
+
+        if(delim is not null)
+            this.Body.AddRange( System.Text.Encoding.Default.GetBytes( delim ) );
+
         this.Body.AddRange( System.Text.Encoding.Default.GetBytes( value.ToString()! ) );
     }
 
