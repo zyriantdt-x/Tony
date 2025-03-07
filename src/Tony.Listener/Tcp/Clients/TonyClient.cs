@@ -6,7 +6,6 @@ using Tony.Listener.Encoding;
 namespace Tony.Listener.Tcp.Clients;
 internal class TonyClient {
     public string Uuid { get; init; } = Guid.NewGuid().ToString();
-    public TcpClient? TcpClient { get; set; }
 
     public int? PlayerId { get; set; }
 

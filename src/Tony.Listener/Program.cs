@@ -39,7 +39,6 @@ builder.Host.ConfigureAppConfiguration( ( ctx, config ) => {
 
         services.AddHostedService<SubscriberService>();
 
-        services.AddSingleton<TcpClientHandler>();
         services.AddSingleton<TonyClientService>();
 
         services.AddSingleton<ParserRegistry>();
