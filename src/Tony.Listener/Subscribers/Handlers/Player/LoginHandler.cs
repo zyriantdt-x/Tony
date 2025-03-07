@@ -13,6 +13,6 @@ internal class LoginHandler : IHandler<LoginEvent> {
     }
 
     public async Task Handle( LoginEvent message ) {
-        await this.client.SendToAll( new AlertComposer() { Message = $"New user sign in: {message.Id} / {message.Username}" } );
+        //await this.client.SendToAll( new AlertComposer() { Message = $"New user sign in: {message.Id} / {message.Username}" } );
     }
 }

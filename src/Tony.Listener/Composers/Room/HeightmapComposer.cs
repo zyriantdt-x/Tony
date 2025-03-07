@@ -9,11 +9,11 @@ namespace Tony.Listener.Composers.Room;
 internal class HeightmapComposer : ComposerBase {
     public override short Header => 31;
 
-    public string Heightmap { get; set; }
+    public string Heightmap { get; set; } = String.Empty;
 
     public override Message Compose() {
         Message msg = base.Compose();
-        msg.Write( this.Heightmap );
+        msg.Write( this.Heightmap, true );
         return msg;
     }
 }

@@ -52,6 +52,12 @@ public class RoomDataEndpoint : Shared.Protos.RoomDataEndpoint.RoomDataEndpointB
         };
     }
 
+    public async override Task<SetPlayerRoomResponse> SetPlayerRoom( SetPlayerRoomRequest request, ServerCallContext context ) {
+        await this.room_data.SetPlayerRoom( request.PlayerId, request.RoomId );
+
+        return new();
+    }
+
     public async override Task<GetRoomModelResponse> GetRoomModelById( GetRoomModelByIdRequest request, ServerCallContext context ) {
         RoomModelDto? room_model = await this.room_data.GetRoomModelById( request.Id );
         if( room_model is null )

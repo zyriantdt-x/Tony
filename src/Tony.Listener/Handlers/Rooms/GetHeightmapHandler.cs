@@ -23,6 +23,6 @@ internal class GetHeightmapHandler : IHandler<GetHeightMapMessage> {
         if( model is null )
             return;
 
-        await client.SendAsync( new HeightmapComposer() { Heightmap = model.Heightmap } );
+        await client.SendAsync( new HeightmapComposer() { Heightmap = model.ParseHeightmap() } );
     }
 }

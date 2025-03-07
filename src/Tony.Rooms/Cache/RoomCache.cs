@@ -41,6 +41,11 @@ public class RoomCache {
         return await this.GetRoomDataById( Convert.ToInt32( room_id ) );
     }
 
+    public async Task SetPlayerRoom( int player_id, int room_id ) {
+        string playermap_key = $"room:playermap:{player_id}";
+        await this.redis.StringSetAsync( playermap_key, room_id.ToString() );
+    }
+
     public async Task<RoomModelDto?> GetRoomModelById( string model_id ) {
         string model_key = $"room:models:{model_id}";
         string? model = await this.redis.StringGetAsync( model_key );

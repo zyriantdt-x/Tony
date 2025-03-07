@@ -24,7 +24,7 @@ internal class TcpService : IHostedService {
 
     public Task StartAsync( CancellationToken cancellation_token ) {
         this.logger.LogInformation( "Starting TCP Server on {Address}:{Port}", this.options.ListeningAddress, this.options.Port );
-        this.tcp_listener.Start();
+        this.tcp_listener.Start( 50 );
 
         this.internal_cts = CancellationTokenSource.CreateLinkedTokenSource( cancellation_token );
 
@@ -36,9 +36,12 @@ internal class TcpService : IHostedService {
         try {
             while( !cancellation_token.IsCancellationRequested ) {
                 TcpClient client = await this.tcp_listener.AcceptTcpClientAsync();
+                client.ReceiveBufferSize = 65535;
+                client.NoDelay = true;
+                //client.Client.Blocking = false;
                 this.logger.LogInformation( "Client connected from {Address}", (( IPEndPoint )client.Client.RemoteEndPoint)?.ToString() );
 
-                _ = Task.Run( () => this.handler.HandleClient( client, cancellation_token ), cancellation_token );
+                _ = this.handler.HandleClient( client, cancellation_token );
             }
         } catch( Exception ex ) when( ex is not OperationCanceledException ) {
             this.logger.LogError( ex, "Error in AcceptClientsAsync" );

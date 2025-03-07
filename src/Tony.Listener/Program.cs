@@ -4,6 +4,7 @@ using Microsoft.Extensions.Hosting;
 using StackExchange.Redis;
 using Tony.Listener.Handlers;
 using Tony.Listener.Handlers.Handshake;
+using Tony.Listener.Handlers.Messenger;
 using Tony.Listener.Handlers.Navigator;
 using Tony.Listener.Handlers.Player;
 using Tony.Listener.Handlers.Rooms;
@@ -48,6 +49,8 @@ IHost host = Host.CreateDefaultBuilder( args )
         services.AddTransient<GoToRoomHandler>();
         services.AddTransient<GetRoomAdHandler>();
         services.AddTransient<GetHeightmapHandler>();
+
+        services.AddTransient<MessengerInitHandler>();
 
         // grpc interfaces
         services.AddTransient<AuthService>();

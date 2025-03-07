@@ -33,7 +33,12 @@ internal class Message {
     }
 
     // might change this
-    public void Write(object obj) {
+    public void Write( object obj, bool as_object = false ) {
+        if( as_object ) {
+            this.Body.AddRange( System.Text.Encoding.Default.GetBytes( obj.ToString()! ) );
+            return;
+        }
+
         switch( obj ) {
             case string s:
                 this.Body.AddRange( System.Text.Encoding.Default.GetBytes( s ) );

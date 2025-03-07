@@ -66,4 +66,5 @@ public class RoomDataService {
     }
 
     public async Task<RoomDataDto?> GetPlayerRoomData( int id ) => await this.cache.GetPlayerRoomData( id );
+    public async Task SetPlayerRoom( int player_id, int room_id ) => await this.cache.SetPlayerRoom( player_id, room_id );
 }

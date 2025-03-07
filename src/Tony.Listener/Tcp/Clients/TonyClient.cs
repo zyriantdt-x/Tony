@@ -16,6 +16,8 @@ internal class TonyClient {
         buf.AddRange( message.Body );
         buf.Add( 1 );
 
+        Console.WriteLine( $"SENT: {message.ToString()}" );
+
         await this.TcpClient.GetStream().WriteAsync( buf.ToArray() );
     }
 }

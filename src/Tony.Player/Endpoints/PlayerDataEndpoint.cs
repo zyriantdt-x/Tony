@@ -22,7 +22,7 @@ public class PlayerDataEndpoint : Shared.Protos.PlayerDataEndpoint.PlayerDataEnd
             Id = player.Id,
             Username = player.Username,
             Figure = player.Figure,
-            Sex = player.Sex ? "m" : "f",
+            Sex = player.Sex ? "M" : "F",
             Mission = player.Mission,
             Tickets = player.Tickets,
             PoolFigure = player.PoolFigure,

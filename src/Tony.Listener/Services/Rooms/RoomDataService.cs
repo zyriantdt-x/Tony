@@ -50,6 +50,8 @@ internal class RoomDataService {
         };
     }
 
+    public async Task SetPlayerRoom( int player_id, int room_id ) => await this.client.SetPlayerRoomAsync( new() { PlayerId = player_id, RoomId = room_id } );
+
     public async Task<RoomModelDto?> GetRoomModelById( string id ) {
         GetRoomModelResponse? room_model = await this.client.GetRoomModelByIdAsync( new() {
             Id = id

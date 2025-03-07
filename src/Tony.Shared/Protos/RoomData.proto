@@ -6,6 +6,7 @@ package RoomData;
 service RoomDataEndpoint {
 	rpc GetRoomDataById (GetRoomDataByIdRequest) returns (GetRoomDataResponse);
     rpc GetPlayerRoomData (GetPlayerRoomDataRequest) returns (GetRoomDataResponse);
+    rpc SetPlayerRoom (SetPlayerRoomRequest) returns (SetPlayerRoomResponse);
     rpc GetRoomModelById (GetRoomModelByIdRequest) returns (GetRoomModelResponse);
 }
 
@@ -19,6 +20,15 @@ message GetPlayerRoomDataRequest {
 
 message GetRoomModelByIdRequest {
     string Id = 1;
+}
+
+message SetPlayerRoomRequest {
+    int32 PlayerId = 1;
+    int32 RoomId = 2;
+}
+
+message SetPlayerRoomResponse {
+
 }
 
 message GetRoomDataResponse {

@@ -1,8 +1,10 @@
 ﻿using Tony.Listener.Composers.Alerts;
 using Tony.Listener.Composers.Handshake;
+using Tony.Listener.Composers.Player;
 using Tony.Listener.Messages.Handshake;
 using Tony.Listener.Parsers;
 using Tony.Listener.Services.Player;
+using Tony.Listener.Tcp;
 using Tony.Listener.Tcp.Clients;
 
 namespace Tony.Listener.Handlers.Handshake;
@@ -24,5 +26,11 @@ internal class TryLoginHandler : IHandler<TryLoginMessage> {
         client.PlayerId = uid;
 
         await client.SendAsync( new LoginComposer() );
+        await client.SendAsync( new RightsComposer() );
+        Message msg = new( 229 );
+        msg.Write( 0 );
+        msg.Write( 0 );
+        msg.Write( 0 );
+        await client.SendAsync( msg );
     }
 }

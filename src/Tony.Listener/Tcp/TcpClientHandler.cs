@@ -40,7 +40,7 @@ internal class TcpClientHandler {
                 if( bytesRead == 0 ) break; // Client disconnected
 
                 Message message = new( buffer );
-                await this.HandleClientMessage( tony_client, message );
+                _ = this.HandleClientMessage( tony_client, message );
             }
         } catch( Exception ex ) when( ex is not OperationCanceledException ) {
             this.logger.LogError( $"Client error: {ex}" );
