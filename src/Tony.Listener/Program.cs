@@ -1,4 +1,7 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Connections;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using StackExchange.Redis;
@@ -16,14 +19,24 @@ using Tony.Listener.Subscribers;
 using Tony.Listener.Tcp;
 using Tony.Listener.Tcp.Clients;
 
-IHost host = Host.CreateDefaultBuilder( args )
-    .ConfigureAppConfiguration( ( ctx, config ) => {
-        config.SetBasePath( Directory.GetCurrentDirectory() )
-            .AddUserSecrets<Program>()
-            .AddEnvironmentVariables();
-    } )
+WebApplicationBuilder builder = WebApplication.CreateBuilder( args );
+
+builder.WebHost.ConfigureKestrel( optioms => {
+    optioms.ListenAnyIP( 12321, listen_options => {
+        listen_options.UseConnectionHandler<TonyConnectionHandler>();
+    } );
+} );
+
+builder.Host.ConfigureAppConfiguration( ( ctx, config ) => {
+    config.SetBasePath( Directory.GetCurrentDirectory() )
+        .AddUserSecrets<Program>()
+        .AddEnvironmentVariables();
+} )
     .ConfigureServices( ( ctx, services ) => {
-        services.AddHostedService<TcpService>();
+        //services.AddHostedService<TcpService>();
+        services.AddSingleton<TonyConnectionHandler>();
+        services.AddConnections();
+
         services.AddHostedService<SubscriberService>();
 
         services.AddSingleton<TcpClientHandler>();
@@ -69,7 +82,6 @@ IHost host = Host.CreateDefaultBuilder( args )
         services.AddSingleton<Tony.Listener.Subscribers.Handlers.HandlerRegistry>();
 
         services.AddTransient<Tony.Listener.Subscribers.Handlers.Player.LoginHandler>();
-    } )
-    .Build();
+    } );
 
-await host.RunAsync();
+await builder.Build().RunAsync();

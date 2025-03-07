@@ -26,8 +26,8 @@ internal class TcpClientHandler {
         using NetworkStream stream = client.GetStream();
         byte[] buffer = new byte[ 1024 ];
 
-        TonyClient tony_client = new() { TcpClient = client };
-        this.client_service.RegisterClient( tony_client );
+        //TonyClient tony_client = new() { TcpClient = client };
+        //this.client_service.RegisterClient( tony_client );
 
         try {
             // we might make this prettier later
@@ -40,13 +40,13 @@ internal class TcpClientHandler {
                 if( bytesRead == 0 ) break; // Client disconnected
 
                 Message message = new( buffer );
-                _ = this.HandleClientMessage( tony_client, message );
+                //_ = this.HandleClientMessage( tony_client, message );
             }
         } catch( Exception ex ) when( ex is not OperationCanceledException ) {
             this.logger.LogError( $"Client error: {ex}" );
         } finally {
             client.Close();
-            this.client_service.DeregisterClient( tony_client );
+            //this.client_service.DeregisterClient( tony_client );
             this.logger.LogInformation( "Client disconnected." );
         }
     }
