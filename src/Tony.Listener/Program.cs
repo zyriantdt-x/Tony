@@ -27,60 +27,56 @@ builder.WebHost.ConfigureKestrel( optioms => {
     } );
 } );
 
-builder.Host.ConfigureAppConfiguration( ( ctx, config ) => {
-    config.SetBasePath( Directory.GetCurrentDirectory() )
+// configuration
+builder.Configuration.SetBasePath( Directory.GetCurrentDirectory() )
         .AddUserSecrets<Program>()
         .AddEnvironmentVariables();
-} )
-    .ConfigureServices( ( ctx, services ) => {
-        //services.AddHostedService<TcpService>();
-        services.AddSingleton<TonyConnectionHandler>();
-        services.AddConnections();
+builder.Services.AddOptions<ServerOptions>()
+    .Bind( builder.Configuration.GetSection( nameof( ServerOptions ) ) );
+builder.Services.AddOptions<ServiceOptions>()
+    .Bind( builder.Configuration.GetSection( nameof( ServiceOptions ) ) );
 
-        services.AddHostedService<SubscriberService>();
+// kestrel services
+builder.Services.AddConnections();
+builder.Services.AddSingleton<TonyConnectionHandler>();
 
-        services.AddSingleton<TonyClientService>();
+// pubsub
+builder.Services.AddHostedService<SubscriberService>();
+builder.Services.AddSingleton<IConnectionMultiplexer>( ConnectionMultiplexer.Connect( builder.Configuration.GetValue<string>( "RedisServer" ) ?? "localhost" ) );
+builder.Services.AddSingleton<Tony.Listener.Subscribers.Handlers.HandlerRegistry>();
 
-        services.AddSingleton<ParserRegistry>();
-        services.AddSingleton<HandlerRegistry>();
+// pub sub handlers
+builder.Services.AddTransient<Tony.Listener.Subscribers.Handlers.Player.LoginHandler>();
 
-        // handlers
-        services.AddTransient<InitCryptoHandler>();
-        services.AddTransient<GenerateKeyHandler>();
-        services.AddTransient<TryLoginHandler>();
+// tcp helpers
+builder.Services.AddSingleton<TonyClientService>();
+builder.Services.AddSingleton<ParserRegistry>();
+builder.Services.AddSingleton<HandlerRegistry>();
 
-        services.AddTransient<GetInfoHandler>();
-        services.AddTransient<GetCreditsHandler>();
+// tcp handlers
+builder.Services.AddTransient<InitCryptoHandler>();
+builder.Services.AddTransient<GenerateKeyHandler>();
+builder.Services.AddTransient<TryLoginHandler>();
 
-        services.AddTransient<NavigateHandler>();
+builder.Services.AddTransient<GetInfoHandler>();
+builder.Services.AddTransient<GetCreditsHandler>();
 
-        services.AddTransient<GetRoomInfoHandler>();
-        services.AddTransient<GetInterestHandler>();
-        services.AddTransient<RoomDirectoryHandler>();
-        services.AddTransient<TryRoomHandler>();
-        services.AddTransient<GoToRoomHandler>();
-        services.AddTransient<GetRoomAdHandler>();
-        services.AddTransient<GetHeightmapHandler>();
+builder.Services.AddTransient<NavigateHandler>();
 
-        services.AddTransient<MessengerInitHandler>();
+builder.Services.AddTransient<GetRoomInfoHandler>();
+builder.Services.AddTransient<GetInterestHandler>();
+builder.Services.AddTransient<RoomDirectoryHandler>();
+builder.Services.AddTransient<TryRoomHandler>();
+builder.Services.AddTransient<GoToRoomHandler>();
+builder.Services.AddTransient<GetRoomAdHandler>();
+builder.Services.AddTransient<GetHeightmapHandler>();
 
-        // grpc interfaces
-        services.AddTransient<AuthService>();
-        services.AddTransient<PlayerDataService>();
-        services.AddTransient<NavigatorService>();
-        services.AddTransient<RoomDataService>();
+builder.Services.AddTransient<MessengerInitHandler>();
 
-        services.AddOptions<ServerOptions>()
-            .Bind( ctx.Configuration.GetSection( nameof( ServerOptions ) ) );
-
-        services.AddOptions<ServiceOptions>()
-            .Bind( ctx.Configuration.GetSection( nameof( ServiceOptions ) ) );
-
-        // pub sub
-        services.AddSingleton<IConnectionMultiplexer>( ConnectionMultiplexer.Connect( ctx.Configuration.GetValue<string>( "RedisServer" ) ?? "localhost" ) );
-        services.AddSingleton<Tony.Listener.Subscribers.Handlers.HandlerRegistry>();
-
-        services.AddTransient<Tony.Listener.Subscribers.Handlers.Player.LoginHandler>();
-    } );
+// grpc interfaces
+builder.Services.AddTransient<AuthService>();
+builder.Services.AddTransient<PlayerDataService>();
+builder.Services.AddTransient<NavigatorService>();
+builder.Services.AddTransient<RoomDataService>();
 
 await builder.Build().RunAsync();
