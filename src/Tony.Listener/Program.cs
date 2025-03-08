@@ -19,15 +19,8 @@ using Tony.Listener.Subscribers;
 using Tony.Listener.Tcp;
 using Tony.Listener.Tcp.Clients;
 
+// setup and configuration
 WebApplicationBuilder builder = WebApplication.CreateBuilder( args );
-
-builder.WebHost.ConfigureKestrel( optioms => {
-    optioms.ListenAnyIP( 12321, listen_options => {
-        listen_options.UseConnectionHandler<TonyConnectionHandler>();
-    } );
-} );
-
-// configuration
 builder.Configuration.SetBasePath( Directory.GetCurrentDirectory() )
         .AddUserSecrets<Program>()
         .AddEnvironmentVariables();
@@ -37,12 +30,19 @@ builder.Services.AddOptions<ServiceOptions>()
     .Bind( builder.Configuration.GetSection( nameof( ServiceOptions ) ) );
 
 // kestrel services
+builder.WebHost.ConfigureKestrel( options => {
+    options.ListenAnyIP( builder.Configuration.GetValue<int>( "ServerOptions:Port" ), listen_options => {
+        listen_options.UseConnectionHandler<TonyConnectionHandler>();
+    } );
+} ).UseSockets( options => {
+    options.NoDelay = true;
+} );
 builder.Services.AddConnections();
 builder.Services.AddSingleton<TonyConnectionHandler>();
 
 // pubsub
 builder.Services.AddHostedService<SubscriberService>();
-builder.Services.AddSingleton<IConnectionMultiplexer>( ConnectionMultiplexer.Connect( builder.Configuration.GetValue<string>( "RedisServer" ) ?? "localhost" ) );
+builder.Services.AddSingleton<IConnectionMultiplexer>( ConnectionMultiplexer.Connect( builder.Configuration.GetValue<string>( "ServiceOptions:RedisServerAddress" ) ?? "localhost" ) );
 builder.Services.AddSingleton<Tony.Listener.Subscribers.Handlers.HandlerRegistry>();
 
 // pub sub handlers

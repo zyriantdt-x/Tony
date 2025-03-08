@@ -40,37 +40,41 @@ internal class TonyConnectionHandler : ConnectionHandler {
         while( true ) {
             ReadResult result = await reader.ReadAsync();
             ReadOnlySequence<byte> buffer = result.Buffer;
-
             if( result.IsCompleted )
                 break;
 
-            Message message = new( buffer.ToArray() );
-            this.logger.LogInformation( $"[{client.Uuid}][i]: {message.ToString()}" );
-
-            // this should probably be an exception - might change that in prod
-            IParser? parser = this.parsers.GetParser( message.Header );
-            if( parser is null ) {
-                this.logger.LogWarning( $"Failed to find parser for header {message.Header}" );
-                goto consume_buf;
+            foreach( ReadOnlyMemory<byte> mem in buffer ) {
+                byte[] data = mem.ToArray();
+                _ = Task.Run( () => this.HandleMessage( client, data ) );
             }
 
-            Handlers.IHandler? handler = this.handlers.GetHandler( message.Header );
-            if( handler is null ) {
-                this.logger.LogWarning( $"Failed to find handler for header {message.Header}" );
-                goto consume_buf;
-            }
-
-            object parsed_message = parser.Parse( message );
-
-            await handler.Handle( client, parsed_message );
-            this.logger.LogInformation( $"Handler {handler.GetType().Name} completed." );
-
-consume_buf:
-            // Mark buffer as consumed
-            reader.AdvanceTo( buffer.End );
+            reader.AdvanceTo( buffer.End ); // Move forward correctly
         }
 
         this.logger.LogInformation( $"Client disconnected: {connection.RemoteEndPoint}" );
         this.client_service.DeregisterClient( client );
+    }
+
+    private async Task HandleMessage( TonyClient client, byte[] buffer ) {
+        Message message = new( buffer );
+        this.logger.LogInformation( $"[{client.Uuid}][i]: {message.ToString()}" );
+
+        // this should probably be an exception - might change that in prod
+        IParser? parser = this.parsers.GetParser( message.Header );
+        if( parser is null ) {
+            this.logger.LogWarning( $"Failed to find parser for header {message.Header}" );
+            return;
+        }
+
+        Handlers.IHandler? handler = this.handlers.GetHandler( message.Header );
+        if( handler is null ) {
+            this.logger.LogWarning( $"Failed to find handler for header {message.Header}" );
+            return;
+        }
+
+        object parsed_message = parser.Parse( message );
+
+        await handler.Handle( client, parsed_message );
+        this.logger.LogInformation( $"Handler {handler.GetType().Name} completed." );
     }
 }

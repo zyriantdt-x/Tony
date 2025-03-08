@@ -22,6 +22,7 @@ internal class TonyClient {
 
         //await this.TcpClient.GetStream().WriteAsync( buf.ToArray() );
         await this.pipe.WriteAsync( buf.ToArray() );
+        await this.pipe.FlushAsync();
     }
 
     public TonyClient( PipeWriter pipe ) {
