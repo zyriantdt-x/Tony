@@ -1,6 +1,6 @@
-﻿using Tony.Sdk.Revisions; namespace Tony.Revisions.V14.Composers.Player;
-public class UserObjectComposer : ComposerBase
-{
+﻿using Tony.Sdk.Revisions;
+namespace Tony.Revisions.V14.Composers.Player;
+public class UserObjectComposer : ComposerBase {
     public override short Header => 5;
 
     public int Id { get; init; }
@@ -13,8 +13,7 @@ public class UserObjectComposer : ComposerBase
     public int Film { get; init; }
     public bool ReceiveNews { get; init; }
 
-    public UserObjectComposer(PlayerDto dto)
-    {
+    public UserObjectComposer( PlayerDto dto ) {
         this.Id = dto.Id;
         this.Username = dto.Username;
         this.Figure = dto.Figure;
@@ -25,18 +24,17 @@ public class UserObjectComposer : ComposerBase
         this.ReceiveNews = dto.ReceiveNews;
     }
 
-    public override Message Compose()
-    {
+    public override Message Compose() {
         Message msg = base.Compose();
-        msg.Write(this.Id.ToString()!);
-        msg.Write(this.Username);
-        msg.Write(this.Figure);
-        msg.Write(this.Sex);
-        msg.Write(this.Mission);
-        msg.Write(this.Tickets);
-        msg.Write(this.PoolFigure);
-        msg.Write(this.Film);
-        msg.Write(this.ReceiveNews);
+        msg.Write( this.Id.ToString()! );
+        msg.Write( this.Username );
+        msg.Write( this.Figure );
+        msg.Write( this.Sex );
+        msg.Write( this.Mission );
+        msg.Write( this.Tickets );
+        msg.Write( this.PoolFigure );
+        msg.Write( this.Film );
+        msg.Write( this.ReceiveNews );
         return msg;
     }
 }

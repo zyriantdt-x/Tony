@@ -1,6 +1,6 @@
-﻿using Tony.Sdk.Revisions; namespace Tony.Revisions.V14.Composers.Handshake;
-public class AvailableSetsComposer : ComposerBase
-{
+﻿using Tony.Sdk.Revisions;
+namespace Tony.Revisions.V14.Composers.Handshake;
+public class AvailableSetsComposer : ComposerBase {
     public override short Header => 8;
 
     public string AvailableSets { get; set; } =
@@ -10,10 +10,9 @@ public class AvailableSetsComposer : ComposerBase
         "585,590,595,596,600,605,610,615,620,625,626,627,630,635,640,645,650,655,660,665,667,669," +
         "670,675,680,685,690,695,696,700,705,710,715,720,725,730,735,740"; // / todo: move to db
 
-    public override Message Compose()
-    {
+    public override Message Compose() {
         Message msg = base.Compose();
-        msg.Write($"[{this.AvailableSets}]");
+        msg.Write( $"[{this.AvailableSets}]" );
         return msg;
     }
 }

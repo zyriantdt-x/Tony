@@ -1,6 +1,6 @@
-﻿using Tony.Sdk.Revisions; namespace Tony.Revisions.V14.Composers.Handshake;
-public class SessionParametersComposer : ComposerBase
-{
+﻿using Tony.Sdk.Revisions;
+namespace Tony.Revisions.V14.Composers.Handshake;
+public class SessionParametersComposer : ComposerBase {
     public override short Header => 257;
 
     public Dictionary<SessionParameters, string> Parameters { get; set; } = new() {
@@ -15,31 +15,28 @@ public class SessionParametersComposer : ComposerBase
             { SessionParameters.TUTORIAL_ENABLED, "0" },
         };
 
-    public override Message Compose()
-    {
+    public override Message Compose() {
         Message msg = base.Compose();
 
-        msg.Write(this.Parameters.Count);
+        msg.Write( this.Parameters.Count );
 
-        foreach (KeyValuePair<SessionParameters, string> parameter in this.Parameters)
-        {
+        foreach( KeyValuePair<SessionParameters, string> parameter in this.Parameters ) {
             SessionParameters key = parameter.Key;
             string value = parameter.Value;
 
-            msg.Write((int)key);
+            msg.Write( ( int )key );
 
-            if (!String.IsNullOrWhiteSpace(value) && Int32.TryParse(value, out int value_as_int))
-                msg.Write(value_as_int);
+            if( !String.IsNullOrWhiteSpace( value ) && Int32.TryParse( value, out int value_as_int ) )
+                msg.Write( value_as_int );
             else
-                msg.Write(value);
+                msg.Write( value );
         }
 
         return msg;
     }
 }
 
-internal enum SessionParameters
-{
+internal enum SessionParameters {
     VOUCHER_ENABLED = 1,
     REGISTER_REQUIRE_PARENT_EMAIL = 2,
     REGISTER_SEND_PARENT_EMAIL = 3,
