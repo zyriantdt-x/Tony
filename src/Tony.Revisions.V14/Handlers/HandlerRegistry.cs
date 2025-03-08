@@ -2,11 +2,9 @@
 using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
 using System.Reflection;
-using Tony.Revisions.Parsers;
 using Tony.Sdk.Revisions;
-
 namespace Tony.Revisions.V14.Handlers;
-internal class HandlerRegistry : IHandlerRegistry {
+public class HandlerRegistry : IHandlerRegistry {
     private readonly ILogger<HandlerRegistry> logger;
     private readonly ConcurrentDictionary<short, IHandler> handlers;
 

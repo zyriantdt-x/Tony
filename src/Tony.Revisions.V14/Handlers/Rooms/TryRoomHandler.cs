@@ -1,14 +1,12 @@
-﻿using Tony.Revisions.Composers.Room;
-using Tony.Revisions.Messages.Rooms;
-using Tony.Revisions.Parsers;
-using Tony.Revisions.Tcp.Clients;
+﻿using Tony.Revisions.V14.Composers.Room;
+using Tony.Revisions.V14.Messages.Rooms;
 
-namespace Tony.Revisions.Handlers.Rooms;
-[Header( 57 )]
-internal class TryRoomHandler : IHandler<TryRoomMessage> {
-    public async Task Handle( TonyClient client, TryRoomMessage message ) {
+using Tony.Sdk.Revisions; namespace Tony.Revisions.V14.Handlers.Rooms;
+[Header(57)]
+public class TryRoomHandler : IHandler<TryRoomMessage>
+{
+    public async Task Handle(TonyClient client, TryRoomMessage message) =>
         // todo : doorbell and password
 
-        await client.SendAsync( new RoomLetInComposer() );
-    }
+        await client.SendAsync(new RoomLetInComposer());
 }

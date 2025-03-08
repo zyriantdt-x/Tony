@@ -1,12 +1,8 @@
-﻿using Tony.Revisions.Composers.Handshake;
-using Tony.Revisions.Messages.Handshake;
-using Tony.Revisions.Parsers;
-using Tony.Revisions.Tcp.Clients;
+﻿using Tony.Revisions.V14.Composers.Handshake;
 
-namespace Tony.Revisions.Handlers.Handshake;
+using Tony.Sdk.Revisions; namespace Tony.Revisions.V14.Handlers.Handshake;
 [Header(206)]
-internal class InitCryptoHandler : IHandler {
-    public async Task Handle( TonyClient client, object message ) {
-        await client.SendAsync( new CryptoParametersComposer() );
-    }
+public class InitCryptoHandler : IHandler
+{
+    public async Task Handle(TonyClient client, object message) => await client.SendAsync(new CryptoParametersComposer());
 }

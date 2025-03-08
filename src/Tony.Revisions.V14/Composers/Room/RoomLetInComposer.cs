@@ -1,6 +1,5 @@
-﻿using Tony.Revisions.Tcp;
-
-namespace Tony.Revisions.Composers.Room;
-internal class RoomLetInComposer : ComposerBase {
+﻿using Tony.Sdk.Revisions; namespace Tony.Revisions.V14.Composers.Room;
+public class RoomLetInComposer : ComposerBase
+{
     public override short Header => 41;
 }

@@ -1,8 +1,6 @@
-﻿using Tony.Revisions.Tcp;
-using Tony.Shared.Dto;
-
-namespace Tony.Revisions.Composers.Navigator;
-internal class NavNodeInfoComposer : ComposerBase {
+﻿using Tony.Sdk.Revisions;
+namespace Tony.Revisions.V14.Composers.Navigator;
+public class NavNodeInfoComposer : ComposerBase {
     public override short Header => 220;
 
     public required CategoryDto ParentCategory { get; set; }

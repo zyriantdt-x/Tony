@@ -2,9 +2,8 @@
 using System.Collections.Concurrent;
 using System.Reflection;
 using Tony.Sdk.Revisions;
-
-namespace Tony.Revisions.Parsers;
-internal class ParserRegistry : IParserRegistry {
+namespace Tony.Revisions.V14.Parsers;
+public class ParserRegistry : IParserRegistry {
     private readonly ILogger<ParserRegistry> logger;
     private readonly ConcurrentDictionary<short, IParser> parsers;
 

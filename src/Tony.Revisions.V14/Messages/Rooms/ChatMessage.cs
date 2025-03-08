@@ -1,4 +1,5 @@
-﻿namespace Tony.Revisions.Messages.Rooms;
-internal class ChatMessage {
+﻿using Tony.Sdk.Revisions; namespace Tony.Revisions.V14.Messages.Rooms;
+public class ChatMessage
+{
     public required string Message { get; set; }
 }

@@ -1,11 +1,8 @@
-﻿using Tony.Revisions.Composers.Room;
-using Tony.Revisions.Parsers;
-using Tony.Revisions.Tcp.Clients;
+﻿using Tony.Revisions.V14.Composers.Room;
 
-namespace Tony.Revisions.Handlers.Rooms;
-[Header( 63 )]
-internal class GetItemsHandler : IHandler {
-    public async Task Handle( TonyClient client, object message ) {
-        await client.SendAsync( new ItemsComposer() );
-    }
+using Tony.Sdk.Revisions; namespace Tony.Revisions.V14.Handlers.Rooms;
+[Header(63)]
+public class GetItemsHandler : IHandler
+{
+    public async Task Handle(TonyClient client, object message) => await client.SendAsync(new ItemsComposer());
 }
