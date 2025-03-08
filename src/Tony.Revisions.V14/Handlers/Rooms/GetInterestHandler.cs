@@ -4,5 +4,5 @@ using Tony.Sdk.Revisions;
 namespace Tony.Revisions.V14.Handlers.Rooms;
 [Header( 182 )]
 public class GetInterestHandler : IHandler {
-    public async Task Handle( TonyClient client, object ClientMessage ) => await client.SendAsync( new RoomInterestComposer() );
+    public async Task Handle( ITonyClient client, object ClientMessage ) => await client.SendAsync( new RoomInterestComposer() );
 }

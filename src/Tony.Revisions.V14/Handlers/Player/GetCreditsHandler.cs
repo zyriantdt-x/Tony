@@ -1,20 +1,22 @@
 ﻿using Tony.Revisions.V14.Composers.Player;
-
+using Tony.Sdk.Clients;
+using Tony.Sdk.Dto;
 using Tony.Sdk.Revisions;
+using Tony.Sdk.Services;
 namespace Tony.Revisions.V14.Handlers.Player;
 [Header( 8 )]
 public class GetCreditsHandler : IHandler {
-    private readonly PlayerDataService player_data;
+    private readonly IPlayerService player_service;
 
-    public GetCreditsHandler( PlayerDataService player_data ) {
-        this.player_data = player_data;
+    public GetCreditsHandler( IPlayerService player_service ) {
+        this.player_service = player_service;
     }
 
-    public async Task Handle( TonyClient client, object ClientMessage ) {
-        if( client.PlayerId is null )
+    public async Task Handle( ITonyClient client, object ClientMessage ) {
+        if( client.PlayerId < 1 )
             return;
 
-        PlayerDto? player = await this.player_data.GetUserObject( client.PlayerId ?? 0 );
+        PlayerDto? player = await this.player_service.GetPlayerById( client.PlayerId );
         if( player is null )
             return;
 

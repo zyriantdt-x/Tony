@@ -10,7 +10,7 @@ public class GetHeightmapHandler : IHandler {
         this.room_data = room_data;
     }
 
-    public async Task Handle( TonyClient client, object ClientMessage ) {
+    public async Task Handle( ITonyClient client, object ClientMessage ) {
         RoomDataDto? player_room = await this.room_data.GetPlayerRoomData( client.PlayerId ?? 0 );
         if( player_room is null )
             return;

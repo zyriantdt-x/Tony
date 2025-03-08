@@ -1,13 +1,27 @@
 ﻿using Tony.Sdk.Dto;
 using Tony.Sdk.Services;
+using Tony.Server.Cache;
+using Tony.Server.Repositories;
 
-namespace Tony.Services;
+namespace Tony.Server.Services;
 internal class PlayerService : IPlayerService {
-    public Task<PlayerDto> GetPlayerById( int id ) {
+    private readonly PlayerRepository repository;
+    private readonly PlayerCache cache;
 
+    public PlayerService( PlayerRepository repository, PlayerCache cache ) {
+        this.repository = repository;
+        this.cache = cache;
     }
 
-    public Task<int> Login( string username, string password ) {
+    public async Task<PlayerDto?> GetPlayerById( int id ) {
+        PlayerDto? player = await this.cache.GetPlayer( id ) ?? await this.repository.GetPlayerById( id );
 
+        return player;
+    }
+
+    public async Task<int> Login( string username, string password ) {
+        int player_id = await this.repository.GetPlayerByCredentials( username, password );
+
+        return player_id;
     }
 }

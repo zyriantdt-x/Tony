@@ -1,4 +1,4 @@
-﻿using Tony.Revisions.V14.ClientMessages.Naivgator;
+﻿using Tony.Revisions.V14.Messages.Naivgator;
 using Tony.Revisions.V14.Composers.Navigator;
 using Tony.Sdk.Revisions;
 namespace Tony.Revisions.V14.Handlers.Navigator;
@@ -12,7 +12,7 @@ public class NavigateHandler : IHandler<NavigateClientMessage> {
         this.player_data = player_data;
     }
 
-    public async Task Handle( TonyClient client, NavigateClientMessage ClientMessage ) {
+    public async Task Handle( ITonyClient client, NavigateClientMessage ClientMessage ) {
         CategoryDto? category = await this.navigator.GetCategory( ClientMessage.CategoryId );
         IEnumerable<CategoryDto> subcategories = await this.navigator.GetCategoriesByParentId( ClientMessage.CategoryId );
         IEnumerable<NavNodeDto> navnodes = await this.navigator.GetNavNodesByCategoryId( ClientMessage.CategoryId );

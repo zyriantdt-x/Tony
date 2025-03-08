@@ -1,4 +1,4 @@
-﻿using Tony.Revisions.V14.ClientMessages.Rooms;
+﻿using Tony.Revisions.V14.Messages.Rooms;
 using Tony.Revisions.V14.Composers.Room;
 using Tony.Sdk.Revisions;
 namespace Tony.Revisions.V14.Handlers.Rooms;
@@ -12,7 +12,7 @@ public class GetRoomInfoHandler : IHandler<GetRoomInfoClientMessage> {
         this.player_data = player_data;
     }
 
-    public async Task Handle( TonyClient client, GetRoomInfoClientMessage ClientMessage ) {
+    public async Task Handle( ITonyClient client, GetRoomInfoClientMessage ClientMessage ) {
         RoomDataDto? room = await this.room_data.GetRoomDataById( ClientMessage.RoomId );
         if( room is null )
             return;

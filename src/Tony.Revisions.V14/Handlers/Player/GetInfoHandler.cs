@@ -1,21 +1,25 @@
 ﻿using Tony.Revisions.V14.Composers.Player;
-
+using Tony.Sdk.Clients;
+using Tony.Sdk.Dto;
 using Tony.Sdk.Revisions;
+using Tony.Sdk.Services;
 namespace Tony.Revisions.V14.Handlers.Player;
 [Header( 7 )]
 public class GetInfoHandler : IHandler {
-    private readonly PlayerDataService player_data;
+    private readonly IPlayerService player_service;
 
-    public GetInfoHandler( PlayerDataService player_data ) {
-        this.player_data = player_data;
+    public GetInfoHandler( IPlayerService player_service ) {
+        this.player_service = player_service;
     }
 
-    public async Task Handle( TonyClient client, object ClientMessage ) {
-        if( client.PlayerId is null )
+    public async Task Handle( ITonyClient client, object ClientMessage ) {
+        if( client.PlayerId < 1 )
             return;
 
-        PlayerDto uo = await this.player_data.GetUserObject( client.PlayerId ?? throw new Exception() );
+        PlayerDto? player = await this.player_service.GetPlayerById( client.PlayerId );
+        if( player is null )
+            return;
 
-        await client.SendAsync( new UserObjectComposer( uo ) );
+        await client.SendAsync( new UserObjectComposer( player ) );
     }
 }

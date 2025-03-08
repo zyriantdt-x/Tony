@@ -1,10 +1,12 @@
 ﻿using DotNetty.Transport.Channels;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System.Reflection;
 using Tony.Sdk.Options;
+using Tony.Server.Storage;
 using Tony.Server.Tcp;
 
 IHostBuilder builder = Host.CreateDefaultBuilder( args );
@@ -25,6 +27,11 @@ builder.ConfigureServices( ( ctx, services ) => {
     services.AddHostedService<TcpService>();
     services.AddSingleton<ChannelInitializer<IChannel>, TonyChannelInitialiser>();
     services.AddSingleton<ChannelHandlerAdapter, TonyChannelHandler>();
+
+    // add ef
+    services.AddDbContextFactory<TonyStorage>( options => {
+        options.UseSqlite( ctx.Configuration.GetValue<string>( "SqliteConnectionString" ) ?? "Data Source=C:\\etc\\tony.db" );
+    } );
 
     LoadRevision( ctx.Configuration[ "RevisionPath" ] ?? "C:\\etc\\Tony.Revisions.V14.dll", services );
 

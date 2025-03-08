@@ -1,13 +1,12 @@
 ﻿using DotNetty.Transport.Channels;
 using System.Net.Sockets;
 using Tony.Sdk.Clients;
-using Tony.Sdk.Composers;
 
 namespace Tony.Server.Tcp.Clients;
 internal class TonyClient : ITonyClient {
     public string Uuid { get; init; } = Guid.NewGuid().ToString();
 
-    public int? PlayerId { get; set; }
+    public int PlayerId { get; set; } = -1;
 
     public required IChannel Channel { get; set; }
 

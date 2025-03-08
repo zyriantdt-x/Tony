@@ -1,21 +1,23 @@
-﻿using Tony.Revisions.V14.ClientMessages.Handshake;
+﻿using Tony.Revisions.V14.Messages.Handshake;
 using Tony.Revisions.V14.Composers.Alerts;
 using Tony.Revisions.V14.Composers.Handshake;
 using Tony.Revisions.V14.Composers.Player;
+using Tony.Sdk.Clients;
 using Tony.Sdk.Revisions;
+using Tony.Sdk.Services;
 namespace Tony.Revisions.V14.Handlers.Handshake;
 [Header( 4 )]
 public class TryLoginHandler : IHandler<TryLoginClientMessage> {
-    private readonly AuthService auth;
+    private readonly IPlayerService player_service;
 
-    public TryLoginHandler( AuthService auth ) {
-        this.auth = auth;
+    public TryLoginHandler( IPlayerService player_service ) {
+        this.player_service = player_service;
     }
 
-    public async Task Handle( TonyClient client, TryLoginClientMessage ClientMessage ) {
-        int? uid = await this.auth.Login( ClientMessage.Username.ToLower(), ClientMessage.Password.ToLower() );
-        if( uid is null ) {
-            await client.SendAsync( new AlertComposer() { ClientMessage = "Username or password incorrect." } );
+    public async Task Handle( ITonyClient client, TryLoginClientMessage ClientMessage ) {
+        int uid = await this.player_service.Login( ClientMessage.Username.ToLower(), ClientMessage.Password.ToLower() );
+        if( uid < 1 ) {
+            await client.SendAsync( new AlertComposer() { Message = "Username or password incorrect." } );
             return;
         }
 
