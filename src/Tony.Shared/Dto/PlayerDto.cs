@@ -1,4 +1,4 @@
-﻿namespace Tony.Player.Dto;
+﻿namespace Tony.Shared.Dto;
 
 public class PlayerDto {
     public required int Id { get; set; }
