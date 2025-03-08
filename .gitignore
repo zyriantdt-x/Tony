@@ -136,3 +136,5 @@ _NCrunch*
 **/appsettings.Development.json
 
 .vs/
+
+GlobalSuppressions.cs
