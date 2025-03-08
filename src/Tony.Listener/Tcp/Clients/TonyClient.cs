@@ -13,5 +13,8 @@ internal class TonyClient {
     public required IChannel Channel { get; set; }
 
     public Task SendAsync( ComposerBase msg_composer ) => this.SendAsync( msg_composer.Compose() );
-    public Task SendAsync( Message message ) => this.Channel.WriteAndFlushAsync( message );
+    public Task SendAsync( Message message ) {
+        Console.WriteLine( $"SENT: {message.ToString()}" );
+        return this.Channel.WriteAndFlushAsync( message );
+    }
 }
