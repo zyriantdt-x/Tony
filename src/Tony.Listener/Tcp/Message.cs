@@ -20,7 +20,7 @@ internal class Message {
     }
 
     public override string ToString() {
-        string str = $"{System.Text.Encoding.Default.GetString( Base64Encoding.Encode( this.Header, 2 ) )} | {System.Text.Encoding.Default.GetString(this.RemainingBytes)}";
+        string str = $"{this.Header} | {System.Text.Encoding.Default.GetString(this.RemainingBytes)}";
 
         for( int i = 0 ; i < 14 ; i++ ) {
             str = str.Replace( Char.ToString( ( char )i ), "{" + i + "}" );

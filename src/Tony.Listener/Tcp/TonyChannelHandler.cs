@@ -83,7 +83,7 @@ internal class TonyChannelHandler : ChannelHandlerAdapter {
         => context.Flush();
 
     private async Task ProcessMessage( TonyClient client, Message message ) {
-        this.logger.LogInformation( $"[{client.Uuid}][i]: {message.ToString()}" );
+        this.logger.LogInformation( $"[{client.Channel.RemoteAddress}][i]: {message.ToString()}" );
 
         // this should probably be an exception - might change that in prod
         IParser? parser = this.parsers.GetParser( message.Header );
