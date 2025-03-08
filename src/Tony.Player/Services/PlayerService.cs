@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Tony.Player.Cache;
-using Tony.Player.Dto;
 using Tony.Player.Storage;
 using Tony.Player.Storage.Entities;
 using Tony.Shared;
+using Tony.Shared.Dto;
 using Tony.Shared.Events.Player;
 
 namespace Tony.Player.Services;

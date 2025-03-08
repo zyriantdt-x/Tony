@@ -1,6 +1,6 @@
 ﻿using StackExchange.Redis;
 using System.Text.Json;
-using Tony.Player.Dto;
+using Tony.Shared.Dto;
 
 namespace Tony.Player.Cache;
 
