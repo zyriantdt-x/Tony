@@ -1,7 +1,7 @@
-﻿using Tony.Listener.Messages.Rooms;
-using Tony.Listener.Tcp;
+﻿using Tony.Revisions.Messages.Rooms;
+using Tony.Revisions.Tcp;
 
-namespace Tony.Listener.Parsers.Rooms;
+namespace Tony.Revisions.Parsers.Rooms;
 [Header( 57 )]
 internal class TryRoomParser : IParser<TryRoomMessage> {
     public TryRoomMessage Parse( Message message ) {

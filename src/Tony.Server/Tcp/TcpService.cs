@@ -6,7 +6,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System.Net;
-using Tony.Server.Options;
+using Tony.Sdk.Options;
 
 namespace Tony.Server.Tcp;
 internal class TcpService : IHostedService {

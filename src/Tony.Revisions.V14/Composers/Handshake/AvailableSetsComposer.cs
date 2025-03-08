@@ -1,6 +1,6 @@
-﻿using Tony.Listener.Tcp;
+﻿using Tony.Revisions.Tcp;
 
-namespace Tony.Listener.Composers.Handshake;
+namespace Tony.Revisions.Composers.Handshake;
 internal class AvailableSetsComposer : ComposerBase {
     public override short Header => 8;
 

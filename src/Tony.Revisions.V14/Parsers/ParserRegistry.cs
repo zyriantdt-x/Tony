@@ -3,7 +3,7 @@ using System.Collections.Concurrent;
 using System.Reflection;
 using Tony.Sdk.Revisions;
 
-namespace Tony.Listener.Parsers;
+namespace Tony.Revisions.Parsers;
 internal class ParserRegistry : IParserRegistry {
     private readonly ILogger<ParserRegistry> logger;
     private readonly ConcurrentDictionary<short, IParser> parsers;

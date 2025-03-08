@@ -1,9 +1,10 @@
 ﻿using DotNetty.Buffers;
 using System;
+using Tony.Sdk.Clients;
 using Tony.Sdk.Encoding;
 
 namespace Tony.Server.Tcp;
-internal class Message {
+internal class Message : IClientMessage {
     public short Header { get; }
 
     public IByteBuffer Buffer { get; set; }

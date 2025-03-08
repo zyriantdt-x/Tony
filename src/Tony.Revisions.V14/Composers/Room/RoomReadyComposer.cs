@@ -1,6 +1,6 @@
-﻿using Tony.Listener.Tcp;
+﻿using Tony.Revisions.Tcp;
 
-namespace Tony.Listener.Composers.Room;
+namespace Tony.Revisions.Composers.Room;
 internal class RoomReadyComposer : ComposerBase {
     public string RoomModel { get; set; } = "model_a";
     public int RoomId { get; set; }

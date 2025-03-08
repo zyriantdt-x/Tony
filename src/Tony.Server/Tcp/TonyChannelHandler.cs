@@ -1,10 +1,7 @@
 ﻿using DotNetty.Common.Utilities;
 using DotNetty.Transport.Channels;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using Tony.Server.Composers.Handshake;
-using Tony.Server.Handlers;
-using Tony.Server.Parsers;
+using Tony.Sdk.Revisions;
 using Tony.Server.Tcp.Clients;
 
 namespace Tony.Server.Tcp;
@@ -14,15 +11,15 @@ internal class TonyChannelHandler : ChannelHandlerAdapter {
     private readonly ILogger<TonyChannelHandler> logger;
     private readonly TonyClientService session_service;
 
-    private readonly ParserRegistry parsers;
-    private readonly HandlerRegistry handlers;
+    private readonly IParserRegistry parsers;
+    private readonly IHandlerRegistry handlers;
 
     public override bool IsSharable => true;
 
     public TonyChannelHandler( ILogger<TonyChannelHandler> logger,
                            TonyClientService session_service,
-                           HandlerRegistry handlers,
-                           ParserRegistry parsers) {
+                           IHandlerRegistry handlers,
+                           IParserRegistry parsers ) {
         this.logger = logger;
         this.session_service = session_service;
 
@@ -39,7 +36,9 @@ internal class TonyChannelHandler : ChannelHandlerAdapter {
 
         this.logger.LogInformation( $"New connection from {ctx.Channel.RemoteAddress}" );
 
-        _ = session.SendAsync( new HelloComposer() );
+        // eventually this will be a publish
+        Message message = new( 0 );
+        _ = session.SendAsync( message );
     }
 
     public override void ChannelInactive( IChannelHandlerContext ctx ) {
@@ -74,7 +73,7 @@ internal class TonyChannelHandler : ChannelHandlerAdapter {
 
         Message request = ( Message )msg;
 
-        _ = Task.Run(() => this.ProcessMessage( session, request ) );
+        _ = Task.Run( () => this.ProcessMessage( session, request ) );
 
         base.ChannelRead( ctx, msg );
     }
@@ -86,7 +85,7 @@ internal class TonyChannelHandler : ChannelHandlerAdapter {
         this.logger.LogInformation( $"[{client.Channel.RemoteAddress}][i]: {message.ToString()}" );
 
         // this should probably be an exception - might change that in prod
-        Handlers.IHandler? handler = this.handlers.GetHandler( message.Header );
+        IHandler? handler = this.handlers.GetHandler( message.Header );
         if( handler is null ) {
             this.logger.LogWarning( $"Failed to find handler for header {message.Header}" );
             return;

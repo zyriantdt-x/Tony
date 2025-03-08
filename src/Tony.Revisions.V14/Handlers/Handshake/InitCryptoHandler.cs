@@ -1,9 +1,9 @@
-﻿using Tony.Listener.Composers.Handshake;
-using Tony.Listener.Messages.Handshake;
-using Tony.Listener.Parsers;
-using Tony.Listener.Tcp.Clients;
+﻿using Tony.Revisions.Composers.Handshake;
+using Tony.Revisions.Messages.Handshake;
+using Tony.Revisions.Parsers;
+using Tony.Revisions.Tcp.Clients;
 
-namespace Tony.Listener.Handlers.Handshake;
+namespace Tony.Revisions.Handlers.Handshake;
 [Header(206)]
 internal class InitCryptoHandler : IHandler {
     public async Task Handle( TonyClient client, object message ) {

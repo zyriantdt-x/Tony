@@ -1,8 +1,8 @@
-﻿using Tony.Listener.Composers.Messenger;
-using Tony.Listener.Parsers;
-using Tony.Listener.Tcp.Clients;
+﻿using Tony.Revisions.Composers.Messenger;
+using Tony.Revisions.Parsers;
+using Tony.Revisions.Tcp.Clients;
 
-namespace Tony.Listener.Handlers.Messenger;
+namespace Tony.Revisions.Handlers.Messenger;
 [Header( 12 )]
 internal class MessengerInitHandler : IHandler {
     public async Task Handle( TonyClient client, object message ) {

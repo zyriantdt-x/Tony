@@ -1,9 +1,9 @@
-﻿using Tony.Listener.Composers.Room;
-using Tony.Listener.Messages.Rooms;
-using Tony.Listener.Parsers;
-using Tony.Listener.Tcp.Clients;
+﻿using Tony.Revisions.Composers.Room;
+using Tony.Revisions.Messages.Rooms;
+using Tony.Revisions.Parsers;
+using Tony.Revisions.Tcp.Clients;
 
-namespace Tony.Listener.Handlers.Rooms;
+namespace Tony.Revisions.Handlers.Rooms;
 [Header( 2 )]
 internal class RoomDirectoryHandler : IHandler<RoomDirectoryMessage> {
     public async Task Handle( TonyClient client, RoomDirectoryMessage message ) {

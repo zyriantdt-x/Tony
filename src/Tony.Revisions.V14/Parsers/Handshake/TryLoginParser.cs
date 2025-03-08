@@ -1,8 +1,8 @@
 ﻿using System.Text.RegularExpressions;
-using Tony.Listener.Messages.Handshake;
-using Tony.Listener.Tcp;
+using Tony.Revisions.Messages.Handshake;
+using Tony.Revisions.Tcp;
 
-namespace Tony.Listener.Parsers.Handshake;
+namespace Tony.Revisions.Parsers.Handshake;
 [Header( 4 )]
 internal class TryLoginParser : IParser<TryLoginMessage> {
     public TryLoginMessage Parse( Message message ) => new() {

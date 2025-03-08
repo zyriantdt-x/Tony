@@ -1,13 +1,13 @@
-﻿using Tony.Listener.Composers.Alerts;
-using Tony.Listener.Composers.Handshake;
-using Tony.Listener.Composers.Player;
-using Tony.Listener.Messages.Handshake;
-using Tony.Listener.Parsers;
-using Tony.Listener.Services.Player;
-using Tony.Listener.Tcp;
-using Tony.Listener.Tcp.Clients;
+﻿using Tony.Revisions.Composers.Alerts;
+using Tony.Revisions.Composers.Handshake;
+using Tony.Revisions.Composers.Player;
+using Tony.Revisions.Messages.Handshake;
+using Tony.Revisions.Parsers;
+using Tony.Revisions.Services.Player;
+using Tony.Revisions.Tcp;
+using Tony.Revisions.Tcp.Clients;
 
-namespace Tony.Listener.Handlers.Handshake;
+namespace Tony.Revisions.Handlers.Handshake;
 [Header( 4 )]
 internal class TryLoginHandler : IHandler<TryLoginMessage> {
     private readonly AuthService auth;

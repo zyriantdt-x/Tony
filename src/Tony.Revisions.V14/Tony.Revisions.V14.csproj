@@ -7,10 +7,17 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Parsers\Messenger\**" />
+	  <Compile Remove="Parsers\Player\**" />
+	  <EmbeddedResource Remove="Parsers\Messenger\**" />
+	  <EmbeddedResource Remove="Parsers\Player\**" />
+	  <None Remove="Parsers\Messenger\**" />
+	  <None Remove="Parsers\Player\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<Folder Include="Messages\Messenger\" />
 		<Folder Include="Messages\Player\" />
-		<Folder Include="Parsers\Messenger\" />
-		<Folder Include="Parsers\Player\" />
 	</ItemGroup>
 
 	<ItemGroup>

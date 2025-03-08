@@ -1,6 +1,6 @@
-﻿using Tony.Listener.Tcp;
+﻿using Tony.Revisions.Tcp;
 
-namespace Tony.Listener.Composers.Messenger;
+namespace Tony.Revisions.Composers.Messenger;
 internal class MessengerInitComposer : ComposerBase {
     public override short Header => 12;
 

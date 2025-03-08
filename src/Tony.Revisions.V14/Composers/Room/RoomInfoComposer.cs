@@ -1,7 +1,7 @@
-﻿using Tony.Listener.Tcp;
+﻿using Tony.Revisions.Tcp;
 using Tony.Shared.Dto;
 
-namespace Tony.Listener.Composers.Room;
+namespace Tony.Revisions.Composers.Room;
 internal class RoomInfoComposer : ComposerBase {
     public override short Header => 54;
 

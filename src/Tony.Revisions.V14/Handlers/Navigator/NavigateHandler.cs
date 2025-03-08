@@ -1,12 +1,12 @@
-﻿using Tony.Listener.Composers.Navigator;
-using Tony.Listener.Messages.Naivgator;
-using Tony.Listener.Parsers;
-using Tony.Listener.Services.Player;
-using Tony.Listener.Services.Rooms;
-using Tony.Listener.Tcp.Clients;
+﻿using Tony.Revisions.Composers.Navigator;
+using Tony.Revisions.Messages.Naivgator;
+using Tony.Revisions.Parsers;
+using Tony.Revisions.Services.Player;
+using Tony.Revisions.Services.Rooms;
+using Tony.Revisions.Tcp.Clients;
 using Tony.Shared.Dto;
 
-namespace Tony.Listener.Handlers.Navigator;
+namespace Tony.Revisions.Handlers.Navigator;
 [Header( 150 )]
 internal class NavigateHandler : IHandler<NavigateMessage> {
     private readonly NavigatorService navigator;

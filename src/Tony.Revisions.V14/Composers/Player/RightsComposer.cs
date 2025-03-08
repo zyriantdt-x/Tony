@@ -1,6 +1,6 @@
-﻿using Tony.Listener.Tcp;
+﻿using Tony.Revisions.Tcp;
 
-namespace Tony.Listener.Composers.Player;
+namespace Tony.Revisions.Composers.Player;
 internal class RightsComposer : ComposerBase {
     public override short Header => 2;
 

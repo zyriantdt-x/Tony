@@ -1,11 +1,10 @@
 ﻿using DotNetty.Transport.Channels;
-using System.IO.Pipelines;
 using System.Net.Sockets;
-using Tony.Server.Composers;
-using Tony.Sdk.Encoding;
+using Tony.Sdk.Clients;
+using Tony.Sdk.Composers;
 
 namespace Tony.Server.Tcp.Clients;
-internal class TonyClient {
+internal class TonyClient : ITonyClient {
     public string Uuid { get; init; } = Guid.NewGuid().ToString();
 
     public int? PlayerId { get; set; }

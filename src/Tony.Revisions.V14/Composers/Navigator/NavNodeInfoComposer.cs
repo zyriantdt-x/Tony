@@ -1,7 +1,7 @@
-﻿using Tony.Listener.Tcp;
+﻿using Tony.Revisions.Tcp;
 using Tony.Shared.Dto;
 
-namespace Tony.Listener.Composers.Navigator;
+namespace Tony.Revisions.Composers.Navigator;
 internal class NavNodeInfoComposer : ComposerBase {
     public override short Header => 220;
 

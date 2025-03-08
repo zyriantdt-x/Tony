@@ -1,10 +1,10 @@
-﻿using Tony.Listener.Composers.Player;
-using Tony.Listener.Parsers;
-using Tony.Listener.Services.Player;
-using Tony.Listener.Tcp.Clients;
+﻿using Tony.Revisions.Composers.Player;
+using Tony.Revisions.Parsers;
+using Tony.Revisions.Services.Player;
+using Tony.Revisions.Tcp.Clients;
 using Tony.Shared.Dto;
 
-namespace Tony.Listener.Handlers.Player;
+namespace Tony.Revisions.Handlers.Player;
 [Header( 8 )]
 internal class GetCreditsHandler : IHandler {
     private readonly PlayerDataService player_data;
