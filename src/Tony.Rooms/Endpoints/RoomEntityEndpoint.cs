@@ -2,6 +2,7 @@
 using Tony.Rooms.Services;
 using Tony.Shared.Dto;
 using Tony.Shared.Protos;
+using static Grpc.Core.Metadata;
 
 namespace Tony.Rooms.Endpoints;
 
@@ -32,7 +33,29 @@ public class RoomEntityEndpoint : Shared.Protos.RoomEntityEndpoint.RoomEntityEnd
         return res;
     }
 
-    public async override Task<AddEntityToRoomResponse> AddEntityToRoom( AddEntityToRoomRequest request, ServerCallContext context ) { 
-    
+    public async override Task<AddEntityToRoomResponse> AddEntityToRoom( AddEntityToRoomRequest request, ServerCallContext context ) {
+        RoomEntityProto entity = request.Entity;
+
+        await this.entity_service.AddEntityToRoom( request.RoomId, new() {
+            InstanceId = entity.InstanceId,
+            EntityId = entity.EntityId,
+            EntityType = ( EntityType )entity.EntityType ,
+            Username = entity.Username,
+            Figure = entity.Figure,
+            Sex = entity.Sex,
+            Motto = entity.Motto,
+            Badge = entity.Badge,
+            PosX = entity.PosX,
+            PosY = entity.PosY,
+            PosZ = entity.PosZ
+        } );
+
+        return new();
+    }
+
+    public async override Task<RemoveEntityFromRoomResponse> RemoveEntityFromRoom( RemoveEntityFromRoomRequest request, ServerCallContext context ) {
+        await this.entity_service.RemoveEntityFromRoom( request.RoomId, request.InstanceId );
+
+        return new();
     }
 }
