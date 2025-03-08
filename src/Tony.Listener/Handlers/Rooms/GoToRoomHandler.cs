@@ -33,23 +33,5 @@ internal class GoToRoomHandler : IHandler<GoToRoomMessage> {
 
         // todo: navi events
         await client.SendAsync( new RoomEventInfoComposer() );
-
-        //34 / @b82303 3,5,0.0,2,2 /{ 13}
-        //{ 1}
-        Message msg = new( 34 );
-        msg.WriteDelimiter( "15000", ' ' );
-        msg.WriteDelimiter( 5, ',' );
-        msg.WriteDelimiter( 5, ',' );
-        msg.WriteDelimiter( "1.0", ',' );
-        msg.WriteDelimiter( 1, ',' );
-        msg.WriteDelimiter( 1, '/' );
-        msg.Write( (( char )13).ToString(), true );
-
-        Message msg_2 = new( 361 );
-        msg_2.Write( 10000 );
-        msg_2.Write( false );
-
-        await client.SendAsync( msg );
-        await client.SendAsync( msg_2 );
     }
 }
