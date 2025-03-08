@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+option csharp_namespace = "Tony.Shared.Protos";
+
+package RoomEntity;
+service RoomEntityEndpoint {
+	rpc GetEntitiesInRoom (GetEntitiesInRoomRequest) returns (GetEntitiesInRoomResponse);
+	rpc AddEntityToRoom (AddEntityToRoomRequest) returns (AddEntityToRoomResponse);
+	rpc RemoveEntityFromRoom (RemoveEntityFromRoomRequest) returns (RemoveEntityFromRoomResponse);
+}
+
+message RoomEntityProto {
+    int32 InstanceId = 1;
+    int32 EntityId = 2;
+    int32 EntityType = 3;
+    string Username = 4;
+    string Figure = 5;
+    string Sex = 6;
+    string Motto = 7;
+    string Badge = 8;
+
+    int32 PosX = 9;
+    int32 PosY = 10;
+    int32 PosZ = 11;
+}
+
+message GetEntitiesInRoomRequest {
+    int32 RoomId = 1;
+}
+
+message GetEntitiesInRoomResponse {
+    repeated RoomEntityProto Entities = 1;
+}
+
+message AddEntityToRoomRequest {
+    int32 RoomId = 1;
+    RoomEntityProto Entity = 2;
+}
+
+message AddEntityToRoomResponse {}
+
+message RemoveEntityFromRoomRequest {
+    int32 RoomId = 1;
+    int32 InstanceId = 2;
+}
+
+message RemoveEntityFromRoomResponse {}
