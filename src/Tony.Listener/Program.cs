@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using DotNetty.Transport.Channels;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Connections;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -28,16 +29,10 @@ builder.Services.AddOptions<ServerOptions>()
 builder.Services.AddOptions<ServiceOptions>()
     .Bind( builder.Configuration.GetSection( nameof( ServiceOptions ) ) );
 
-// kestrel services
-builder.WebHost.ConfigureKestrel( options => {
-    options.ListenAnyIP( builder.Configuration.GetValue<int>( "ServerOptions:Port" ), listen_options => {
-        listen_options.UseConnectionHandler<TonyConnectionHandler>();
-    } );
-} ).UseSockets( options => {
-    options.NoDelay = true;
-} );
-builder.Services.AddConnections();
-builder.Services.AddSingleton<TonyConnectionHandler>();
+// netty
+builder.Services.AddHostedService<TcpService>();
+builder.Services.AddSingleton<ChannelInitializer<IChannel>, TonyChannelInitialiser>();
+builder.Services.AddSingleton<ChannelHandlerAdapter, TonyChannelHandler>();
 
 // pubsub
 builder.Services.AddHostedService<SubscriberService>();

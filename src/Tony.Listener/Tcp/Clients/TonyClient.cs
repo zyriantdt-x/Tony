@@ -12,18 +12,6 @@ internal class TonyClient {
 
     public required IChannel Channel { get; set; }
 
-    public async Task SendAsync( ComposerBase msg_composer ) => await this.SendAsync( msg_composer.Compose() );
-
-    public async Task SendAsync( Message message ) {
-        await this.Channel.WriteAndFlushAsync( message );
-        /*List<byte> buf = Base64Encoding.Encode( message.Header, 2 ).ToList();
-        buf.AddRange( message.Body );
-        buf.Add( 1 );
-
-        Console.WriteLine( $"SENT: {message.ToString()}" );
-
-        //await this.TcpClient.GetStream().WriteAsync( buf.ToArray() );
-        await this.pipe.WriteAsync( buf.ToArray() );
-        await this.pipe.FlushAsync();*/
-    }
+    public Task SendAsync( ComposerBase msg_composer ) => this.SendAsync( msg_composer.Compose() );
+    public Task SendAsync( Message message ) => this.Channel.WriteAndFlushAsync( message );
 }

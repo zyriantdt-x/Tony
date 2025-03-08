@@ -2,6 +2,7 @@
 using DotNetty.Transport.Channels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+using Tony.Listener.Composers.Handshake;
 using Tony.Listener.Handlers;
 using Tony.Listener.Parsers;
 using Tony.Listener.Tcp.Clients;
@@ -38,7 +39,7 @@ internal class TonyChannelHandler : ChannelHandlerAdapter {
 
         this.logger.LogInformation( $"New connection from {ctx.Channel.RemoteAddress}" );
 
-        session.Send( new HelloPacketComposer() );
+        _ = session.SendAsync( new HelloComposer() );
     }
 
     public override void ChannelInactive( IChannelHandlerContext ctx ) {

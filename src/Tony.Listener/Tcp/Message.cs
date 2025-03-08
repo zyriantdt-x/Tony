@@ -20,7 +20,7 @@ internal class Message {
     }
 
     public override string ToString() {
-        string str = $"{System.Text.Encoding.Default.GetString( Base64Encoding.Encode( this.Header, 2 ) )} | {System.Text.Encoding.Default.GetString(this.Body.ToArray())}";
+        string str = $"{System.Text.Encoding.Default.GetString( Base64Encoding.Encode( this.Header, 2 ) )} | {System.Text.Encoding.Default.GetString(this.RemainingBytes)}";
 
         for( int i = 0 ; i < 14 ; i++ ) {
             str = str.Replace( Char.ToString( ( char )i ), "{" + i + "}" );
@@ -81,6 +81,8 @@ internal class Message {
 
         int length = (remaining[ 0 ] >> 3) & 7;
         int value = VL64Encoding.Decode( remaining );
+
+        this.ReadBytes( length );
 
         return value;
     }
