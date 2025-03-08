@@ -1,5 +1,5 @@
-﻿namespace Tony.Listener.Encoding;
-internal static class Base64Encoding {
+﻿namespace Tony.Sdk.Encoding;
+public static class Base64Encoding {
     public static byte[] Encode( int i, int numBytes ) {
         byte[] bzRes = new byte[ numBytes ];
         for( int j = 1 ; j <= numBytes ; j++ ) {

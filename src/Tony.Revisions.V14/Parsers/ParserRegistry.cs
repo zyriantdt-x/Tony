@@ -1,9 +1,10 @@
 ﻿using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
 using System.Reflection;
+using Tony.Sdk.Revisions;
 
 namespace Tony.Listener.Parsers;
-internal class ParserRegistry {
+internal class ParserRegistry : IParserRegistry {
     private readonly ILogger<ParserRegistry> logger;
     private readonly ConcurrentDictionary<short, IParser> parsers;
 

@@ -2,12 +2,12 @@
 using DotNetty.Transport.Channels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using Tony.Listener.Composers.Handshake;
-using Tony.Listener.Handlers;
-using Tony.Listener.Parsers;
-using Tony.Listener.Tcp.Clients;
+using Tony.Server.Composers.Handshake;
+using Tony.Server.Handlers;
+using Tony.Server.Parsers;
+using Tony.Server.Tcp.Clients;
 
-namespace Tony.Listener.Tcp;
+namespace Tony.Server.Tcp;
 internal class TonyChannelHandler : ChannelHandlerAdapter {
     public static AttributeKey<TonyClient> SESSION_ATTRIBUTE = AttributeKey<TonyClient>.NewInstance( "SESSION" );
 

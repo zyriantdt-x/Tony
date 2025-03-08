@@ -1,7 +1,7 @@
 ﻿using DotNetty.Transport.Channels;
-using Tony.Listener.Tcp.Codec;
+using Tony.Server.Tcp.Codec;
 
-namespace Tony.Listener.Tcp;
+namespace Tony.Server.Tcp;
 internal class TonyChannelInitialiser : ChannelInitializer<IChannel> {
     private readonly ChannelHandlerAdapter handler;
 

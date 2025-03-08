@@ -1,9 +1,9 @@
 ﻿using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
 using System.Net.Sockets;
-using Tony.Listener.Composers;
+using Tony.Server.Composers;
 
-namespace Tony.Listener.Tcp.Clients;
+namespace Tony.Server.Tcp.Clients;
 internal class TonyClientService {
     private readonly ILogger<TonyClientService> logger;
 

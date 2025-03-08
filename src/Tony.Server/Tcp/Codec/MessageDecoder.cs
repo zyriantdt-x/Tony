@@ -1,9 +1,9 @@
 ﻿using DotNetty.Buffers;
 using DotNetty.Codecs;
 using DotNetty.Transport.Channels;
-using Tony.Listener.Encoding;
+using Tony.Sdk.Encoding;
 
-namespace Tony.Listener.Tcp.Codec;
+namespace Tony.Server.Tcp.Codec;
 internal class MessageDecoder : ByteToMessageDecoder {
     protected override void Decode( IChannelHandlerContext context, IByteBuffer input, List<object> output ) {
         if( input.ReadableBytes < 5 )

@@ -5,7 +5,6 @@
 		<TargetFramework>net9.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
-		<UserSecretsId>b288e4b1-9743-485c-bfb2-0341c01539be</UserSecretsId>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -19,7 +18,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Tony.Shared\Tony.Shared.csproj" />
+		<ProjectReference Include="..\Tony.Sdk\Tony.Sdk.csproj" />
 	</ItemGroup>
 
 </Project>

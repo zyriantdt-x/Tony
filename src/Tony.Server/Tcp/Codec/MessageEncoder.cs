@@ -2,7 +2,7 @@
 using DotNetty.Codecs;
 using DotNetty.Transport.Channels;
 
-namespace Tony.Listener.Tcp.Codec;
+namespace Tony.Server.Tcp.Codec;
 internal class MessageEncoder : MessageToMessageEncoder<Message> {
     protected override void Encode( IChannelHandlerContext context, Message message, List<object> output ) {
         IByteBuffer buf = message.Buffer;

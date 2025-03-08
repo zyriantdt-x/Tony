@@ -1,5 +1,5 @@
-﻿namespace Tony.Listener.Encoding;
-internal static class VL64Encoding {
+﻿namespace Tony.Sdk.Encoding;
+public static class VL64Encoding {
     public const byte NEGATIVE = 72;
     public const byte POSITIVE = 73;
     public const int MAX_INTEGER_BYTE_AMOUNT = 6;

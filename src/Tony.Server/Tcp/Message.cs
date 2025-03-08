@@ -1,8 +1,8 @@
 ﻿using DotNetty.Buffers;
 using System;
-using Tony.Listener.Encoding;
+using Tony.Sdk.Encoding;
 
-namespace Tony.Listener.Tcp;
+namespace Tony.Server.Tcp;
 internal class Message {
     public short Header { get; }
 

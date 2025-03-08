@@ -6,9 +6,9 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System.Net;
-using Tony.Listener.Options;
+using Tony.Server.Options;
 
-namespace Tony.Listener.Tcp;
+namespace Tony.Server.Tcp;
 internal class TcpService : IHostedService {
     private readonly ILogger<TcpService> logger;
     private readonly ServerOptions options;
