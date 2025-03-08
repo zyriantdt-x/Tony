@@ -40,7 +40,7 @@ internal class ParserRegistry {
     }
 
     public IParser? GetParser( short header ) {
-        if( !this.parsers.TryGetValue( header, out IParser p ) )
+        if( !this.parsers.TryGetValue( header, out IParser? p ) )
             return null;
 
         return p;

@@ -45,7 +45,7 @@ internal class HandlerRegistry {
     }
 
     public IHandler? GetHandler( string queue_name ) {
-        if( !this.handlers.TryGetValue( queue_name, out IHandler p ) )
+        if( !this.handlers.TryGetValue( queue_name, out IHandler? p ) )
             return null;
 
         return p;

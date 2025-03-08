@@ -46,7 +46,7 @@ internal class HandlerRegistry {
     }
 
     public IHandler? GetHandler( short header ) {
-        if( !this.handlers.TryGetValue( header, out IHandler p ) )
+        if( !this.handlers.TryGetValue( header, out IHandler? p ) )
             return null;
 
         return p;

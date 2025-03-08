@@ -8,5 +8,5 @@ internal interface IParser {
 internal interface IParser<T> : IParser {
     new T Parse( Message message ); // Strongly-typed parsing
 
-    object IParser.Parse( Message message ) => this.Parse( message );
+    object IParser.Parse( Message message ) => this.Parse( message )!;
 }

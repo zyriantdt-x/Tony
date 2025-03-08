@@ -29,7 +29,7 @@ internal class SubscriberService : IHostedService {
         await this.sub.SubscribeAsync( "tony", async ( channel, message ) => {
             this.logger.LogInformation( $"SubscriberService message received: {message}" );
 
-            IEvent? evt = JsonSerializer.Deserialize<IEvent>( message, this.json_opts );
+            IEvent? evt = JsonSerializer.Deserialize<IEvent>( message!, this.json_opts );
             if( evt is null )
                 return;
 

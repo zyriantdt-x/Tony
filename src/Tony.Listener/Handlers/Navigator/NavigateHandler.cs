@@ -19,6 +19,9 @@ internal class NavigateHandler : IHandler<NavigateMessage> {
         IEnumerable<CategoryDto> subcategories = await this.navigator.GetCategoriesByParentId( message.CategoryId );
         IEnumerable<NavNodeDto> navnodes = await this.navigator.GetNavNodesByCategoryId( message.CategoryId );
 
+        if( category is null )
+            return;
+
         await client.SendAsync( new NavNodeInfoComposer() {
             ParentCategory = category,
             Subcategories = subcategories.ToList(),
