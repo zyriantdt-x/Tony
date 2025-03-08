@@ -34,7 +34,7 @@ public class ParserRegistry : IParserRegistry {
                     this.logger.LogInformation( $"Parser {parser_type.Name} registered for header {header_attribute.Header}." );
                 }
             } catch( Exception ex ) {
-                this.logger.LogError( $"Error instantiating parser {parser_type.Name}: {ex.Message}" );
+                this.logger.LogError( $"Error instantiating parser {parser_type.Name}: {ex.ClientMessage}" );
             }
         }
     }

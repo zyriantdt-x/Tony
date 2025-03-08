@@ -1,4 +1,5 @@
-﻿using Tony.Sdk.Revisions;
+﻿using Tony.Sdk.Clients;
+using Tony.Sdk.Revisions;
 namespace Tony.Revisions.V14.Composers.Handshake;
 public class SessionParametersComposer : ComposerBase {
     public override short Header => 257;
@@ -15,8 +16,8 @@ public class SessionParametersComposer : ComposerBase {
             { SessionParameters.TUTORIAL_ENABLED, "0" },
         };
 
-    public override Message Compose() {
-        Message msg = base.Compose();
+    public override ClientMessage Compose() {
+        ClientMessage msg = new( this.Header );
 
         msg.Write( this.Parameters.Count );
 

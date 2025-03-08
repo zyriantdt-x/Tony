@@ -1,4 +1,6 @@
-﻿using Tony.Sdk.Revisions;
+﻿using Tony.Sdk.Clients;
+using Tony.Sdk.Dto;
+using Tony.Sdk.Revisions;
 namespace Tony.Revisions.V14.Composers.Player;
 public class UserObjectComposer : ComposerBase {
     public override short Header => 5;
@@ -24,8 +26,8 @@ public class UserObjectComposer : ComposerBase {
         this.ReceiveNews = dto.ReceiveNews;
     }
 
-    public override Message Compose() {
-        Message msg = base.Compose();
+    public override ClientMessage Compose() {
+        ClientMessage msg = new( this.Header );
         msg.Write( this.Id.ToString()! );
         msg.Write( this.Username );
         msg.Write( this.Figure );

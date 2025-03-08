@@ -1,4 +1,6 @@
-﻿using Tony.Sdk.Revisions;
+﻿using Tony.Sdk.Clients;
+using Tony.Sdk.Dto;
+using Tony.Sdk.Revisions;
 namespace Tony.Revisions.V14.Composers.Navigator;
 public class NavNodeInfoComposer : ComposerBase {
     public override short Header => 220;
@@ -8,8 +10,8 @@ public class NavNodeInfoComposer : ComposerBase {
     public required ICollection<NavNodeDto> Rooms { get; set; }
     public required bool HideFull { get; set; }
 
-    public override Message Compose() {
-        Message msg = base.Compose();
+    public override ClientMessage Compose() {
+        ClientMessage msg = new( this.Header );
 
         msg.Write( this.HideFull );
         msg.Write( this.ParentCategory.Id );

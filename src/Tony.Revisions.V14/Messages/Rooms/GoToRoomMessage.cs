@@ -1,4 +1,4 @@
-﻿namespace Tony.Revisions.V14.Messages.Rooms;
-public class GoToRoomMessage {
+﻿namespace Tony.Revisions.V14.ClientMessages.Rooms;
+public class GoToRoomClientMessage {
     public int RoomId { get; set; }
 }

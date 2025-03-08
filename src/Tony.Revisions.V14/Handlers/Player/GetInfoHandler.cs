@@ -10,7 +10,7 @@ public class GetInfoHandler : IHandler {
         this.player_data = player_data;
     }
 
-    public async Task Handle( TonyClient client, object message ) {
+    public async Task Handle( TonyClient client, object ClientMessage ) {
         if( client.PlayerId is null )
             return;
 

@@ -1,13 +1,13 @@
-﻿using Tony.Revisions.V14.Messages.Rooms;
+﻿using Tony.Revisions.V14.ClientMessages.Rooms;
 
 using Tony.Sdk.Revisions;
 namespace Tony.Revisions.V14.Parsers.Rooms;
 [Header( 57 )]
-public class TryRoomParser : IParser<TryRoomMessage> {
-    public TryRoomMessage Parse( Message message ) {
-        string contents = System.Text.Encoding.Default.GetString( message.RemainingBytes.ToArray() );
+public class TryRoomParser : IParser<TryRoomClientMessage> {
+    public TryRoomClientMessage Parse( ClientMessage ClientMessage ) {
+        string contents = System.Text.Encoding.Default.GetString( ClientMessage.RemainingBytes.ToArray() );
 
-        TryRoomMessage msg = new();
+        TryRoomClientMessage msg = new( this.Header );
 
         if( contents.Length < 1 )
             return msg;

@@ -1,4 +1,4 @@
-﻿namespace Tony.Revisions.V14.Messages.Rooms;
-public class RoomDirectoryMessage {
+﻿namespace Tony.Revisions.V14.ClientMessages.Rooms;
+public class RoomDirectoryClientMessage {
     public bool IsPublic { get; set; }
 }

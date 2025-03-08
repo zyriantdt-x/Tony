@@ -1,9 +1,9 @@
-﻿using Tony.Revisions.V14.Messages.Rooms;
+﻿using Tony.Revisions.V14.ClientMessages.Rooms;
 
 using Tony.Sdk.Revisions;
 namespace Tony.Revisions.V14.Handlers.Rooms;
 [Header( 52 )]
-public class ChatHandler : IHandler<ChatMessage> {
+public class ChatHandler : IHandler<ChatClientMessage> {
     private readonly RoomEntityService entity_service;
     private readonly RoomDataService room_service;
 
@@ -12,7 +12,7 @@ public class ChatHandler : IHandler<ChatMessage> {
         this.room_service = room_service;
     }
 
-    public async Task Handle( TonyClient client, ChatMessage message ) =>
+    public async Task Handle( TonyClient client, ChatClientMessage ClientMessage ) =>
         // do we make the room service orchestrate sending to other servers or do we do it here?
 
 

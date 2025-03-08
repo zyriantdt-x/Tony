@@ -4,5 +4,5 @@ namespace Tony.Sdk.Revisions;
 public abstract class ComposerBase {
     public abstract short Header { get; }
 
-    public abstract IClientMessage Compose();
+    public virtual ClientMessage Compose() => new ClientMessage( this.Header );
 }

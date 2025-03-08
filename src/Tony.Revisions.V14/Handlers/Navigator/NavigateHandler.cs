@@ -1,10 +1,9 @@
-﻿using Tony.Revisions.V14.Composers.Navigator;
-using Tony.Revisions.V14.Messages.Naivgator;
-
+﻿using Tony.Revisions.V14.ClientMessages.Naivgator;
+using Tony.Revisions.V14.Composers.Navigator;
 using Tony.Sdk.Revisions;
 namespace Tony.Revisions.V14.Handlers.Navigator;
 [Header( 150 )]
-public class NavigateHandler : IHandler<NavigateMessage> {
+public class NavigateHandler : IHandler<NavigateClientMessage> {
     private readonly NavigatorService navigator;
     private readonly PlayerDataService player_data;
 
@@ -13,10 +12,10 @@ public class NavigateHandler : IHandler<NavigateMessage> {
         this.player_data = player_data;
     }
 
-    public async Task Handle( TonyClient client, NavigateMessage message ) {
-        CategoryDto? category = await this.navigator.GetCategory( message.CategoryId );
-        IEnumerable<CategoryDto> subcategories = await this.navigator.GetCategoriesByParentId( message.CategoryId );
-        IEnumerable<NavNodeDto> navnodes = await this.navigator.GetNavNodesByCategoryId( message.CategoryId );
+    public async Task Handle( TonyClient client, NavigateClientMessage ClientMessage ) {
+        CategoryDto? category = await this.navigator.GetCategory( ClientMessage.CategoryId );
+        IEnumerable<CategoryDto> subcategories = await this.navigator.GetCategoriesByParentId( ClientMessage.CategoryId );
+        IEnumerable<NavNodeDto> navnodes = await this.navigator.GetNavNodesByCategoryId( ClientMessage.CategoryId );
 
         // this will probably be really fucking slow. we will sort this at some point
         List<NavNodeDto> navnodes_with_owner = [];

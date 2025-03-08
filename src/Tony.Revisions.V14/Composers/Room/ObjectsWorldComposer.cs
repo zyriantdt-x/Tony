@@ -1,10 +1,11 @@
-﻿using Tony.Sdk.Revisions;
+﻿using Tony.Sdk.Clients;
+using Tony.Sdk.Revisions;
 namespace Tony.Revisions.V14.Composers.Room;
 public class ObjectsWorldComposer : ComposerBase {
     public override short Header => 30;
 
-    public override Message Compose() {
-        Message msg = base.Compose();
+    public override ClientMessage Compose() {
+        ClientMessage msg = new( this.Header );
 
         msg.Write( 0 );
 

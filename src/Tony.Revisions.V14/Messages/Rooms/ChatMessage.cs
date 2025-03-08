@@ -1,4 +1,4 @@
-﻿namespace Tony.Revisions.V14.Messages.Rooms;
-public class ChatMessage {
-    public required string Message { get; set; }
+﻿namespace Tony.Revisions.V14.ClientMessages.Rooms;
+public class ChatClientMessage {
+    public required string ClientMessage { get; set; }
 }

@@ -1,10 +1,11 @@
-﻿using Tony.Sdk.Revisions;
+﻿using Tony.Sdk.Clients;
+using Tony.Sdk.Revisions;
 namespace Tony.Revisions.V14.Composers.Player;
 public class RightsComposer : ComposerBase {
     public override short Header => 2;
 
-    public override Message Compose() {
-        Message msg = base.Compose();
+    public override ClientMessage Compose() {
+        ClientMessage msg = new( this.Header );
         msg.Write( "fuse_login" );
         msg.Write( "fuse_trade" );
         msg.Write( "fuse_buy_credits" );

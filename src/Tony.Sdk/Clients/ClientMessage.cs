@@ -1,27 +1,25 @@
 ﻿using DotNetty.Buffers;
-using System;
-using Tony.Sdk.Clients;
 using Tony.Sdk.Encoding;
 
-namespace Tony.Server.Tcp;
-internal class Message : IClientMessage {
+namespace Tony.Sdk.Clients;
+public class ClientMessage {
     public short Header { get; }
 
     public IByteBuffer Buffer { get; set; }
 
-    public Message( IByteBuffer buf ) {
+    public ClientMessage( IByteBuffer buf ) {
         this.Buffer = buf;
         this.Header = ( short )Base64Encoding.Decode( [ this.Buffer.ReadByte(), this.Buffer.ReadByte() ] );
     }
 
-    public Message( short header ) {
+    public ClientMessage( short header ) {
         this.Buffer = Unpooled.Buffer();
         this.Buffer.WriteBytes( Base64Encoding.Encode( header, 2 ) );
         this.Header = header;
     }
 
     public override string ToString() {
-        string str = $"{this.Header} | {System.Text.Encoding.Default.GetString(this.RemainingBytes)}";
+        string str = $"{this.Header} | {System.Text.Encoding.Default.GetString( this.RemainingBytes )}";
 
         for( int i = 0 ; i < 14 ; i++ ) {
             str = str.Replace( Char.ToString( ( char )i ), "{" + i + "}" );
@@ -71,7 +69,7 @@ internal class Message : IClientMessage {
     public void WriteDelimiter( object key, object value, string? delim = null ) {
         this.Buffer.WriteBytes( System.Text.Encoding.Default.GetBytes( key.ToString()! ) );
 
-        if(delim is not null)
+        if( delim is not null )
             this.Buffer.WriteBytes( System.Text.Encoding.Default.GetBytes( delim ) );
 
         this.Buffer.WriteBytes( System.Text.Encoding.Default.GetBytes( value.ToString()! ) );
@@ -111,7 +109,7 @@ internal class Message : IClientMessage {
         return payload;
     }
 
-    public byte[] RemainingBytes { 
+    public byte[] RemainingBytes {
         get {
             this.Buffer.MarkReaderIndex();
 
@@ -120,6 +118,6 @@ internal class Message : IClientMessage {
 
             this.Buffer.ResetReaderIndex();
             return bytes;
-        } 
+        }
     }
 }

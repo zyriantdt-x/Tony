@@ -1,12 +1,14 @@
-﻿using Tony.Sdk.Revisions;
+﻿using Tony.Sdk.Clients;
+using Tony.Sdk.Dto;
+using Tony.Sdk.Revisions;
 namespace Tony.Revisions.V14.Composers.Room;
 class UserObjectsComposer : ComposerBase {
     public override short Header => 28;
 
     public required IEnumerable<RoomEntityDto> Entities { get; set; }
 
-    public override Message Compose() {
-        Message msg = base.Compose();
+    public override ClientMessage Compose() {
+        ClientMessage msg = new( this.Header );
 
         foreach( RoomEntityDto entity in this.Entities ) {
             msg.Write( "\r", true );

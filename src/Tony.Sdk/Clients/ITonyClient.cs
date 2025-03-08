@@ -8,8 +8,8 @@ public interface ITonyClient {
     IChannel Channel { get; set; }
 
     Task SendAsync( ComposerBase msg_composer );
-    Task SendAsync( IClientMessage message );
+    Task SendAsync( ClientMessage message );
     Task SendQueued( ComposerBase msg_composer );
-    Task SendQueued( IClientMessage message );
+    Task SendQueued( ClientMessage message );
     void Flush();
 }

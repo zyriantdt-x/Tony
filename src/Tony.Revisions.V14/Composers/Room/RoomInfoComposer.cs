@@ -1,4 +1,6 @@
-﻿using Tony.Sdk.Revisions;
+﻿using Tony.Sdk.Clients;
+using Tony.Sdk.Dto;
+using Tony.Sdk.Revisions;
 namespace Tony.Revisions.V14.Composers.Room;
 public class RoomInfoComposer : ComposerBase {
     public override short Header => 54;
@@ -6,8 +8,8 @@ public class RoomInfoComposer : ComposerBase {
     public required RoomDataDto RoomData { get; set; }
     public required string OwnerUsername { get; set; }
 
-    public override Message Compose() {
-        Message msg = base.Compose();
+    public override ClientMessage Compose() {
+        ClientMessage msg = new( this.Header );
 
         msg.Write( this.RoomData.SuperUsers );
         msg.Write( this.RoomData.AccessType switch {

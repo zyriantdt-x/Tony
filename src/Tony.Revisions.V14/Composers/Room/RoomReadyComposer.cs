@@ -1,4 +1,5 @@
-﻿using Tony.Sdk.Revisions;
+﻿using Tony.Sdk.Clients;
+using Tony.Sdk.Revisions;
 namespace Tony.Revisions.V14.Composers.Room;
 public class RoomReadyComposer : ComposerBase {
     public string RoomModel { get; set; } = "model_a";
@@ -6,8 +7,8 @@ public class RoomReadyComposer : ComposerBase {
 
     public override short Header => 69;
 
-    public override Message Compose() {
-        Message msg = base.Compose();
+    public override ClientMessage Compose() {
+        ClientMessage msg = new( this.Header );
 
         msg.Write( this.RoomModel );
         msg.Write( " " );
