@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;
 using StackExchange.Redis;
 using Tony.Rooms.Cache;
@@ -6,6 +7,9 @@ using Tony.Rooms.Services;
 using Tony.Rooms.Storage;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder( args );
+builder.WebHost.ConfigureKestrel( options => {
+    options.ConfigureEndpointDefaults( lo => lo.Protocols = HttpProtocols.Http2 );
+} );
 
 // Add services to the container.
 builder.Services.AddGrpc();
