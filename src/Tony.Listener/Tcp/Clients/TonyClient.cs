@@ -1,4 +1,5 @@
-﻿using System.IO.Pipelines;
+﻿using DotNetty.Transport.Channels;
+using System.IO.Pipelines;
 using System.Net.Sockets;
 using Tony.Listener.Composers;
 using Tony.Listener.Encoding;
@@ -9,12 +10,13 @@ internal class TonyClient {
 
     public int? PlayerId { get; set; }
 
-    private readonly PipeWriter pipe;
+    public required IChannel Channel { get; set; }
 
     public async Task SendAsync( ComposerBase msg_composer ) => await this.SendAsync( msg_composer.Compose() );
 
     public async Task SendAsync( Message message ) {
-        List<byte> buf = Base64Encoding.Encode( message.Header, 2 ).ToList();
+        await this.Channel.WriteAndFlushAsync( message );
+        /*List<byte> buf = Base64Encoding.Encode( message.Header, 2 ).ToList();
         buf.AddRange( message.Body );
         buf.Add( 1 );
 
@@ -22,10 +24,6 @@ internal class TonyClient {
 
         //await this.TcpClient.GetStream().WriteAsync( buf.ToArray() );
         await this.pipe.WriteAsync( buf.ToArray() );
-        await this.pipe.FlushAsync();
-    }
-
-    public TonyClient( PipeWriter pipe ) {
-        this.pipe = pipe;
+        await this.pipe.FlushAsync();*/
     }
 }
