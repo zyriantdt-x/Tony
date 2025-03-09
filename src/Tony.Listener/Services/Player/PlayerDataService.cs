@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Options;
 using Tony.Listener.Options;
 using Tony.Shared.Dto;
+using Tony.Shared.Mappers;
 using Tony.Shared.Protos;
 
 namespace Tony.Listener.Services.Player;
@@ -17,18 +18,7 @@ internal class PlayerDataService {
             Id = id
         }, new() );
 
-        return new() {
-            Id = res.Id,
-            Username = res.Username,
-            Credits = res.Credits,
-            Figure = res.Figure,
-            Sex = res.Sex == "M",
-            Mission = res.Mission,
-            Tickets = res.Tickets,
-            PoolFigure = res.PoolFigure,
-            Film = res.Film,
-            ReceiveNews = res.ReceiveNews
-        };
+        return res.ToDto();
     }
 
     public async Task<string> GetUsernameById( int id ) {
