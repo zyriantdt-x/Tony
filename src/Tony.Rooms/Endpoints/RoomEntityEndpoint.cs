@@ -16,7 +16,7 @@ public class RoomEntityEndpoint : Shared.Protos.RoomEntityEndpoint.RoomEntityEnd
         ICollection<RoomEntityDto> entities = await this.entity_service.GetEntitiesInRoom( request.RoomId );
 
         GetEntitiesInRoomResponse res = new();
-        res.Entities.AddRange( entities.Select( entity => entity.ToProto());
+        res.Entities.AddRange( entities.Select( entity => entity.ToProto() ) );
 
         return res;
     }
