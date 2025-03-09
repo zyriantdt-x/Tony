@@ -33,9 +33,7 @@ builder.ConfigureServices( ( ctx, services ) => {
     services.AddSingleton<ChannelHandlerAdapter, TonyChannelHandler>();
 
     // add ef
-    services.AddDbContextFactory<TonyStorage>( options => {
-        options.UseSqlite( ctx.Configuration.GetValue<string>( "SqliteConnectionString" ) ?? "Data Source=C:\\etc\\tony.db" );
-    } );
+    services.AddDbContextFactory<TonyStorage>( options => options.UseSqlite( ctx.Configuration.GetValue<string>( "SqliteConnectionString" ) ?? "Data Source=C:\\etc\\tony.db" ) );
 
     // add cache
     services.AddTransient<NavigatorCache>();
