@@ -1,7 +1,7 @@
-﻿
-using Tony.Shared.Enums;
+﻿using Tony.Sdk.Enums;
+using Tony.Sdk.Revisions.PubSub;
 
-namespace Tony.Shared.Events.Rooms;
+namespace Tony.Revisions.V14.PubSub.Events.Rooms;
 public class RoomChatEvent : IEvent {
     public string Event => "room_chat";
 

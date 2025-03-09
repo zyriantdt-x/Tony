@@ -5,16 +5,12 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{F718D633-8B7A-4B20-82B0-2C7BA5B94C22}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tony.Listener", "src\Tony.Listener\Tony.Listener.csproj", "{61902319-B530-4B8A-BB68-C72FA553D14A}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{67032BEE-BA1C-494E-9728-A5EBB6596DB4}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 		.gitignore = .gitignore
 		README.md = README.md
 	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tony.Shared", "src\Tony.Shared\Tony.Shared.csproj", "{7BFE56F1-48EE-4FB7-86A4-638F44CB2D8B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tony.Sdk", "src\Tony.Sdk\Tony.Sdk.csproj", "{E0C250D1-DBB6-4848-8618-86E198E9B577}"
 EndProject
@@ -28,14 +24,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{61902319-B530-4B8A-BB68-C72FA553D14A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{61902319-B530-4B8A-BB68-C72FA553D14A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{61902319-B530-4B8A-BB68-C72FA553D14A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{61902319-B530-4B8A-BB68-C72FA553D14A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7BFE56F1-48EE-4FB7-86A4-638F44CB2D8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7BFE56F1-48EE-4FB7-86A4-638F44CB2D8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7BFE56F1-48EE-4FB7-86A4-638F44CB2D8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7BFE56F1-48EE-4FB7-86A4-638F44CB2D8B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E0C250D1-DBB6-4848-8618-86E198E9B577}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E0C250D1-DBB6-4848-8618-86E198E9B577}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E0C250D1-DBB6-4848-8618-86E198E9B577}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -53,8 +41,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{61902319-B530-4B8A-BB68-C72FA553D14A} = {F718D633-8B7A-4B20-82B0-2C7BA5B94C22}
-		{7BFE56F1-48EE-4FB7-86A4-638F44CB2D8B} = {F718D633-8B7A-4B20-82B0-2C7BA5B94C22}
 		{E0C250D1-DBB6-4848-8618-86E198E9B577} = {F718D633-8B7A-4B20-82B0-2C7BA5B94C22}
 		{197E642B-5C2E-48B7-874F-33C23AB5AB3D} = {F718D633-8B7A-4B20-82B0-2C7BA5B94C22}
 		{9CEAA7B3-1F70-4864-9C20-F6DA82895D3F} = {F718D633-8B7A-4B20-82B0-2C7BA5B94C22}

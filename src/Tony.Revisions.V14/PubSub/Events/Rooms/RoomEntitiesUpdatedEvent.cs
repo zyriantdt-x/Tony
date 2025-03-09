@@ -1,7 +1,7 @@
-﻿
-using Tony.Shared.Dto;
+﻿using Tony.Sdk.Dto;
+using Tony.Sdk.Revisions.PubSub;
 
-namespace Tony.Shared.Events.Rooms;
+namespace Tony.Revisions.V14.PubSub.Events.Rooms;
 public class RoomEntitiesUpdatedEvent : IEvent {
     public string Event => "ROOM_ENTITIES_UPDATED";
 
