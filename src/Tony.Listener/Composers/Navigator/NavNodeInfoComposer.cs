@@ -26,7 +26,7 @@ internal class NavNodeInfoComposer : ComposerBase {
         }
 
         foreach( NavNodeDto room in this.Rooms ) {
-            if( room.IsPublicRoom) { // public room
+            if( room.IsPublicRoom ) { // public room
                 int idx = 0;
                 string desc = room.Description;
 
@@ -53,7 +53,7 @@ internal class NavNodeInfoComposer : ComposerBase {
                 msg.Write( room.Name );
 
                 // todo: name show check
-                msg.Write( "-" );
+                msg.Write( room.OwnerName );
 
                 msg.Write( room.AccessType switch {
                     AccessType.CLOSED => "closed",
