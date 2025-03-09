@@ -34,17 +34,6 @@ internal class NavigatorService {
             Id = id
         }, new() );
 
-        return res.Rooms.Select( room => new NavNodeDto() {
-            Id = room.Id,
-            IsPublicRoom = false,
-            Name = room.Name,
-            Description = room.Description,
-            VisitorsMax = room.VisitorsMax,
-            VisitorsNow = room.VisitorsNow,
-            CategoryId = room.CategoryId,
-            Ccts = room.Ccts,
-            OwnerName = room.OwnerName,
-            AccessType = ( AccessType )room.AccessType
-        } );
+        return res.Rooms.Select( room => room.ToDto() );
     }
 }
