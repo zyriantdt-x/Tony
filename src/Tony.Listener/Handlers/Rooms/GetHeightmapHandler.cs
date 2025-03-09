@@ -7,14 +7,14 @@ using Tony.Shared.Dto;
 
 namespace Tony.Listener.Handlers.Rooms;
 [Header( 60 )]
-internal class GetHeightmapHandler : IHandler<GetHeightMapMessage> {
+internal class GetHeightmapHandler : IHandler {
     private readonly RoomDataService room_data;
 
     public GetHeightmapHandler( RoomDataService room_data ) {
         this.room_data = room_data;
     }
 
-    public async Task Handle( TonyClient client, GetHeightMapMessage message ) {
+    public async Task Handle( TonyClient client, object message ) {
         RoomDataDto? player_room = await this.room_data.GetPlayerRoomData( client.PlayerId ?? 0 );
         if( player_room is null )
             return;

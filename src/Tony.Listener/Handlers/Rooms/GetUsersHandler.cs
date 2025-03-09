@@ -7,7 +7,7 @@ using Tony.Shared.Dto;
 
 namespace Tony.Listener.Handlers.Rooms;
 [Header( 61 )]
-class GetUsersHandler : IHandler<GetUsersMessage> {
+class GetUsersHandler : IHandler {
     private readonly RoomEntityService entity_service;
     private readonly RoomDataService room_data;
 
@@ -16,7 +16,7 @@ class GetUsersHandler : IHandler<GetUsersMessage> {
         this.room_data = room_data;
     }
 
-    public async Task Handle( TonyClient client, GetUsersMessage message ) {
+    public async Task Handle( TonyClient client, object message ) {
         RoomDataDto? room = await this.room_data.GetPlayerRoomData(client.PlayerId ?? 0);
         if( room is null )
             return;

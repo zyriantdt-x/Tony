@@ -5,6 +5,6 @@ using Tony.Listener.Tcp.Clients;
 
 namespace Tony.Listener.Handlers.Rooms;
 [Header( 182 )]
-internal class GetInterestHandler : IHandler<GetInterestMessage> {
-    public async Task Handle( TonyClient client, GetInterestMessage message ) => await client.SendAsync( new RoomInterestComposer() );
+internal class GetInterestHandler : IHandler {
+    public async Task Handle( TonyClient client, object message ) => await client.SendAsync( new RoomInterestComposer() );
 }

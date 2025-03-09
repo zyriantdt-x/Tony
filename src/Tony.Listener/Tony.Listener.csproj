@@ -22,4 +22,11 @@
 		<ProjectReference Include="..\Tony.Shared\Tony.Shared.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Messages\Messenger\" />
+	  <Folder Include="Messages\Player\" />
+	  <Folder Include="Parsers\Messenger\" />
+	  <Folder Include="Parsers\Player\" />
+	</ItemGroup>
+
 </Project>
