@@ -6,22 +6,24 @@ using Tony.Server.Storage.Entities;
 namespace Tony.Server.Repositories;
 
 internal class PlayerRepository {
-    private readonly TonyStorage storage;
+    private readonly IDbContextFactory<TonyStorage> storage;
 
     public PlayerRepository( IDbContextFactory<TonyStorage> storage_factory ) {
-        this.storage = storage_factory.CreateDbContext();
+        this.storage = storage_factory;
     }
 
     public async Task<PlayerDto?> GetPlayerById( int id ) {
-        PlayerData? player = await this.storage.PlayerData.FindAsync( id );
+        using TonyStorage storage_ctx = await this.storage.CreateDbContextAsync();
+        PlayerData? player = await storage_ctx.PlayerData.FindAsync( id );
         if( player is null )
             return null;
 
         return this.MapEntityToDto( player );
     }
 
-    public async Task<int> GetPlayerByCredentials( string username, string password ) { 
-        PlayerData? player = await this.storage.PlayerData.Where(p => p.Username == username && p.Password == password ).FirstOrDefaultAsync();
+    public async Task<int> GetPlayerByCredentials( string username, string password ) {
+        using TonyStorage storage_ctx = await this.storage.CreateDbContextAsync();
+        PlayerData? player = await storage_ctx.PlayerData.Where(p => p.Username == username && p.Password == password ).FirstOrDefaultAsync();
         if( player is null )
             return -1;
 

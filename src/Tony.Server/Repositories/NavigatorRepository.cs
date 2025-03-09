@@ -6,14 +6,15 @@ using Tony.Server.Storage.Entities;
 
 namespace Tony.Server.Repositories;
 internal class NavigatorRepository {
-    private readonly TonyStorage storage;
+    private readonly IDbContextFactory<TonyStorage> storage;
 
     public NavigatorRepository( IDbContextFactory<TonyStorage> storage_factory ) {
-        this.storage = storage_factory.CreateDbContext();
+        this.storage = storage_factory;
     }
 
     public async Task<NavigatorCategoryDto?> GetCategoryById( int id ) {
-        NavigatorCategory? category = await this.storage.NavigatorCategories.FindAsync( id );
+        using TonyStorage storage_ctx = await this.storage.CreateDbContextAsync();
+        NavigatorCategory? category = await storage_ctx.NavigatorCategories.FindAsync( id );
         if( category is null )
             return null;
 
@@ -21,7 +22,8 @@ internal class NavigatorRepository {
     }
 
     public async Task<IEnumerable<NavigatorCategoryDto>> GetCategoriesByParentId( int id ) {
-        List<NavigatorCategory> subcategory_entities = await this.storage.NavigatorCategories.Where( c => c.ParentId == id ).ToListAsync();
+        using TonyStorage storage_ctx = await this.storage.CreateDbContextAsync();
+        List<NavigatorCategory> subcategory_entities = await storage_ctx.NavigatorCategories.Where( c => c.ParentId == id ).ToListAsync();
         if( subcategory_entities.Count < 1 )
             return [];
 
@@ -29,7 +31,8 @@ internal class NavigatorRepository {
     }
 
     public async Task<IEnumerable<NavNodeDto>> GetNavNodesByCategoryId( int id ) {
-        List<RoomData> rooms = await this.storage.RoomData.Include( r => r.Owner ).Where( r => r.Category == id ).ToListAsync();
+        using TonyStorage storage_ctx = await this.storage.CreateDbContextAsync();
+        List<RoomData> rooms = await storage_ctx.RoomData.Include( r => r.Owner ).Where( r => r.Category == id ).ToListAsync();
         if( rooms.Count < 1 )
             return [];
 

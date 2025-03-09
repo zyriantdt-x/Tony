@@ -6,14 +6,15 @@ using Tony.Server.Storage.Entities;
 
 namespace Tony.Server.Repositories;
 internal class RoomDataRepository {
-    private readonly TonyStorage storage;
+    private readonly IDbContextFactory<TonyStorage> storage;
 
     public RoomDataRepository( IDbContextFactory<TonyStorage> storage_factory ) {
-        this.storage = storage_factory.CreateDbContext();
+        this.storage = storage_factory;
     }
 
     public async Task<RoomDataDto?> GetRoomDataById( int id ) {
-        RoomData? room = await this.storage.RoomData
+        using TonyStorage storage_ctx = await this.storage.CreateDbContextAsync();
+        RoomData? room = await storage_ctx.RoomData
             .Include( r => r.Owner )
             .Include( r => r.Model )
             .FirstOrDefaultAsync( r => r.Id == id );
