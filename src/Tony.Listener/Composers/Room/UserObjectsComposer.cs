@@ -21,7 +21,7 @@ class UserObjectsComposer : ComposerBase {
                     msg.WriteKeyValue( "n", entity.Username );
                     msg.WriteKeyValue( "f", entity.Figure );
                     msg.WriteKeyValue( "s", entity.Sex );
-                    msg.WriteKeyValue( "l", $"{entity.PosX} {entity.PosY} {entity.PosZ}.0" );
+                    msg.WriteKeyValue( "l", $"{entity.PosX} {entity.PosY} {entity.PosZ.ToString("0.0")}" );
                     msg.WriteKeyValue( "c", entity.Motto );
                     break;
             }
