@@ -1,6 +1,7 @@
 ﻿using Grpc.Net.Client;
 using Microsoft.Extensions.Options;
 using Tony.Listener.Options;
+using Tony.Shared.Dto;
 using Tony.Shared.Protos;
 
 namespace Tony.Listener.Services.Player;
@@ -11,12 +12,23 @@ internal class PlayerDataService {
         this.client = new( GrpcChannel.ForAddress( options.Value.PlayerServiceAddress ) );
     }
 
-    public async Task<UserObjectResponse> GetUserObject( int id ) {
+    public async Task<PlayerDto> GetUserObject( int id ) {
         UserObjectResponse res = await this.client.GetUserObjectAsync( new() {
             Id = id
         }, new() );
 
-        return res;
+        return new() {
+            Id = res.Id,
+            Username = res.Username,
+            Credits = 0,
+            Figure = res.Figure,
+            Sex = res.Sex == "M",
+            Mission = res.Mission,
+            Tickets = res.Tickets,
+            PoolFigure = res.PoolFigure,
+            Film = res.Film,
+            ReceiveNews = res.ReceiveNews
+        };
     }
 
     public async Task<int> GetPlayerCredits( int id ) {
@@ -25,7 +37,7 @@ internal class PlayerDataService {
     }
 
     public async Task<string> GetUsernameById( int id ) {
-        UserObjectResponse obj = await this.GetUserObject( id ); // we will make this nicer later
+        PlayerDto obj = await this.GetUserObject( id ); // we will make this nicer later
 
         return obj.Username;
     }

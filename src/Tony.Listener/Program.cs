@@ -71,6 +71,7 @@ builder.ConfigureServices( ( ctx, services ) => {
     services.AddTransient<GoToRoomHandler>();
     services.AddTransient<GetRoomAdHandler>();
     services.AddTransient<GetHeightmapHandler>();
+    services.AddTransient<GetUsersHandler>();
 
     services.AddTransient<MessengerInitHandler>();
 
@@ -79,6 +80,7 @@ builder.ConfigureServices( ( ctx, services ) => {
     services.AddTransient<PlayerDataService>();
     services.AddTransient<NavigatorService>();
     services.AddTransient<RoomDataService>();
+    services.AddTransient<RoomEntityService>();
 
     // logs
     services.AddLogging( logging =>

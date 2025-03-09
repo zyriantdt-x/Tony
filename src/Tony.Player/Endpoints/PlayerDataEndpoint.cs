@@ -1,7 +1,6 @@
 ﻿using Grpc.Core;
-using Tony.Player.Dto;
 using Tony.Player.Services;
-using Tony.Player.Storage.Entities;
+using Tony.Shared.Dto;
 using Tony.Shared.Protos;
 
 namespace Tony.Player.Endpoints;

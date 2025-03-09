@@ -1,5 +1,5 @@
 ﻿using Tony.Listener.Tcp;
-using Tony.Shared.Protos;
+using Tony.Shared.Dto;
 
 namespace Tony.Listener.Composers.Player;
 internal class UserObjectComposer : ComposerBase {
@@ -15,11 +15,11 @@ internal class UserObjectComposer : ComposerBase {
     public int Film { get; init; }
     public bool ReceiveNews { get; init; }
 
-    public UserObjectComposer( UserObjectResponse dto ) {
+    public UserObjectComposer( PlayerDto dto ) {
         this.Id = dto.Id;
         this.Username = dto.Username;
         this.Figure = dto.Figure;
-        this.Sex = dto.Sex;
+        this.Sex = dto.Sex ? "M" : "F";
         this.Mission = dto.Mission;
         this.Tickets = dto.Tickets;
         this.PoolFigure = dto.PoolFigure;

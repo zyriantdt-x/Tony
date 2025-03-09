@@ -5,7 +5,7 @@ option csharp_namespace = "Tony.Shared.Protos";
 package RoomEntity;
 service RoomEntityEndpoint {
 	rpc GetEntitiesInRoom (GetEntitiesInRoomRequest) returns (GetEntitiesInRoomResponse);
-	rpc AddEntityToRoom (AddEntityToRoomRequest) returns (AddEntityToRoomResponse);
+    rpc AddEntityToRoom (AddEntityToRoomRequest) returns (AddEntityToRoomResponse);
 	rpc RemoveEntityFromRoom (RemoveEntityFromRoomRequest) returns (RemoveEntityFromRoomResponse);
 }
 

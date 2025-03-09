@@ -2,7 +2,6 @@
 using Tony.Rooms.Services;
 using Tony.Shared.Dto;
 using Tony.Shared.Protos;
-using static Grpc.Core.Metadata;
 
 namespace Tony.Rooms.Endpoints;
 
