@@ -52,10 +52,15 @@ internal class EventJsonConverter : JsonConverter<EventBase> {
     private static Dictionary<string, Type> LoadEventMap() {
         return AppDomain.CurrentDomain.GetAssemblies()
             .SelectMany( assembly => assembly.GetTypes() )
-            .Where( t => typeof( EventBase ).IsAssignableFrom( t ) && !t.IsAbstract ) // Ensure it's an IEvent and not abstract
-            .Select( t => new { Type = t, Attribute = t.GetCustomAttribute<EventAttribute>() } )
-            .Where( x => x.Attribute != null ) // Only include types with the EventAttribute
-            .ToDictionary( x => x.Attribute!.EventName, x => x.Type );
+            .Where( t => typeof( EventBase ).IsAssignableFrom( t ) && !t.IsAbstract ) // Ensure it's a subclass of EventBase and not abstract
+            .Select( t => {
+                // Create an instance of the type and get the Event property
+                var instance = Activator.CreateInstance( t ) as EventBase;
+                var event_name = instance?.Event; // Get the non-static Event property
+                return new { Type = t, EventName = event_name };
+            } )
+            .Where( x => x.EventName != null ) // Only include types that have a valid Event name
+            .ToDictionary( x => x.EventName!, x => x.Type );
     }
 
     public override EventBase Read( ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options ) {

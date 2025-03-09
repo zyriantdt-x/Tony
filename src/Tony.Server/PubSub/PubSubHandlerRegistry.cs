@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
 using System.Reflection;
-using Tony.Sdk.Revisions;
 using Tony.Sdk.Revisions.PubSub;
 
 namespace Tony.Server.PubSub;
@@ -25,7 +24,7 @@ internal class PubSubHandlerRegistry {
         // Get all types that implement IParser<T> and have the Header attribute
         List<Type> parser_types = AppDomain.CurrentDomain.GetAssemblies()
             .SelectMany( assembly => assembly.GetTypes() )
-            .Where( t => typeof( IHandler ).IsAssignableFrom( t ) && t.IsClass )
+            .Where( t => typeof( IPubSubHandler ).IsAssignableFrom( t ) && t.IsClass )
             .ToList();
 
         foreach( Type handler_type in parser_types ) {
