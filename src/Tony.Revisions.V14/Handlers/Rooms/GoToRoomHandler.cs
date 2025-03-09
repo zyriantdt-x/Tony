@@ -14,7 +14,7 @@ public class GoToRoomHandler : IHandler<GoToRoomClientMessage> {
 
     public GoToRoomHandler( IRoomDataService room_data, IRoomEntityService entity_service, IPlayerService player_data ) {
         this.room_data = room_data;
-        //this.entity_service = entity_service;
+        this.entity_service = entity_service;
         this.player_data = player_data;
     }
 
