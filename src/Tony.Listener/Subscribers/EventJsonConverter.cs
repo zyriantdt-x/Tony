@@ -2,11 +2,13 @@
 using System.Text.Json;
 using Tony.Shared.Events;
 using Tony.Shared.Events.Player;
+using Tony.Shared.Events.Rooms;
 
 // this is so fucking ugly but it works
 internal class EventJsonConverter : JsonConverter<IEvent> {
     private static readonly Dictionary<string, Type> event_map = new() {
         { "login", typeof(LoginEvent) },
+        { "ROOM_ENTITIES_UPDATED", typeof(RoomEntitiesUpdatedEvent) }
         // Add more events here...
     };
 

@@ -35,6 +35,7 @@ internal class RightsComposer : ComposerBase {
         msg.Write( "fuse_see_flat_ids" );
         msg.Write( "fuse_credits" );
         msg.Write( "fuse_housekeeping_alert" );
+        msg.Write( "fuse_habbo_chooser" );
         return msg;
     }
 }

@@ -5,6 +5,7 @@ using Tony.Rooms.Cache;
 using Tony.Rooms.Endpoints;
 using Tony.Rooms.Services;
 using Tony.Rooms.Storage;
+using Tony.Shared;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder( args );
 builder.WebHost.ConfigureKestrel( options => {
@@ -25,6 +26,8 @@ builder.Services.AddScoped<RoomDataService>();
 
 builder.Services.AddScoped<RoomEntityService>();
 builder.Services.AddScoped<RoomEntityCache>();
+
+builder.Services.AddScoped<PublisherService>();
 
 WebApplication app = builder.Build();
 

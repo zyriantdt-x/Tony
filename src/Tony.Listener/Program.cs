@@ -18,6 +18,7 @@ using Tony.Listener.Parsers;
 using Tony.Listener.Services.Player;
 using Tony.Listener.Services.Rooms;
 using Tony.Listener.Subscribers;
+using Tony.Listener.Subscribers.Handlers.Rooms;
 using Tony.Listener.Tcp;
 using Tony.Listener.Tcp.Clients;
 
@@ -48,6 +49,7 @@ builder.ConfigureServices( ( ctx, services ) => {
 
     // pub sub handlers
     services.AddTransient<Tony.Listener.Subscribers.Handlers.Player.LoginHandler>();
+    services.AddTransient<RoomEntitiesUpdatedHandler>();
 
     // tcp helpers
     services.AddSingleton<TonyClientService>();
