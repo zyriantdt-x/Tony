@@ -56,6 +56,7 @@ builder.ConfigureServices( ( ctx, services ) => {
     services.AddTransient<INavigatorService, NavigatorService>();
     services.AddTransient<IPlayerService, PlayerService>();
     services.AddTransient<IRoomDataService, RoomDataService>();
+    services.AddTransient<IRoomEntityService, RoomEntityService>();
 
     LoadRevision( ctx.Configuration[ "RevisionPath" ] ?? "C:\\etc\\Tony.Revisions.V14.dll", services );
 
