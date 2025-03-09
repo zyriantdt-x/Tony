@@ -12,7 +12,7 @@ public static class RoomDataMapper {
         Category = room.Category,
         Ccts = room.Ccts,
         OwnerId = room.OwnerId,
-        AccessType = room.Accesstype,
+        AccessType = ( AccessType )room.Accesstype ,
         Model = room.Model
     };
 
@@ -25,7 +25,7 @@ public static class RoomDataMapper {
         Category = room.Category,
         Ccts = room.Ccts,
         OwnerId = room.OwnerId,
-        Accesstype = room.AccessType,
+        Accesstype = ( int )room.AccessType ,
         Model = room.Model
     };
 }

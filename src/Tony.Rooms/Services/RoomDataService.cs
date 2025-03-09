@@ -32,7 +32,7 @@ public class RoomDataService {
                 Category = room.Category,
                 Ccts = room.Ccts,
                 OwnerId = room.OwnerId,
-                AccessType = room.AccessType,
+                AccessType = ( AccessType )room.AccessType ,
                 Model = room.ModelId
             };
             await this.cache.SaveRoomData( room_data );

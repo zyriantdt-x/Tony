@@ -12,7 +12,11 @@ internal class RoomInfoComposer : ComposerBase {
         Message msg = base.Compose();
 
         msg.Write( this.RoomData.SuperUsers );
-        msg.Write( ( int )this.RoomData.AccessType );
+        msg.Write( this.RoomData.AccessType switch {
+            AccessType.CLOSED => "closed",
+            AccessType.PASSWORD => "password",
+            _ => "open"
+        } );
         msg.Write( this.RoomData.Id );
 
         // todo: allow owner hiding

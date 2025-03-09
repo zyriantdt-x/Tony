@@ -11,7 +11,7 @@ public class RoomDataDto {
     public int Floor { get; set; }
     public bool ShowName { get; set; }
     public bool SuperUsers { get; set; }
-    public int AccessType { get; set; }
+    public AccessType AccessType { get; set; }
     public string? Password { get; set; }
     public int VisitorsNow { get; set; }
     public int VisitorsMax { get; set; }
