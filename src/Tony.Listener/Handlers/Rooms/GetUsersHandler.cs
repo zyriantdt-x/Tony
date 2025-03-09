@@ -6,7 +6,7 @@ using Tony.Listener.Tcp.Clients;
 using Tony.Shared.Dto;
 
 namespace Tony.Listener.Handlers.Rooms;
-[Header( 63 )]
+[Header( 61 )]
 class GetUsersHandler : IHandler<GetUsersMessage> {
     private readonly RoomEntityService entity_service;
     private readonly RoomDataService room_data;
