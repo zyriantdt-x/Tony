@@ -1,4 +1,4 @@
-﻿namespace Tony.Shared.Dto;
+﻿namespace Tony.Sdk.Dto;
 public class RoomDataDto {
     public int Id { get; set; }
     public int OwnerId { get; set; }

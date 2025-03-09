@@ -1,4 +1,4 @@
-﻿namespace Tony.Shared.Dto;
+﻿namespace Tony.Sdk.Dto;
 
 public class PlayerDto {
     public required int Id { get; set; }

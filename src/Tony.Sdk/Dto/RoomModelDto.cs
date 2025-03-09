@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace Tony.Shared.Dto;
+namespace Tony.Sdk.Dto;
 public class RoomModelDto {
     public string Id { get; set; } = "noid";
     public int DoorX { get; set; }

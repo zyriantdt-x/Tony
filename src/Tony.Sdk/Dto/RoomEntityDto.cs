@@ -1,4 +1,4 @@
-﻿namespace Tony.Shared.Dto;
+﻿namespace Tony.Sdk.Dto;
 public class RoomEntityDto {
     public int InstanceId { get; set; } // could be user id, not sure yet
     public int EntityId { get; set; } // haven't decided yet

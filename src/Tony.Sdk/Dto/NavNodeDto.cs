@@ -1,4 +1,4 @@
-﻿namespace Tony.Shared.Dto;
+﻿namespace Tony.Sdk.Dto;
 public class NavNodeDto {
     public int Id { get; set; }
     public bool IsPublicRoom { get; set; }
