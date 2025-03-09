@@ -25,7 +25,7 @@ internal class TonyClientService : ITonyClientService {
         }
     }
 
-    public async Task SendToMany( List<int> player_ids, ComposerBase msg_composer ) {
+    public async Task SendToMany( IEnumerable<int> player_ids, ComposerBase msg_composer ) {
         IEnumerable<ITonyClient> clients = this.connected_clients.Where( client => player_ids.Contains( client.PlayerId ) );
         foreach( TonyClient client in clients ) {
             await client.SendAsync( msg_composer );

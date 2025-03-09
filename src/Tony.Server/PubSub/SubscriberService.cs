@@ -28,7 +28,7 @@ internal class SubscriberService : IHostedService {
         await this.sub.SubscribeAsync( "tony", async ( channel, message ) => {
             this.logger.LogInformation( $"SubscriberService message received: {message}" );
 
-            IEvent? evt = JsonSerializer.Deserialize<IEvent>( message!, this.json_opts );
+            EventBase? evt = JsonSerializer.Deserialize<EventBase>( message!, this.json_opts );
             if( evt is null )
                 return;
 
@@ -36,7 +36,7 @@ internal class SubscriberService : IHostedService {
             if( h is null )
                 return;
 
-            await h.Handle( ( IEvent )evt );
+            await h.Handle( ( EventBase )evt );
 
         } ); // will eventually make multiple queues
         this.logger.LogInformation( "SubscriberService started." );
@@ -46,27 +46,27 @@ internal class SubscriberService : IHostedService {
 }
 
 // this is so fucking ugly but it works
-internal class EventJsonConverter : JsonConverter<IEvent> {
+internal class EventJsonConverter : JsonConverter<EventBase> {
     private static readonly Dictionary<string, Type> event_map = LoadEventMap();
 
     private static Dictionary<string, Type> LoadEventMap() {
         return AppDomain.CurrentDomain.GetAssemblies()
             .SelectMany( assembly => assembly.GetTypes() )
-            .Where( t => typeof( IEvent ).IsAssignableFrom( t ) && !t.IsAbstract ) // Ensure it's an IEvent and not abstract
+            .Where( t => typeof( EventBase ).IsAssignableFrom( t ) && !t.IsAbstract ) // Ensure it's an IEvent and not abstract
             .Select( t => new { Type = t, Attribute = t.GetCustomAttribute<EventAttribute>() } )
             .Where( x => x.Attribute != null ) // Only include types with the EventAttribute
             .ToDictionary( x => x.Attribute!.EventName, x => x.Type );
     }
 
-    public override IEvent Read( ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options ) {
+    public override EventBase Read( ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options ) {
         using JsonDocument doc = JsonDocument.ParseValue( ref reader );
 
         JsonElement root_element = doc.RootElement;
         string? event_type = root_element.GetProperty( "Event" ).GetString() ?? throw new JsonException( "No Event element" );
         Type? event_type_class = event_map[ event_type ] ?? throw new JsonException( $"Unknown event type: {event_type}" );
 
-        return JsonSerializer.Deserialize( root_element.GetRawText(), event_type_class, options ) as IEvent ?? throw new JsonException();
+        return JsonSerializer.Deserialize( root_element.GetRawText(), event_type_class, options ) as EventBase ?? throw new JsonException();
     }
 
-    public override void Write( Utf8JsonWriter writer, IEvent value, JsonSerializerOptions options ) => JsonSerializer.Serialize( writer, value, value.GetType(), options );
+    public override void Write( Utf8JsonWriter writer, EventBase value, JsonSerializerOptions options ) => JsonSerializer.Serialize( writer, value, value.GetType(), options );
 }
