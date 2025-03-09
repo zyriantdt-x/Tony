@@ -45,7 +45,7 @@ message NavNode {
     int32 VisitorsMax = 6;
     int32 CategoryId = 7;
     string Ccts = 8;
-    string OwnerName = 9;
+    int32 OwnerId = 9;
     int32 AccessType = 10;
 }
 

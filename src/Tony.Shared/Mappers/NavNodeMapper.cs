@@ -12,7 +12,7 @@ public static class NavNodeMapper {
         VisitorsNow = room.VisitorsNow,
         CategoryId = room.CategoryId,
         Ccts = room.Ccts,
-        OwnerName = room.OwnerName,
+        OwnerId = room.OwnerId,
         AccessType = ( AccessType )room.AccessType 
     };
 
@@ -25,7 +25,7 @@ public static class NavNodeMapper {
         VisitorsNow = room.VisitorsNow,
         CategoryId = room.CategoryId,
         Ccts = room.Ccts,
-        OwnerName = room.OwnerName,
+        OwnerId = room.OwnerId,
         AccessType = ( int )room.AccessType
     };
 }

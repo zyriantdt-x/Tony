@@ -64,7 +64,7 @@ public class NavigatorService {
                 VisitorsNow = room.VisitorsNow,
                 CategoryId = room.Category,
                 Ccts = room.Ccts,
-                OwnerName = "ellis",
+                OwnerId = room.OwnerId,
                 AccessType = AccessType.OPEN
             } );
             await this.navi_cache.SaveNavNodes( id, nav_nodes );
