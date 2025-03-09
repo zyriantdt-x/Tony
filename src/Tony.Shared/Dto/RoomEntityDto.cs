@@ -11,7 +11,7 @@ public class RoomEntityDto {
 
     public int PosX { get; set; }
     public int PosY { get; set; }
-    public int PosZ { get; set; }
+    public double PosZ { get; set; }
 }
 
 public enum EntityType {

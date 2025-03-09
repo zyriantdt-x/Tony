@@ -21,7 +21,7 @@ message RoomEntityProto {
 
     int32 PosX = 9;
     int32 PosY = 10;
-    int32 PosZ = 11;
+    double PosZ = 11;
 }
 
 message GetEntitiesInRoomRequest {
