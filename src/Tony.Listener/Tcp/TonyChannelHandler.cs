@@ -86,15 +86,15 @@ internal class TonyChannelHandler : ChannelHandlerAdapter {
         this.logger.LogInformation( $"[{client.Channel.RemoteAddress}][i]: {message.ToString()}" );
 
         // this should probably be an exception - might change that in prod
-        IParser? parser = this.parsers.GetParser( message.Header );
-        if( parser is null ) {
-            this.logger.LogWarning( $"Failed to find parser for header {message.Header}" );
-            return;
-        }
-
         Handlers.IHandler? handler = this.handlers.GetHandler( message.Header );
         if( handler is null ) {
             this.logger.LogWarning( $"Failed to find handler for header {message.Header}" );
+            return;
+        }
+
+        IParser? parser = this.parsers.GetParser( message.Header );
+        if( parser is null ) {
+            await handler.Handle( client, message );
             return;
         }
 

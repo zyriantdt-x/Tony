@@ -17,4 +17,12 @@ internal class TonyClient {
         Console.WriteLine( $"SENT: {message.ToString()}" );
         return this.Channel.WriteAndFlushAsync( message );
     }
+
+    public Task SendQueued( ComposerBase msg_composer ) => this.SendQueued( msg_composer.Compose() );
+    public Task SendQueued( Message message ) {
+        Console.WriteLine( $"SENT: {message.ToString()}" );
+        return this.Channel.WriteAsync( message );
+    }
+
+    public void Flush() => this.Channel.Flush();
 }

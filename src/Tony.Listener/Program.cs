@@ -72,6 +72,7 @@ builder.ConfigureServices( ( ctx, services ) => {
     services.AddTransient<GetRoomAdHandler>();
     services.AddTransient<GetHeightmapHandler>();
     services.AddTransient<GetUsersHandler>();
+    services.AddTransient<GetObjectsHandler>();
 
     services.AddTransient<MessengerInitHandler>();
 
