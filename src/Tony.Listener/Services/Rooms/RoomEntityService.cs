@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Options;
 using Tony.Listener.Options;
 using Tony.Shared.Dto;
+using Tony.Shared.Mappers;
 using Tony.Shared.Protos;
 
 namespace Tony.Listener.Services.Rooms; 
@@ -17,37 +18,13 @@ internal class RoomEntityService {
             RoomId = id
         } );
 
-        return res.Entities.Select( entity =>  new RoomEntityDto {
-            InstanceId = entity.InstanceId,
-            EntityId = entity.EntityId,
-            EntityType = ( EntityType )entity.EntityType,
-            Username = entity.Username,
-            Figure = entity.Figure,
-            Sex = entity.Sex,
-            Motto = entity.Motto,
-            Badge = entity.Badge,
-            PosX = entity.PosX,
-            PosY = entity.PosY,
-            PosZ = entity.PosZ
-        } );
+        return res.Entities.Select( entity => entity.ToDto() );
     }
 
     public async Task AddEntityToRoom( int room_id, RoomEntityDto entity ) {
         await this.client.AddEntityToRoomAsync( new() {
             RoomId = room_id,
-            Entity = new() {
-                InstanceId = entity.InstanceId,
-                EntityId = entity.EntityId,
-                EntityType = ( int )entity.EntityType,
-                Username = entity.Username,
-                Figure = entity.Figure,
-                Sex = entity.Sex,
-                Motto = entity.Motto,
-                Badge = entity.Badge,
-                PosX = entity.PosX,
-                PosY = entity.PosY,
-                PosZ = entity.PosZ
-            }
+            Entity = entity.ToProto()
         } );
     }
 

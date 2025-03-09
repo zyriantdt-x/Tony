@@ -1,6 +1,7 @@
 ﻿using Grpc.Core;
 using Tony.Rooms.Services;
 using Tony.Shared.Dto;
+using Tony.Shared.Mappers;
 using Tony.Shared.Protos;
 
 namespace Tony.Rooms.Endpoints;
@@ -15,19 +16,7 @@ public class RoomEntityEndpoint : Shared.Protos.RoomEntityEndpoint.RoomEntityEnd
         ICollection<RoomEntityDto> entities = await this.entity_service.GetEntitiesInRoom( request.RoomId );
 
         GetEntitiesInRoomResponse res = new();
-        res.Entities.AddRange( entities.Select( entity => new RoomEntityProto() {
-            InstanceId = entity.InstanceId,
-            EntityId = entity.EntityId,
-            EntityType = ( int )entity.EntityType,
-            Username = entity.Username,
-            Figure = entity.Figure,
-            Sex = entity.Sex,
-            Motto = entity.Motto,
-            Badge = entity.Badge,
-            PosX = entity.PosX,
-            PosY = entity.PosY,
-            PosZ = entity.PosZ
-        } ) );
+        res.Entities.AddRange( entities.Select( entity => entity.ToProto());
 
         return res;
     }
@@ -35,19 +24,7 @@ public class RoomEntityEndpoint : Shared.Protos.RoomEntityEndpoint.RoomEntityEnd
     public async override Task<AddEntityToRoomResponse> AddEntityToRoom( AddEntityToRoomRequest request, ServerCallContext context ) {
         RoomEntityProto entity = request.Entity;
 
-        await this.entity_service.AddEntityToRoom( request.RoomId, new() {
-            InstanceId = entity.InstanceId,
-            EntityId = entity.EntityId,
-            EntityType = ( EntityType )entity.EntityType ,
-            Username = entity.Username,
-            Figure = entity.Figure,
-            Sex = entity.Sex,
-            Motto = entity.Motto,
-            Badge = entity.Badge,
-            PosX = entity.PosX,
-            PosY = entity.PosY,
-            PosZ = entity.PosZ
-        } );
+        await this.entity_service.AddEntityToRoom( request.RoomId, entity.ToDto() );
 
         return new();
     }
