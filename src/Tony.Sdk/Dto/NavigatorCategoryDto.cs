@@ -1,6 +1,6 @@
 ﻿namespace Tony.Sdk.Dto;
 
-public class CategoryDto {
+public class NavigatorCategoryDto {
     public required int Id { get; set; }
     public required int ParentId { get; set; }
     public required string Name { get; set; }

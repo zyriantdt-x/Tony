@@ -14,7 +14,13 @@ internal class PlayerService : IPlayerService {
     }
 
     public async Task<PlayerDto?> GetPlayerById( int id ) {
-        PlayerDto? player = await this.cache.GetPlayer( id ) ?? await this.repository.GetPlayerById( id );
+        PlayerDto? player = await this.cache.GetPlayer( id );
+        if( player is null ) { 
+            player = await this.repository.GetPlayerById( id );
+
+            await this.cache.SavePlayer( player );
+        }
+
 
         return player;
     }

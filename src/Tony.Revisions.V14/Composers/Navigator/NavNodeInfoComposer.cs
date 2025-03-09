@@ -5,8 +5,8 @@ namespace Tony.Revisions.V14.Composers.Navigator;
 public class NavNodeInfoComposer : ComposerBase {
     public override short Header => 220;
 
-    public required CategoryDto ParentCategory { get; set; }
-    public required ICollection<CategoryDto> Subcategories { get; set; }
+    public required NavigatorCategoryDto ParentCategory { get; set; }
+    public required ICollection<NavigatorCategoryDto> Subcategories { get; set; }
     public required ICollection<NavNodeDto> Rooms { get; set; }
     public required bool HideFull { get; set; }
 
@@ -66,7 +66,7 @@ public class NavNodeInfoComposer : ComposerBase {
             }
         }
 
-        foreach( CategoryDto subcategory in this.Subcategories ) {
+        foreach( NavigatorCategoryDto subcategory in this.Subcategories ) {
             msg.Write( subcategory.Id );
             msg.Write( 0 );
             msg.Write( subcategory.Name );
