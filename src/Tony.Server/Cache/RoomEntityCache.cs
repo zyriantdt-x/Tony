@@ -14,7 +14,7 @@ internal class RoomEntityCache {
         string key = $"room:{room_id}:entities";
         HashEntry[] entities = await this.redis.HashGetAllAsync( key );
 
-        return entities.Select( entity => JsonSerializer.Deserialize<RoomEntityDto>( entity.Value! )! )
+        return entities.Select( entity => JsonSerializer.Deserialize<RoomEntityDto>( entity.Value! )! );
     }
 
     public async Task AddEntityToRoom( int room_id, RoomEntityDto entity ) {

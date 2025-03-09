@@ -46,6 +46,7 @@ builder.ConfigureServices( ( ctx, services ) => {
     services.AddTransient<NavigatorCache>();
     services.AddTransient<PlayerCache>();
     services.AddTransient<RoomDataCache>();
+    services.AddTransient<RoomEntityCache>();
 
     // add repositories
     services.AddTransient<NavigatorRepository>();
