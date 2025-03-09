@@ -1,6 +1,7 @@
 ﻿using DotNetty.Buffers;
 using DotNetty.Codecs;
 using DotNetty.Transport.Channels;
+using Tony.Sdk.Clients;
 using Tony.Sdk.Encoding;
 
 namespace Tony.Server.Tcp.Codec;
@@ -20,7 +21,7 @@ internal class MessageDecoder : ByteToMessageDecoder {
         if( length < 0 )
             return;
 
-        Message message = new( input.ReadBytes( length ) );
+        ClientMessage message = new( input.ReadBytes( length ) );
 
         output.Add( message );
     }

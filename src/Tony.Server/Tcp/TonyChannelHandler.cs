@@ -1,6 +1,7 @@
 ﻿using DotNetty.Common.Utilities;
 using DotNetty.Transport.Channels;
 using Microsoft.Extensions.Logging;
+using Tony.Sdk.Clients;
 using Tony.Sdk.Revisions;
 using Tony.Server.Tcp.Clients;
 
@@ -9,7 +10,7 @@ internal class TonyChannelHandler : ChannelHandlerAdapter {
     public static AttributeKey<TonyClient> SESSION_ATTRIBUTE = AttributeKey<TonyClient>.NewInstance( "SESSION" );
 
     private readonly ILogger<TonyChannelHandler> logger;
-    private readonly TonyClientService session_service;
+    private readonly ITonyClientService session_service;
 
     private readonly IParserRegistry parsers;
     private readonly IHandlerRegistry handlers;
@@ -17,7 +18,7 @@ internal class TonyChannelHandler : ChannelHandlerAdapter {
     public override bool IsSharable => true;
 
     public TonyChannelHandler( ILogger<TonyChannelHandler> logger,
-                           TonyClientService session_service,
+                           ITonyClientService session_service,
                            IHandlerRegistry handlers,
                            IParserRegistry parsers ) {
         this.logger = logger;
@@ -37,7 +38,7 @@ internal class TonyChannelHandler : ChannelHandlerAdapter {
         this.logger.LogInformation( $"New connection from {ctx.Channel.RemoteAddress}" );
 
         // eventually this will be a publish
-        Message message = new( 0 );
+        ClientMessage message = new( 0 );
         _ = session.SendAsync( message );
     }
 
@@ -50,7 +51,7 @@ internal class TonyChannelHandler : ChannelHandlerAdapter {
             return;
         }
 
-        if( session.PlayerId != null ) {
+        if( session.PlayerId >= 1 ) {
             // do some stuff
         }
 
@@ -66,12 +67,12 @@ internal class TonyChannelHandler : ChannelHandlerAdapter {
             return;
         }
 
-        if( msg is not Message ) {
+        if( msg is not ClientMessage ) {
             this.logger.LogError( $"Message read was not parsed ({ctx.Channel.RemoteAddress})" );
             return;
         }
 
-        Message request = ( Message )msg;
+        ClientMessage request = ( ClientMessage )msg;
 
         _ = Task.Run( () => this.ProcessMessage( session, request ) );
 
@@ -81,7 +82,7 @@ internal class TonyChannelHandler : ChannelHandlerAdapter {
     public override void ChannelReadComplete( IChannelHandlerContext context )
         => context.Flush();
 
-    private async Task ProcessMessage( TonyClient client, Message message ) {
+    private async Task ProcessMessage( TonyClient client, ClientMessage message ) {
         this.logger.LogInformation( $"[{client.Channel.RemoteAddress}][i]: {message.ToString()}" );
 
         // this should probably be an exception - might change that in prod

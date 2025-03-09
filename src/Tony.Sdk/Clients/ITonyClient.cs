@@ -4,7 +4,7 @@ using Tony.Sdk.Revisions;
 namespace Tony.Sdk.Clients;
 public interface ITonyClient {
     string Uuid { get; }
-    int PlayerId { get; set; };
+    int PlayerId { get; set; }
     IChannel Channel { get; set; }
 
     Task SendAsync( ComposerBase msg_composer );

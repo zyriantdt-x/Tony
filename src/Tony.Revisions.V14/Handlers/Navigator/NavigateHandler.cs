@@ -3,28 +3,22 @@ using Tony.Revisions.V14.Composers.Navigator;
 using Tony.Sdk.Revisions;
 using Tony.Sdk.Clients;
 using Tony.Sdk.Dto;
+using Tony.Sdk.Services;
 namespace Tony.Revisions.V14.Handlers.Navigator;
 [Header( 150 )]
 public class NavigateHandler : IHandler<NavigateClientMessage> {
-    private readonly NavigatorService navigator;
-    private readonly PlayerDataService player_data;
+    private readonly INavigatorService navigator;
+    private readonly IPlayerService player_data;
 
-    public NavigateHandler( NavigatorService navigator, PlayerDataService player_data ) {
+    public NavigateHandler( INavigatorService navigator, IPlayerService player_data ) {
         this.navigator = navigator;
         this.player_data = player_data;
     }
 
-    public async Task Handle( ITonyClient client, NavigateClientMessage ClientMessage ) {
-        NavigatorCategoryDto? category = await this.navigator.GetCategory( ClientMessage.CategoryId );
-        IEnumerable<NavigatorCategoryDto> subcategories = await this.navigator.GetCategoriesByParentId( ClientMessage.CategoryId );
-        IEnumerable<NavNodeDto> navnodes = await this.navigator.GetNavNodesByCategoryId( ClientMessage.CategoryId );
-
-        // this will probably be really fucking slow. we will sort this at some point
-        List<NavNodeDto> navnodes_with_owner = [];
-        foreach( NavNodeDto navnode in navnodes ) {
-            navnode.OwnerName = await this.player_data.GetUsernameById( navnode.OwnerId );
-            navnodes_with_owner.Add( navnode );
-        }
+    public async Task Handle( ITonyClient client, NavigateClientMessage message ) {
+        NavigatorCategoryDto? category = await this.navigator.GetCategory( message.CategoryId );
+        IEnumerable<NavigatorCategoryDto> subcategories = await this.navigator.GetCategoriesByParentId( message.CategoryId );
+        IEnumerable<NavNodeDto> navnodes = await this.navigator.GetNavNodesByCategoryId( message.CategoryId );
 
         if( category is null )
             return;
@@ -32,7 +26,7 @@ public class NavigateHandler : IHandler<NavigateClientMessage> {
         await client.SendAsync( new NavNodeInfoComposer() {
             ParentCategory = category,
             Subcategories = subcategories.ToList(),
-            Rooms = navnodes_with_owner,
+            Rooms = navnodes.ToList(),
             HideFull = false
         } );
     }

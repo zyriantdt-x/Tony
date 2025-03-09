@@ -1,29 +1,25 @@
 ﻿using Tony.Revisions.V14.Messages.Rooms;
 using Tony.Revisions.V14.Composers.Room;
 using Tony.Sdk.Revisions;
+using Tony.Sdk.Services;
+using Tony.Sdk.Clients;
+using Tony.Sdk.Dto;
 namespace Tony.Revisions.V14.Handlers.Rooms;
 [Header( 21 )]
 public class GetRoomInfoHandler : IHandler<GetRoomInfoClientMessage> {
-    private readonly RoomDataService room_data;
-    private readonly PlayerDataService player_data;
+    private readonly IRoomDataService room_data;
 
-    public GetRoomInfoHandler( RoomDataService room_data, PlayerDataService player_data ) {
+    public GetRoomInfoHandler( IRoomDataService room_data ) {
         this.room_data = room_data;
-        this.player_data = player_data;
     }
 
-    public async Task Handle( ITonyClient client, GetRoomInfoClientMessage ClientMessage ) {
-        RoomDataDto? room = await this.room_data.GetRoomDataById( ClientMessage.RoomId );
+    public async Task Handle( ITonyClient client, GetRoomInfoClientMessage message ) {
+        RoomDataDto? room = await this.room_data.GetRoomDataById( message.RoomId );
         if( room is null )
             return;
 
-        string? owner_name = await this.player_data.GetUsernameById( room.OwnerId );
-        if( owner_name is null )
-            return;
-
         await client.SendAsync( new RoomInfoComposer() {
-            RoomData = room,
-            OwnerUsername = owner_name
+            RoomData = room
         } );
     }
 }

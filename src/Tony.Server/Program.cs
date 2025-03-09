@@ -4,7 +4,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using StackExchange.Redis;
 using System.Reflection;
+using Tony.Sdk.Clients;
 using Tony.Sdk.Options;
 using Tony.Sdk.Services;
 using Tony.Server.Cache;
@@ -12,6 +14,7 @@ using Tony.Server.Repositories;
 using Tony.Server.Services;
 using Tony.Server.Storage;
 using Tony.Server.Tcp;
+using Tony.Server.Tcp.Clients;
 
 IHostBuilder builder = Host.CreateDefaultBuilder( args );
 
@@ -27,8 +30,12 @@ builder.ConfigureServices( ( ctx, services ) => {
     services.AddOptions<ServerOptions>()
         .Bind( ctx.Configuration.GetSection( nameof( ServerOptions ) ) );
 
+    // add redis
+    services.AddSingleton<IConnectionMultiplexer>( ConnectionMultiplexer.Connect( ctx.Configuration.GetValue<string>( "RedisServer" ) ?? "localhost" ) );
+
     // add dotnetty
     services.AddHostedService<TcpService>();
+    services.AddSingleton<ITonyClientService, TonyClientService>();
     services.AddSingleton<ChannelInitializer<IChannel>, TonyChannelInitialiser>();
     services.AddSingleton<ChannelHandlerAdapter, TonyChannelHandler>();
 
@@ -61,6 +68,8 @@ builder.ConfigureServices( ( ctx, services ) => {
         } );
     } );
 } );
+
+await builder.Build().RunAsync();
 
 static void LoadRevision( string path, IServiceCollection services ) {
     if( !File.Exists( path ) ) {

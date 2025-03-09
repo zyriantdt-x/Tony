@@ -1,12 +1,12 @@
 ﻿using Tony.Sdk.Clients;
 using Tony.Sdk.Dto;
+using Tony.Sdk.Enums;
 using Tony.Sdk.Revisions;
 namespace Tony.Revisions.V14.Composers.Room;
 public class RoomInfoComposer : ComposerBase {
     public override short Header => 54;
 
     public required RoomDataDto RoomData { get; set; }
-    public required string OwnerUsername { get; set; }
 
     public override ClientMessage Compose() {
         ClientMessage msg = new( this.Header );
@@ -20,9 +20,9 @@ public class RoomInfoComposer : ComposerBase {
         msg.Write( this.RoomData.Id );
 
         // todo: allow owner hiding
-        msg.Write( this.OwnerUsername );
+        msg.Write( this.RoomData.OwnerName );
 
-        msg.Write( this.RoomData.Model );
+        msg.Write( this.RoomData.ModelId );
         msg.Write( this.RoomData.Name );
         msg.Write( this.RoomData.Description );
 

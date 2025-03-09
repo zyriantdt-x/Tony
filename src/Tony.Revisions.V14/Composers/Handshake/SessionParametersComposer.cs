@@ -1,7 +1,7 @@
 ﻿using Tony.Sdk.Clients;
 using Tony.Sdk.Revisions;
 namespace Tony.Revisions.V14.Composers.Handshake;
-public class SessionParametersComposer : ComposerBase {
+internal class SessionParametersComposer : ComposerBase {
     public override short Header => 257;
 
     public Dictionary<SessionParameters, string> Parameters { get; set; } = new() {

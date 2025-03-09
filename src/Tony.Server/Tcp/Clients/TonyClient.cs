@@ -1,6 +1,7 @@
 ﻿using DotNetty.Transport.Channels;
 using System.Net.Sockets;
 using Tony.Sdk.Clients;
+using Tony.Sdk.Revisions;
 
 namespace Tony.Server.Tcp.Clients;
 internal class TonyClient : ITonyClient {
@@ -11,13 +12,13 @@ internal class TonyClient : ITonyClient {
     public required IChannel Channel { get; set; }
 
     public Task SendAsync( ComposerBase msg_composer ) => this.SendAsync( msg_composer.Compose() );
-    public Task SendAsync( Message message ) {
+    public Task SendAsync( ClientMessage message ) {
         Console.WriteLine( $"SENT: {message.ToString()}" );
         return this.Channel.WriteAndFlushAsync( message );
     }
 
     public Task SendQueued( ComposerBase msg_composer ) => this.SendQueued( msg_composer.Compose() );
-    public Task SendQueued( Message message ) {
+    public Task SendQueued( ClientMessage message ) {
         Console.WriteLine( $"SENT: {message.ToString()}" );
         return this.Channel.WriteAsync( message );
     }

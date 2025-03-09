@@ -1,5 +1,6 @@
 ﻿using Tony.Sdk.Clients;
 using Tony.Sdk.Dto;
+using Tony.Sdk.Enums;
 using Tony.Sdk.Revisions;
 namespace Tony.Revisions.V14.Composers.Navigator;
 public class NavNodeInfoComposer : ComposerBase {

@@ -10,4 +10,6 @@ internal class TonyStorageFactory : IDesignTimeDbContextFactory<TonyStorage>, ID
 
         return new TonyStorage( options_builder.Options );
     }
+
+    public TonyStorage CreateDbContext() => this.CreateDbContext( null );
 }

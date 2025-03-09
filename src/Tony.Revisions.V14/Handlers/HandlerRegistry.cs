@@ -39,7 +39,7 @@ public class HandlerRegistry : IHandlerRegistry {
                     this.logger.LogInformation( $"Handler {handler_type.Name} registered for header {header_attribute.Header}." );
                 }
             } catch( Exception ex ) {
-                this.logger.LogError( $"Error instantiating parser {handler_type.Name}: {ex.ClientMessage}" );
+                this.logger.LogError( $"Error instantiating parser {handler_type.Name}: {ex.Message}" );
             }
         }
     }
