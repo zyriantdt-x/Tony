@@ -9,7 +9,7 @@ using Tony.Sdk.Revisions.PubSub;
 using Tony.Revisions.V14.PubSub.Events.Rooms;
 namespace Tony.Revisions.V14.Handlers.Rooms;
 [Header( 59 )]
-public class GoToRoomHandler : IHandler<GoToRoomClientMessage> {
+public class GoToRoomHandler : IHandler<GoToRoomMessage> {
     private readonly IRoomDataService room_data;
     private readonly IRoomEntityService entity_service;
     private readonly IPlayerService player_data;
@@ -25,8 +25,8 @@ public class GoToRoomHandler : IHandler<GoToRoomClientMessage> {
         this.publisher = publisher;
     }
 
-    public async Task Handle( ITonyClient client, GoToRoomClientMessage ClientMessage ) {
-        RoomDataDto? room_data = await this.room_data.GetRoomDataById( ClientMessage.RoomId );
+    public async Task Handle( ITonyClient client, GoToRoomMessage message ) {
+        RoomDataDto? room_data = await this.room_data.GetRoomDataById( message.RoomId );
         if( room_data is null )
             return;
 

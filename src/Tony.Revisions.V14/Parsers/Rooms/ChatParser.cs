@@ -4,8 +4,8 @@ using Tony.Sdk.Clients;
 using Tony.Sdk.Revisions;
 namespace Tony.Revisions.V14.Parsers.Rooms;
 [Header( 52 )]
-public class ChatParser : IParser<ChatClientMessage> {
-    public ChatClientMessage Parse( ClientMessage ClientMessage ) => new() {
-        ClientMessage = Regex.Replace( ClientMessage.ReadString(), @"[^a-zA-Z0-9\-_@!]", "" ) // maybe we change this?
+public class ChatParser : IParser<ChatMessage> {
+    public ChatMessage Parse( ClientMessage message ) => new() {
+        Message = Regex.Replace( message.ReadString(), @"[^a-zA-Z0-9\-_@!]", "" ) // maybe we change this?
     };
 }

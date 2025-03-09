@@ -1,5 +1,5 @@
 ﻿namespace Tony.Revisions.V14.Messages.Rooms;
-public class TryRoomClientMessage {
+public class TryRoomMessage {
     public int RoomId { get; set; }
     public string? Password { get; set; }
 }

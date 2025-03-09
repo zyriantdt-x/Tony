@@ -7,15 +7,15 @@ using Tony.Sdk.Revisions;
 using Tony.Sdk.Services;
 namespace Tony.Revisions.V14.Handlers.Handshake;
 [Header( 4 )]
-public class TryLoginHandler : IHandler<TryLoginClientMessage> {
+public class TryLoginHandler : IHandler<TryLoginMessage> {
     private readonly IPlayerService player_service;
 
     public TryLoginHandler( IPlayerService player_service ) {
         this.player_service = player_service;
     }
 
-    public async Task Handle( ITonyClient client, TryLoginClientMessage ClientMessage ) {
-        int uid = await this.player_service.Login( ClientMessage.Username.ToLower(), ClientMessage.Password.ToLower() );
+    public async Task Handle( ITonyClient client, TryLoginMessage message ) {
+        int uid = await this.player_service.Login( message.Username.ToLower(), message.Password.ToLower() );
         if( uid < 1 ) {
             await client.SendAsync( new AlertComposer() { Message = "Username or password incorrect." } );
             return;

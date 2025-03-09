@@ -3,11 +3,11 @@ using Tony.Sdk.Clients;
 using Tony.Sdk.Revisions;
 namespace Tony.Revisions.V14.Parsers.Rooms;
 [Header( 57 )]
-public class TryRoomParser : IParser<TryRoomClientMessage> {
-    public TryRoomClientMessage Parse( ClientMessage ClientMessage ) {
-        string contents = System.Text.Encoding.Default.GetString( ClientMessage.RemainingBytes.ToArray() );
+public class TryRoomParser : IParser<TryRoomMessage> {
+    public TryRoomMessage Parse( ClientMessage message ) {
+        string contents = System.Text.Encoding.Default.GetString( message.RemainingBytes.ToArray() );
 
-        TryRoomClientMessage msg = new();
+        TryRoomMessage msg = new();
 
         if( contents.Length < 1 )
             return msg;
