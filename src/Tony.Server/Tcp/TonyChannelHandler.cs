@@ -110,4 +110,9 @@ internal class TonyChannelHandler : ChannelHandlerAdapter {
 
         await handler.Handle( client, parsed_message );
     }
+
+    public override void ExceptionCaught( IChannelHandlerContext context, Exception exception ) {
+        this.logger.LogError( $"Dotnetty caught an exception: {exception}" );
+        context.CloseAsync();
+    }
 }
