@@ -6,6 +6,10 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System.Reflection;
 using Tony.Sdk.Options;
+using Tony.Sdk.Services;
+using Tony.Server.Cache;
+using Tony.Server.Repositories;
+using Tony.Server.Services;
 using Tony.Server.Storage;
 using Tony.Server.Tcp;
 
@@ -23,7 +27,7 @@ builder.ConfigureServices( ( ctx, services ) => {
     services.AddOptions<ServerOptions>()
         .Bind( ctx.Configuration.GetSection( nameof( ServerOptions ) ) );
 
-    // add tcp
+    // add dotnetty
     services.AddHostedService<TcpService>();
     services.AddSingleton<ChannelInitializer<IChannel>, TonyChannelInitialiser>();
     services.AddSingleton<ChannelHandlerAdapter, TonyChannelHandler>();
@@ -32,6 +36,21 @@ builder.ConfigureServices( ( ctx, services ) => {
     services.AddDbContextFactory<TonyStorage>( options => {
         options.UseSqlite( ctx.Configuration.GetValue<string>( "SqliteConnectionString" ) ?? "Data Source=C:\\etc\\tony.db" );
     } );
+
+    // add cache
+    services.AddTransient<NavigatorCache>();
+    services.AddTransient<PlayerCache>();
+    services.AddTransient<RoomDataCache>();
+
+    // add repositories
+    services.AddTransient<NavigatorRepository>();
+    services.AddTransient<PlayerRepository>();
+    services.AddTransient<RoomDataRepository>();
+
+    // add services
+    services.AddTransient<INavigatorService, NavigatorService>();
+    services.AddTransient<IPlayerService, PlayerService>();
+    services.AddTransient<IRoomDataService, RoomDataService>();
 
     LoadRevision( ctx.Configuration[ "RevisionPath" ] ?? "C:\\etc\\Tony.Revisions.V14.dll", services );
 
