@@ -29,12 +29,16 @@ internal class SubscriberService : IHostedService {
             this.logger.LogInformation( $"SubscriberService message received: {message}" );
 
             EventBase? evt = JsonSerializer.Deserialize<EventBase>( message!, this.json_opts );
-            if( evt is null )
+            if( evt is null ) {
+                this.logger.LogError( $"Failed to parse incoming message: {message}" );
                 return;
+            }
 
             IPubSubHandler? h = this.handler_registry.GetHandler( evt.Event );
-            if( h is null )
+            if( h is null ) {
+                this.logger.LogError( $"Failed to find handler for incoming message: {message}" );
                 return;
+            }
 
             await h.Handle( ( EventBase )evt );
 
