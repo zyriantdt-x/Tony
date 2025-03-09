@@ -6,6 +6,7 @@ using Tony.Revisions.V14.Handlers.Player;
 using Tony.Revisions.V14.Handlers.Rooms;
 using Tony.Revisions.V14.PubSub.Handlers.Player;
 using Tony.Revisions.V14.PubSub.Handlers.Rooms;
+using Tony.Revisions.V14.PubSub.Handlers.ServerEvents;
 
 namespace Tony.Revisions.V14;
 public static class DependencyInjection {
@@ -43,5 +44,7 @@ public static class DependencyInjection {
         services.AddTransient<LoginHandler>();
         services.AddTransient<RoomEntitiesUpdatedHandler>();
         services.AddTransient<RoomChatHandler>();
+        services.AddTransient<ChannelConnectedHandler>();
+        services.AddTransient<ChannelDisconnectedHandler>();
     }
 }

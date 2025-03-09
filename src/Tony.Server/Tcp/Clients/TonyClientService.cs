@@ -18,6 +18,7 @@ internal class TonyClientService : ITonyClientService {
     public void DeregisterClient( ITonyClient client ) => this.connected_clients.Remove( client );
 
     public ITonyClient? GetClient( string uuid ) => this.connected_clients.FirstOrDefault( client => client.Uuid == uuid );
+    public ITonyClient? GetClient( int player_id ) => this.connected_clients.FirstOrDefault( client => client.PlayerId == player_id );
 
     public async Task SendToAll( ComposerBase msg_composer ) {
         foreach( TonyClient client in this.connected_clients ) {

@@ -13,5 +13,11 @@ internal class LoginHandler : IPubSubHandler<LoginEvent> {
 
     public async Task Handle( LoginEvent message ) {
         //await this.client.SendToAll( new AlertComposer() { Message = $"New user sign in: {message.Id} / {message.Username}" } );
+        ITonyClient? client = this.clients.GetClient( message.PlayerId );
+        if( client is null )
+            return;
+
+        if( client.Uuid != message.ConnectionId )
+            await client.Channel.DisconnectAsync();
     }
 }

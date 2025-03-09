@@ -3,6 +3,8 @@ using DotNetty.Transport.Channels;
 using Microsoft.Extensions.Logging;
 using Tony.Sdk.Clients;
 using Tony.Sdk.Revisions;
+using Tony.Sdk.Revisions.PubSub;
+using Tony.Sdk.Revisions.PubSub.ServerEvents;
 using Tony.Server.Tcp.Clients;
 using Tony.Server.Tcp.Registries;
 
@@ -16,17 +18,22 @@ internal class TonyChannelHandler : ChannelHandlerAdapter {
     private readonly ParserRegistry parsers;
     private readonly HandlerRegistry handlers;
 
+    private readonly IPublisherService publisher;
+
     public override bool IsSharable => true;
 
     public TonyChannelHandler( ILogger<TonyChannelHandler> logger,
-                           ITonyClientService session_service,
-                           HandlerRegistry handlers,
-                           ParserRegistry parsers ) {
+                               ITonyClientService session_service,
+                               HandlerRegistry handlers,
+                               ParserRegistry parsers,
+                               IPublisherService publisher ) {
         this.logger = logger;
         this.session_service = session_service;
 
         this.handlers = handlers;
         this.parsers = parsers;
+
+        this.publisher = publisher;
     }
 
     public override void ChannelActive( IChannelHandlerContext ctx ) {
@@ -38,9 +45,9 @@ internal class TonyChannelHandler : ChannelHandlerAdapter {
 
         this.logger.LogInformation( $"New connection from {ctx.Channel.RemoteAddress}" );
 
-        // eventually this will be a publish
-        ClientMessage message = new( 0 );
-        _ = session.SendAsync( message );
+        _ = Task.Run( () => this.publisher.Publish( new ChannelConnectedEvent() {
+            ClientId = session.Uuid
+        } ) );
     }
 
     public override void ChannelInactive( IChannelHandlerContext ctx ) {
@@ -52,9 +59,9 @@ internal class TonyChannelHandler : ChannelHandlerAdapter {
             return;
         }
 
-        if( session.PlayerId >= 1 ) {
-            // do some stuff
-        }
+        _ = Task.Run( () => this.publisher.Publish( new ChannelDisconnectedEvent() {
+            ClientId = session.Uuid
+        } ) );
 
         this.session_service.DeregisterClient( session );
 
