@@ -8,13 +8,16 @@ using StackExchange.Redis;
 using System.Reflection;
 using Tony.Sdk.Clients;
 using Tony.Sdk.Options;
+using Tony.Sdk.Revisions.PubSub;
 using Tony.Sdk.Services;
 using Tony.Server.Cache;
+using Tony.Server.PubSub;
 using Tony.Server.Repositories;
 using Tony.Server.Services;
 using Tony.Server.Storage;
 using Tony.Server.Tcp;
 using Tony.Server.Tcp.Clients;
+using Tony.Server.Tcp.Registries;
 
 IHostBuilder builder = Host.CreateDefaultBuilder( args );
 
@@ -32,12 +35,19 @@ builder.ConfigureServices( ( ctx, services ) => {
 
     // add redis
     services.AddSingleton<IConnectionMultiplexer>( ConnectionMultiplexer.Connect( ctx.Configuration.GetValue<string>( "RedisServer" ) ?? "localhost" ) );
+    services.AddSingleton<PubSubHandlerRegistry>();
+    services.AddHostedService<SubscriberService>();
+    services.AddTransient<IPublisherService, PublisherService>();
 
     // add dotnetty
     services.AddHostedService<TcpService>();
     services.AddSingleton<ITonyClientService, TonyClientService>();
     services.AddSingleton<ChannelInitializer<IChannel>, TonyChannelInitialiser>();
     services.AddSingleton<ChannelHandlerAdapter, TonyChannelHandler>();
+
+    // add registries
+    services.AddSingleton<HandlerRegistry>();
+    services.AddSingleton<ParserRegistry>();
 
     // add ef
     services.AddDbContextFactory<TonyStorage>( options => options.UseSqlite( ctx.Configuration.GetValue<string>( "SqliteConnectionString" ) ?? "Data Source=C:\\etc\\tony.db" ) );

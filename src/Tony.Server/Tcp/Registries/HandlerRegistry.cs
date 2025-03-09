@@ -3,8 +3,8 @@ using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
 using System.Reflection;
 using Tony.Sdk.Revisions;
-namespace Tony.Revisions.V14.Handlers;
-public class HandlerRegistry : IHandlerRegistry {
+namespace Tony.Server.Tcp.Registries;
+public class HandlerRegistry {
     private readonly ILogger<HandlerRegistry> logger;
     private readonly ConcurrentDictionary<short, IHandler> handlers;
 
@@ -21,10 +21,10 @@ public class HandlerRegistry : IHandlerRegistry {
 
     private void RegisterHandlers() {
         // Get all types that implement IParser<T> and have the Header attribute
-        List<Type> parser_types = Assembly.GetExecutingAssembly()
-                                  .GetTypes()
-                                  .Where( t => typeof( IHandler ).IsAssignableFrom( t ) && t.IsClass )
-                                  .ToList();
+        List<Type> parser_types = AppDomain.CurrentDomain.GetAssemblies()
+            .SelectMany( assembly => assembly.GetTypes() )
+            .Where( t => typeof( IHandler ).IsAssignableFrom( t ) && t.IsClass )
+            .ToList();
 
         foreach( Type handler_type in parser_types ) {
             HeaderAttribute? header_attribute = handler_type.GetCustomAttribute<HeaderAttribute>();

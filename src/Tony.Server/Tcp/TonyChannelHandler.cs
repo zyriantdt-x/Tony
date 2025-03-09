@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using Tony.Sdk.Clients;
 using Tony.Sdk.Revisions;
 using Tony.Server.Tcp.Clients;
+using Tony.Server.Tcp.Registries;
 
 namespace Tony.Server.Tcp;
 internal class TonyChannelHandler : ChannelHandlerAdapter {
@@ -12,15 +13,15 @@ internal class TonyChannelHandler : ChannelHandlerAdapter {
     private readonly ILogger<TonyChannelHandler> logger;
     private readonly ITonyClientService session_service;
 
-    private readonly IParserRegistry parsers;
-    private readonly IHandlerRegistry handlers;
+    private readonly ParserRegistry parsers;
+    private readonly HandlerRegistry handlers;
 
     public override bool IsSharable => true;
 
     public TonyChannelHandler( ILogger<TonyChannelHandler> logger,
                            ITonyClientService session_service,
-                           IHandlerRegistry handlers,
-                           IParserRegistry parsers ) {
+                           HandlerRegistry handlers,
+                           ParserRegistry parsers ) {
         this.logger = logger;
         this.session_service = session_service;
 

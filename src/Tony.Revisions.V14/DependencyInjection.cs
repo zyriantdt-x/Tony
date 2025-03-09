@@ -1,19 +1,13 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Tony.Revisions.V14.Handlers;
 using Tony.Revisions.V14.Handlers.Handshake;
 using Tony.Revisions.V14.Handlers.Messenger;
 using Tony.Revisions.V14.Handlers.Navigator;
 using Tony.Revisions.V14.Handlers.Player;
 using Tony.Revisions.V14.Handlers.Rooms;
-using Tony.Revisions.V14.Parsers;
-using Tony.Sdk.Revisions;
 
 namespace Tony.Revisions.V14;
 public static class DependencyInjection {
     public static void RegisterServices( IServiceCollection services ) {
-        services.AddSingleton<IParserRegistry, ParserRegistry>();
-        services.AddSingleton<IHandlerRegistry, HandlerRegistry>();
-
         // handhskae
         services.AddTransient<InitCryptoHandler>();
         services.AddTransient<GenerateKeyHandler>();
