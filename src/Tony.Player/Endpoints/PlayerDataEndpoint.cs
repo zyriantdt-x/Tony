@@ -20,6 +20,7 @@ public class PlayerDataEndpoint : Shared.Protos.PlayerDataEndpoint.PlayerDataEnd
         return new() {
             Id = player.Id,
             Username = player.Username,
+            Credits = player.Credits,
             Figure = player.Figure,
             Sex = player.Sex ? "M" : "F",
             Mission = player.Mission,
@@ -27,16 +28,6 @@ public class PlayerDataEndpoint : Shared.Protos.PlayerDataEndpoint.PlayerDataEnd
             PoolFigure = player.PoolFigure,
             Film = player.Film,
             ReceiveNews = player.ReceiveNews
-        };
-    }
-
-    public async override Task<GetCreditsResponse> GetCredits( GetCreditsRequest request, ServerCallContext context ) {
-        PlayerDto? player = await this.player.GetPlayer( request.Id );
-        if( player is null )
-            return null;
-
-        return new() {
-            Credits = player.Credits
         };
     }
 }

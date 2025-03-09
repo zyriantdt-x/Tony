@@ -2,6 +2,7 @@
 using Tony.Listener.Parsers;
 using Tony.Listener.Services.Player;
 using Tony.Listener.Tcp.Clients;
+using Tony.Shared.Dto;
 
 namespace Tony.Listener.Handlers.Player;
 [Header( 8 )]
@@ -16,7 +17,10 @@ internal class GetCreditsHandler : IHandler {
         if( client.PlayerId is null )
             return;
 
-        int credits = await this.player_data.GetPlayerCredits( client.PlayerId ?? throw new Exception() );
-        await client.SendAsync( new CreditBalanceComposer() { Credits = credits } );
+        PlayerDto? player = await this.player_data.GetUserObject( client.PlayerId ?? 0 );
+        if( player is null )
+            return;
+
+        await client.SendAsync( new CreditBalanceComposer() { Credits = player.Credits } );
     }
 }

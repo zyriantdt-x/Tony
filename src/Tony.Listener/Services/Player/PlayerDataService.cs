@@ -20,7 +20,7 @@ internal class PlayerDataService {
         return new() {
             Id = res.Id,
             Username = res.Username,
-            Credits = 0,
+            Credits = res.Credits,
             Figure = res.Figure,
             Sex = res.Sex == "M",
             Mission = res.Mission,
@@ -29,11 +29,6 @@ internal class PlayerDataService {
             Film = res.Film,
             ReceiveNews = res.ReceiveNews
         };
-    }
-
-    public async Task<int> GetPlayerCredits( int id ) {
-        GetCreditsResponse res = await this.client.GetCreditsAsync( new() { Id = id }, new() );
-        return res.Credits;
     }
 
     public async Task<string> GetUsernameById( int id ) {
