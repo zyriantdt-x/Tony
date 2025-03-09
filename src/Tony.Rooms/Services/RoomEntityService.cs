@@ -29,10 +29,14 @@ public class RoomEntityService {
     public async Task RemoveEntityFromRoom( int room_id, int instance_id ) {
         await this.cache.RemoveEntityFromRoom( room_id, instance_id );
 
-        ICollection<RoomEntityDto> updated_entities = await this.GetEntitiesInRoom(room_id );
+        ICollection<RoomEntityDto> updated_entities = await this.GetEntitiesInRoom( room_id );
         await this.pub.Publish( new RoomEntitiesUpdatedEvent() {
             Audience = updated_entities.Where( e => e.EntityType == EntityType.PLAYER ).Select( entity => entity.EntityId ).ToList(), // this is probably slow as fuck, if not it's still ugly
             Entities = updated_entities
         } );
+    }
+
+    public async Task<int?> GetPlayerInstanceId( int player_id ) {
+        
     }
 }

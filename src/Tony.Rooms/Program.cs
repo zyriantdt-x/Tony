@@ -27,6 +27,8 @@ builder.Services.AddScoped<RoomDataService>();
 builder.Services.AddScoped<RoomEntityService>();
 builder.Services.AddScoped<RoomEntityCache>();
 
+builder.Services.AddScoped<RoomChatService>();
+
 builder.Services.AddScoped<PublisherService>();
 
 WebApplication app = builder.Build();

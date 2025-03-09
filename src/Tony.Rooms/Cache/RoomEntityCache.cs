@@ -34,4 +34,6 @@ public class RoomEntityCache {
 
         await this.redis.HashDeleteAsync( key, instance_id );
     }
+
+    public async Task GetEntityBy
 }

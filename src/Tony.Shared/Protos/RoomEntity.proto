@@ -7,6 +7,7 @@ service RoomEntityEndpoint {
 	rpc GetEntitiesInRoom (GetEntitiesInRoomRequest) returns (GetEntitiesInRoomResponse);
     rpc AddEntityToRoom (AddEntityToRoomRequest) returns (AddEntityToRoomResponse);
 	rpc RemoveEntityFromRoom (RemoveEntityFromRoomRequest) returns (RemoveEntityFromRoomResponse);
+    rpc EntityChat (EntityChatRequest) returns (EntityChatResponse);
 }
 
 message RoomEntityProto {
@@ -45,3 +46,12 @@ message RemoveEntityFromRoomRequest {
 }
 
 message RemoveEntityFromRoomResponse {}
+
+message EntityChatRequest {
+    int32 RoomId = 1;
+    int32 PlayerId = 2;
+    int32 ChatType = 3;
+    string Message = 4;
+}
+
+message EntityChatResponse {}

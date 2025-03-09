@@ -1,7 +1,9 @@
-﻿using Grpc.Net.Client;
+﻿using Grpc.Core;
+using Grpc.Net.Client;
 using Microsoft.Extensions.Options;
 using Tony.Listener.Options;
 using Tony.Shared.Dto;
+using Tony.Shared.Enums;
 using Tony.Shared.Mappers;
 using Tony.Shared.Protos;
 
@@ -32,6 +34,15 @@ internal class RoomEntityService {
         await this.client.RemoveEntityFromRoomAsync( new() {
             RoomId = room_id,
             InstanceId = instance_id
+        } );
+    }
+
+    public async Task EntityChat( int room_id, int player_id, ChatType type, string message ) {
+        await this.client.EntityChatAsync( new() {
+            RoomId = room_id,
+            PlayerId = player_id,
+            ChatType = ( int )type,
+            Message = message
         } );
     }
 }
