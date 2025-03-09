@@ -1,4 +1,5 @@
-﻿using DotNetty.Transport.Channels;
+﻿using DotNetty.Handlers.Timeout;
+using DotNetty.Transport.Channels;
 using Tony.Server.Tcp.Codec;
 
 namespace Tony.Server.Tcp;
@@ -14,6 +15,7 @@ internal class TonyChannelInitialiser : ChannelInitializer<IChannel> {
 
         pipeline.AddLast( "gameEncoder", new MessageEncoder() );
         pipeline.AddLast( "gameDecoder", new MessageDecoder() );
+        pipeline.AddLast( new IdleStateHandler( 60, 0, 0 ) );
         pipeline.AddLast( "clientHandler", this.handler );
     }
 }

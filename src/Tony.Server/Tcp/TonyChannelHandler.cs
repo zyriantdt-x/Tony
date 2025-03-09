@@ -1,4 +1,5 @@
 ﻿using DotNetty.Common.Utilities;
+using DotNetty.Handlers.Timeout;
 using DotNetty.Transport.Channels;
 using Microsoft.Extensions.Logging;
 using Tony.Sdk.Clients;
@@ -114,5 +115,12 @@ internal class TonyChannelHandler : ChannelHandlerAdapter {
     public override void ExceptionCaught( IChannelHandlerContext context, Exception exception ) {
         this.logger.LogError( $"Dotnetty caught an exception: {exception}" );
         context.CloseAsync();
+    }
+
+    public override void UserEventTriggered( IChannelHandlerContext context, object evt ) {
+        if( evt is IdleStateEvent idle_event && idle_event.State == IdleState.ReaderIdle ) {
+            this.logger.LogInformation( "Client timed out: " + context.Channel.RemoteAddress );
+            context.CloseAsync();
+        }
     }
 }
