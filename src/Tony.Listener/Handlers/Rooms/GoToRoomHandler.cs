@@ -29,6 +29,10 @@ internal class GoToRoomHandler : IHandler<GoToRoomMessage> {
         if( player is null )
             return;
 
+        RoomModelDto? model = await this.room_data.GetRoomModelById(room_data.Model);
+        if( model is null )
+            return;
+
         await this.room_data.SetPlayerRoom( client.PlayerId ?? 0, room_data.Id );
         await this.entity_service.AddEntityToRoom( room_data.Id, new() {
             InstanceId = new Random().Next( 10000, 100000 ),
@@ -37,7 +41,11 @@ internal class GoToRoomHandler : IHandler<GoToRoomMessage> {
             Username = player.Username,
             Figure = player.Figure,
             Sex = player.Sex ? "M" : "F",
-            Motto = player.Mission
+            Motto = player.Mission,
+
+            PosX = model.DoorX,
+            PosY = model.DoorY,
+            PosZ = model.DoorZ
         } );
 
         await client.SendAsync( new RoomUrlComposer() );
