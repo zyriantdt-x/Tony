@@ -1,0 +1,27 @@
+﻿namespace Tony.Sdk.Enums;
+public enum StatusType {
+    Move,
+    Sit,
+    Lay,
+    FlatControl,
+    Dance,
+    Swim,
+    CarryItem,
+    CarryDrink,
+    CarryFood,
+    UseItem,
+    UseFood,
+    UseDrink,
+    Wave,
+    Gesture,
+    Talk,
+    AvatarSleep,
+    Trade,
+    Sign,
+    Dead,
+    Jump,
+    PetSleep,
+    Eat,
+    Smile,
+    Play
+}

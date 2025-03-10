@@ -23,14 +23,15 @@ internal class ChannelDisconnectedHandler : IPubSubHandler<ChannelDisconnectedEv
         this.publisher = publisher;
     }
 
+    // for fuck sake
     public async Task Handle( ChannelDisconnectedEvent message ) {
-        ITonyClient? client = this.client_service.GetClient( message.ClientId );
-        if( client is null )
+        PlayerDto? player = await this.player_service.GetPlayerById( message.PlayerId );
+        if( player is null )
             return;
 
-        PlayerRoomDto? player_room = await this.player_service.GetPlayerRoom( client.PlayerId );
+        PlayerRoomDto? player_room = await this.player_service.GetPlayerRoom( player.Id );
         if( player_room is not null ) {
-            await this.player_service.SetPlayerRoom( client.PlayerId ); // remove from player map
+            await this.player_service.SetPlayerRoom( player.Id ); // remove from player map
             await this.entity_service.RemoveEntityFromRoom( player_room.RoomId, player_room.InstanceId );
 
             // send updated users
