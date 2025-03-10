@@ -45,7 +45,10 @@ public class GoToRoomHandler : IHandler<GoToRoomMessage> {
 
             PosX = room_data.Model.DoorX,
             PosY = room_data.Model.DoorY,
-            PosZ = room_data.Model.DoorZ
+            PosZ = room_data.Model.DoorZ,
+
+            HeadRotation = room_data.Model.DoorDir,
+            BodyRotation = room_data.Model.DoorDir,
         };
 
         await this.player_data.SetPlayerRoom( player.Id, new() {

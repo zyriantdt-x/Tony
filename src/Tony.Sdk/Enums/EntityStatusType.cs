@@ -1,5 +1,5 @@
 ﻿namespace Tony.Sdk.Enums;
-public enum StatusType {
+public enum EntityStatusType {
     Move,
     Sit,
     Lay,

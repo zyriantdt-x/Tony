@@ -1,4 +1,7 @@
-﻿namespace Tony.Sdk.Dto;
+﻿using System.Collections.Concurrent;
+using Tony.Sdk.Enums;
+
+namespace Tony.Sdk.Dto;
 public class RoomEntityDto {
     public int InstanceId { get; set; } // could be user id, not sure yet
     public int EntityId { get; set; } // haven't decided yet
@@ -12,6 +15,10 @@ public class RoomEntityDto {
     public int PosX { get; set; }
     public int PosY { get; set; }
     public double PosZ { get; set; }
+    public int HeadRotation { get; set; }
+    public int BodyRotation { get; set; }
+
+    public ConcurrentDictionary<EntityStatusType, string> Statuses { get; set; } = [];
 }
 
 public enum EntityType {

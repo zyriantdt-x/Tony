@@ -36,6 +36,7 @@ public static class DependencyInjection {
         services.AddTransient<GetObjectsHandler>();
         services.AddTransient<GetItemsHandler>();
         services.AddTransient<ChatHandler>();
+        services.AddTransient<GetStatusesHandler>();
 
         // messenger
         services.AddTransient<MessengerInitHandler>();
