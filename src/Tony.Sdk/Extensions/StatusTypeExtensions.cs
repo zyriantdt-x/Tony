@@ -30,5 +30,5 @@ public static class StatusTypeExtensions {
         { StatusType.Play, "pla" }
     };
 
-    public static string GetStatusCode( this StatusType status ) => StatusCodes[ status ];
+    public static string GetStatusCode( this StatusType status ) => status_codes[ status ];
 }
