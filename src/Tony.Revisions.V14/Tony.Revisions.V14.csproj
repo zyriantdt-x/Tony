@@ -15,6 +15,10 @@
 		<ProjectReference Include="..\Tony.Sdk\Tony.Sdk.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="PubSub\Handlers\ServerEvents\" />
+	</ItemGroup>
+
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
 		<Exec Command="xcopy $(TargetDir)*.dll C:\\etc /Y" />
 	</Target>

@@ -9,6 +9,8 @@ internal class TonyClient : ITonyClient {
 
     public int PlayerId { get; set; } = -1;
 
+    public bool HasPonged { get; set; }
+
     public required IChannel Channel { get; set; }
 
     public Task SendAsync( ComposerBase msg_composer ) => this.SendAsync( msg_composer.Compose() );

@@ -7,6 +7,8 @@ public interface ITonyClient {
     int PlayerId { get; set; }
     IChannel Channel { get; set; }
 
+    bool HasPonged { get; set; }
+
     Task SendAsync( ComposerBase msg_composer );
     Task SendAsync( ClientMessage message );
     Task SendQueued( ComposerBase msg_composer );

@@ -35,6 +35,7 @@ internal class TcpService : IHostedService {
             .ChildOption( ChannelOption.SoKeepalive, true )
             .ChildOption( ChannelOption.SoReuseaddr, true )
             .ChildOption( ChannelOption.SoRcvbuf, 1024 )
+            .ChildOption( ChannelOption.SoBacklog, 50 )
             .ChildOption( ChannelOption.RcvbufAllocator, new FixedRecvByteBufAllocator( 1024 ) )
             .ChildOption( ChannelOption.Allocator, UnpooledByteBufferAllocator.Default )
             .ChildHandler( this.initialiser );

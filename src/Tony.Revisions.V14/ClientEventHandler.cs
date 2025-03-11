@@ -1,31 +1,29 @@
-﻿using Tony.Revisions.V14.PubSub.Events.Rooms;
+﻿using Tony.Revisions.V14.Composers.Handshake;
+using Tony.Revisions.V14.PubSub.Events.Rooms;
 using Tony.Sdk.Clients;
 using Tony.Sdk.Dto;
 using Tony.Sdk.Revisions.PubSub;
-using Tony.Sdk.Revisions.PubSub.ServerEvents;
 using Tony.Sdk.Services;
 
-namespace Tony.Revisions.V14.PubSub.Handlers.ServerEvents;
-[Event( "channel_disconnected" )]
-internal class ChannelDisconnectedHandler : IPubSubHandler<ChannelDisconnectedEvent> {
+namespace Tony.Revisions.V14;
+internal class ClientEventHandler : IClientEventHandler {
     private readonly ITonyClientService client_service;
     private readonly IPlayerService player_service;
     private readonly IRoomEntityService entity_service;
     private readonly IPublisherService publisher;
 
-    public ChannelDisconnectedHandler( ITonyClientService client_service, 
-                                       IPlayerService player_service, 
-                                       IRoomEntityService entity_service,
-                                       IPublisherService publisher ) {
+    public ClientEventHandler( ITonyClientService client_service,
+                               IPlayerService player_service,
+                               IRoomEntityService entity_service,
+                               IPublisherService publisher ) {
         this.client_service = client_service;
         this.player_service = player_service;
         this.entity_service = entity_service;
         this.publisher = publisher;
     }
 
-    // for fuck sake
-    public async Task Handle( ChannelDisconnectedEvent message ) {
-        PlayerDto? player = await this.player_service.GetPlayerById( message.PlayerId );
+    public async Task OnClientDeregistered( ITonyClient client ) {
+        PlayerDto? player = await this.player_service.GetPlayerById( client.PlayerId );
         if( player is null )
             return;
 
@@ -42,4 +40,8 @@ internal class ChannelDisconnectedHandler : IPubSubHandler<ChannelDisconnectedEv
             } );
         }
     }
+
+    public async Task OnClientRegistered( ITonyClient client ) => await client.SendAsync( new HelloComposer() );
+
+    public async Task OnClientPing( ITonyClient client ) => await client.SendAsync( new PingComposer() ); // pong handler must set HasPonged on client
 }

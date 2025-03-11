@@ -5,7 +5,6 @@ using Microsoft.Extensions.Logging;
 using Tony.Sdk.Clients;
 using Tony.Sdk.Revisions;
 using Tony.Sdk.Revisions.PubSub;
-using Tony.Sdk.Revisions.PubSub.ServerEvents;
 using Tony.Server.Tcp.Clients;
 using Tony.Server.Tcp.Registries;
 
@@ -19,22 +18,17 @@ internal class TonyChannelHandler : ChannelHandlerAdapter {
     private readonly ParserRegistry parsers;
     private readonly HandlerRegistry handlers;
 
-    private readonly IPublisherService publisher;
-
     public override bool IsSharable => true;
 
     public TonyChannelHandler( ILogger<TonyChannelHandler> logger,
                                ITonyClientService session_service,
                                HandlerRegistry handlers,
-                               ParserRegistry parsers,
-                               IPublisherService publisher ) {
+                               ParserRegistry parsers ) {
         this.logger = logger;
         this.session_service = session_service;
 
         this.handlers = handlers;
         this.parsers = parsers;
-
-        this.publisher = publisher;
     }
 
     public override void ChannelActive( IChannelHandlerContext ctx ) {
@@ -45,10 +39,6 @@ internal class TonyChannelHandler : ChannelHandlerAdapter {
         this.session_service.RegisterClient( session );
 
         this.logger.LogInformation( $"New connection from {ctx.Channel.RemoteAddress}" );
-
-        _ = Task.Run( () => this.publisher.Publish( new ChannelConnectedEvent() {
-            ClientId = session.Uuid
-        } ) );
     }
 
     public override void ChannelInactive( IChannelHandlerContext ctx ) {
@@ -59,10 +49,6 @@ internal class TonyChannelHandler : ChannelHandlerAdapter {
             this.logger.LogError( $"Session-less channel closed ({ctx.Channel.RemoteAddress})" );
             return;
         }
-
-        _ = Task.Run( () => this.publisher.Publish( new ChannelDisconnectedEvent() {
-            ClientId = session.Uuid
-        } ) );
 
         this.session_service.DeregisterClient( session );
 
@@ -118,9 +104,19 @@ internal class TonyChannelHandler : ChannelHandlerAdapter {
     }
 
     public override void UserEventTriggered( IChannelHandlerContext context, object evt ) {
+        TonyClient? session = context.Channel.GetAttribute( SESSION_ATTRIBUTE ).Get();
+        if( session == null ) {
+            return; 
+        }
+
         if( evt is IdleStateEvent idle_event && idle_event.State == IdleState.ReaderIdle ) {
             this.logger.LogInformation( "Client timed out: " + context.Channel.RemoteAddress );
             context.CloseAsync();
+
+            if(session.HasPonged) {
+                session.HasPonged = false;
+                this
+            }
         }
     }
 }
