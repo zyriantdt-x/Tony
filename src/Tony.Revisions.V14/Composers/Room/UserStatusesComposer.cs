@@ -32,7 +32,7 @@ internal class UserStatusesComposer : ComposerBase {
                 msg.Write( "/", true );
             }
 
-            msg.Write( 13, true );
+            msg.Write( (char)13, true );
         }
 
         return msg;

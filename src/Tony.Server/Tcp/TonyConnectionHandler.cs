@@ -54,6 +54,9 @@ internal class TonyConnectionHandler : ConnectionHandler {
             pipe_reader.AdvanceTo( reader_sequence.Position );
         }
 
+        // this is such an excellent idea and i need applauding for this
+        this.ProcessPacket( client, Base64Encoding.Encode( 137, 2 ) );
+
         this.logger.LogInformation( $"Client disconnected: {connection.RemoteEndPoint}" );
         this.client_service.DeregisterClient( client );
     }

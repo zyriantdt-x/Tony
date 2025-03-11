@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Tony.Revisions.V14.Composers.Handshake;
 using Tony.Revisions.V14.Handlers.Handshake;
 using Tony.Revisions.V14.Handlers.Messenger;
 using Tony.Revisions.V14.Handlers.Navigator;
@@ -16,6 +17,7 @@ public static class DependencyInjection {
         services.AddTransient<InitCryptoHandler>();
         services.AddTransient<GenerateKeyHandler>();
         services.AddTransient<TryLoginHandler>();
+        services.AddTransient<DisconnectHandler>();
 
         // player
         services.AddTransient<GetInfoHandler>();
