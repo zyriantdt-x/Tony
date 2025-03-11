@@ -5,16 +5,17 @@ namespace Tony.Sdk.Clients;
 public class ClientMessage {
     public short Header { get; }
 
-    public IByteBuffer Buffer { get; set; }
+    private readonly List<byte> buffer;
 
-    public ClientMessage( IByteBuffer buf ) {
-        this.Buffer = buf;
-        this.Header = ( short )Base64Encoding.Decode( [ this.Buffer.ReadByte(), this.Buffer.ReadByte() ] );
+    private int read_idx = 0;
+
+    public ClientMessage( byte[] buffer ) {
+        this.buffer = new( buffer );
+        this.Header = ( short )Base64Encoding.Decode( this.ReadBytes( 2 ) );
     }
 
     public ClientMessage( short header ) {
-        this.Buffer = Unpooled.Buffer();
-        this.Buffer.WriteBytes( Base64Encoding.Encode( header, 2 ) );
+        this.buffer = [.. Base64Encoding.Encode( header, 2 )];
         this.Header = header;
     }
 
@@ -31,48 +32,48 @@ public class ClientMessage {
     // might change this
     public void Write( object obj, bool as_object = false ) {
         if( as_object ) {
-            this.Buffer.WriteBytes( System.Text.Encoding.Default.GetBytes( obj.ToString()! ) );
+            this.buffer.AddRange( System.Text.Encoding.Default.GetBytes( obj.ToString()! ) );
             return;
         }
 
         switch( obj ) {
             case string s:
-                this.Buffer.WriteBytes( System.Text.Encoding.Default.GetBytes( s ) );
-                this.Buffer.WriteByte( 2 );
+                this.buffer.AddRange( System.Text.Encoding.Default.GetBytes( s ) );
+                this.buffer.Add( 2 );
                 break;
             case int i:
-                this.Buffer.WriteBytes( VL64Encoding.Encode( i ) );
+                this.buffer.AddRange( VL64Encoding.Encode( i ) );
                 break;
             case bool b:
-                this.Buffer.WriteBytes( VL64Encoding.Encode( b ? 1 : 0 ) );
+                this.buffer.AddRange( VL64Encoding.Encode( b ? 1 : 0 ) );
                 break;
             case object o:
-                this.Buffer.WriteBytes( System.Text.Encoding.Default.GetBytes( o.ToString()! ) );
+                this.buffer.AddRange( System.Text.Encoding.Default.GetBytes( o.ToString()! ) );
                 break;
         }
     }
 
     public void WriteKeyValue( object key, object value ) {
-        this.Buffer.WriteBytes( System.Text.Encoding.Default.GetBytes( key.ToString()! ) );
-        this.Buffer.WriteBytes( System.Text.Encoding.Default.GetBytes( ":" ) );
-        this.Buffer.WriteBytes( System.Text.Encoding.Default.GetBytes( value.ToString()! ) );
-        this.Buffer.WriteByte( 13 );
+        this.buffer.AddRange( System.Text.Encoding.Default.GetBytes( key.ToString()! ) );
+        this.buffer.AddRange( System.Text.Encoding.Default.GetBytes( ":" ) );
+        this.buffer.AddRange( System.Text.Encoding.Default.GetBytes( value.ToString()! ) );
+        this.buffer.Add( 13 );
     }
 
     public void WriteValue( object key, object value ) {
-        this.Buffer.WriteBytes( System.Text.Encoding.Default.GetBytes( key.ToString()! ) );
-        this.Buffer.WriteBytes( System.Text.Encoding.Default.GetBytes( "=" ) );
-        this.Buffer.WriteBytes( System.Text.Encoding.Default.GetBytes( value.ToString()! ) );
-        this.Buffer.WriteByte( 13 );
+        this.buffer.AddRange( System.Text.Encoding.Default.GetBytes( key.ToString()! ) );
+        this.buffer.AddRange( System.Text.Encoding.Default.GetBytes( "=" ) );
+        this.buffer.AddRange( System.Text.Encoding.Default.GetBytes( value.ToString()! ) );
+        this.buffer.Add( 13 );
     }
 
     public void WriteDelimiter( object key, object value, string? delim = null ) {
-        this.Buffer.WriteBytes( System.Text.Encoding.Default.GetBytes( key.ToString()! ) );
+        this.buffer.AddRange( System.Text.Encoding.Default.GetBytes( key.ToString()! ) );
 
         if( delim is not null )
-            this.Buffer.WriteBytes( System.Text.Encoding.Default.GetBytes( delim ) );
+            this.buffer.AddRange( System.Text.Encoding.Default.GetBytes( delim ) );
 
-        this.Buffer.WriteBytes( System.Text.Encoding.Default.GetBytes( value.ToString()! ) );
+        this.buffer.AddRange( System.Text.Encoding.Default.GetBytes( value.ToString()! ) );
     }
 
     public int ReadInt() {
@@ -102,22 +103,12 @@ public class ClientMessage {
         return System.Text.Encoding.Default.GetString( data );
     }
 
-    public byte[] ReadBytes( int len ) {
-        byte[] payload = new byte[ len ];
-        this.Buffer.ReadBytes( payload );
+    public byte[] ReadBytes( int len ) => this.buffer[ this.read_idx..(this.read_idx += len) ].ToArray();
 
-        return payload;
-    }
+    public byte[] RemainingBytes => this.buffer[ this.read_idx.. ].ToArray();
 
-    public byte[] RemainingBytes {
-        get {
-            this.Buffer.MarkReaderIndex();
-
-            byte[] bytes = new byte[ this.Buffer.ReadableBytes ];
-            this.Buffer.ReadBytes( bytes );
-
-            this.Buffer.ResetReaderIndex();
-            return bytes;
-        }
+    public byte[] Finalise() {
+        this.buffer.Add( 1 );
+        return this.buffer.ToArray();
     }
 }

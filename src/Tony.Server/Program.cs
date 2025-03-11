@@ -1,4 +1,6 @@
-﻿using DotNetty.Transport.Channels;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Connections;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,69 +21,72 @@ using Tony.Server.Tcp;
 using Tony.Server.Tcp.Clients;
 using Tony.Server.Tcp.Registries;
 
-IHostBuilder builder = Host.CreateDefaultBuilder( args );
+WebApplicationBuilder builder = WebApplication.CreateBuilder( args );
 
-//  configuration
-builder.ConfigureAppConfiguration( conf => {
-    conf.SetBasePath( Directory.GetCurrentDirectory() )
-        .AddUserSecrets<Program>()
-        .AddEnvironmentVariables();
+builder.WebHost.ConfigureKestrel( optioms => {
+    optioms.ListenAnyIP( 12321, listen_options => {
+        listen_options.UseConnectionHandler<TonyConnectionHandler>();
+    } );
 } );
 
-builder.ConfigureServices( ( ctx, services ) => {
-    // options
-    services.AddOptions<ServerOptions>()
-        .Bind( ctx.Configuration.GetSection( nameof( ServerOptions ) ) );
+builder.Configuration
+    .SetBasePath( Directory.GetCurrentDirectory() )
+    .AddUserSecrets<Program>()
+    .AddEnvironmentVariables();
 
-    // add redis
-    services.AddSingleton<IConnectionMultiplexer>( ConnectionMultiplexer.Connect( ctx.Configuration.GetValue<string>( "RedisServer" ) ?? "localhost" ) );
-    services.AddSingleton<PubSubHandlerRegistry>();
-    services.AddHostedService<SubscriberService>();
-    services.AddTransient<IPublisherService, PublisherService>();
+// options
+builder.Services.AddOptions<ServerOptions>()
+    .Bind( builder.Configuration.GetSection( nameof( ServerOptions ) ) );
 
-    // add dotnetty
-    services.AddHostedService<TcpService>();
-    services.AddSingleton<ITonyClientService, TonyClientService>();
-    services.AddSingleton<ChannelInitializer<IChannel>, TonyChannelInitialiser>();
-    services.AddSingleton<ChannelHandlerAdapter, TonyChannelHandler>();
+// add redis
+builder.Services.AddSingleton<IConnectionMultiplexer>( ConnectionMultiplexer.Connect( builder.Configuration.GetValue<string>( "RedisServer" ) ?? "localhost" ) );
+builder.Services.AddSingleton<PubSubHandlerRegistry>();
+builder.Services.AddHostedService<SubscriberService>();
+builder.Services.AddTransient<IPublisherService, PublisherService>();
 
-    // add registries
-    services.AddSingleton<HandlerRegistry>();
-    services.AddSingleton<ParserRegistry>();
+// add dotnetty
+//builder.Services.AddHostedService<TcpService>();
+builder.Services.AddSingleton<ITonyClientService, TonyClientService>();
+//builder.Services.AddSingleton<ChannelInitializer<IChannel>, TonyChannelInitialiser>();
+//builder.Services.AddSingleton<ChannelHandlerAdapter, TonyChannelHandler>();
 
-    // add ef
-    services.AddDbContextFactory<TonyStorage>( options => options.UseSqlite( ctx.Configuration.GetValue<string>( "SqliteConnectionString" ) ?? "Data Source=C:\\etc\\tony.db" ) );
+// add registries
+builder.Services.AddSingleton<HandlerRegistry>();
+builder.Services.AddSingleton<ParserRegistry>();
 
-    // add cache
-    services.AddTransient<NavigatorCache>();
-    services.AddTransient<PlayerCache>();
-    services.AddTransient<RoomDataCache>();
-    services.AddTransient<RoomEntityCache>();
+// add ef
+builder.Services.AddDbContextFactory<TonyStorage>( options => options.UseSqlite( builder.Configuration.GetValue<string>( "SqliteConnectionString" ) ?? "Data Source=C:\\etc\\tony.db" ) );
 
-    // add repositories
-    services.AddTransient<NavigatorRepository>();
-    services.AddTransient<PlayerRepository>();
-    services.AddTransient<RoomDataRepository>();
+// add cache
+builder.Services.AddTransient<NavigatorCache>();
+builder.Services.AddTransient<PlayerCache>();
+builder.Services.AddTransient<RoomDataCache>();
+builder.Services.AddTransient<RoomEntityCache>();
 
-    // add services
-    services.AddTransient<INavigatorService, NavigatorService>();
-    services.AddTransient<IPlayerService, PlayerService>();
-    services.AddTransient<IRoomDataService, RoomDataService>();
-    services.AddTransient<IRoomEntityService, RoomEntityService>();
+// add repositories
+builder.Services.AddTransient<NavigatorRepository>();
+builder.Services.AddTransient<PlayerRepository>();
+builder.Services.AddTransient<RoomDataRepository>();
 
-    LoadRevision( ctx.Configuration[ "RevisionPath" ] ?? "C:\\etc\\Tony.Revisions.V14.dll", services );
+// add builder.Services
+builder.Services.AddTransient<INavigatorService, NavigatorService>();
+builder.Services.AddTransient<IPlayerService, PlayerService>();
+builder.Services.AddTransient<IRoomDataService, RoomDataService>();
+builder.Services.AddTransient<IRoomEntityService, RoomEntityService>();
 
-    // logs
-    services.AddLogging( logging => {
-        logging.ClearProviders(); // Remove default logging providers
-        logging.AddSimpleConsole( options => {
-            options.SingleLine = true;
-            options.TimestampFormat = "yyyy-MM-dd HH:mm:ss ";
-        } );
+LoadRevision( builder.Configuration[ "RevisionPath" ] ?? "C:\\etc\\Tony.Revisions.V14.dll", builder.Services );
+
+// logs
+builder.Services.AddLogging( logging => {
+    logging.ClearProviders(); // Remove default logging providers
+    logging.AddSimpleConsole( options => {
+        options.SingleLine = true;
+        options.TimestampFormat = "yyyy-MM-dd HH:mm:ss ";
     } );
 } );
 
 await builder.Build().RunAsync();
+
 
 static void LoadRevision( string path, IServiceCollection services ) {
     if( !File.Exists( path ) ) {

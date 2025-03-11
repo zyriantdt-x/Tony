@@ -6,15 +6,11 @@ using Tony.Revisions.V14.Handlers.Player;
 using Tony.Revisions.V14.Handlers.Rooms;
 using Tony.Revisions.V14.PubSub.Handlers.Player;
 using Tony.Revisions.V14.PubSub.Handlers.Rooms;
-using Tony.Revisions.V14.PubSub.Handlers.ServerEvents;
 using Tony.Sdk.Clients;
 
 namespace Tony.Revisions.V14;
 public static class DependencyInjection {
     public static void RegisterServices( IServiceCollection services ) {
-        // this will effectively be a singleton, but it will do for now...
-        services.AddTransient<IClientEventHandler, ClientEventHandler>();
-
         /* TCP */
         // handhskae
         services.AddTransient<InitCryptoHandler>();
@@ -49,7 +45,5 @@ public static class DependencyInjection {
         services.AddTransient<LoginHandler>();
         services.AddTransient<RoomEntitiesUpdatedHandler>();
         services.AddTransient<RoomChatHandler>();
-        services.AddTransient<ChannelConnectedHandler>();
-        services.AddTransient<ChannelDisconnectedHandler>();
     }
 }

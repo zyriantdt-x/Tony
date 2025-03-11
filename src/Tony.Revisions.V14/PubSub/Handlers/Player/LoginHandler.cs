@@ -18,6 +18,6 @@ internal class LoginHandler : IPubSubHandler<LoginEvent> {
             return;
 
         if( client.Uuid != message.ConnectionId )
-            await client.Channel.CloseAsync();
+            await client.Kill();
     }
 }

@@ -9,11 +9,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="DotNetty.Buffers" Version="0.7.6" />
-		<PackageReference Include="DotNetty.Codecs" Version="0.7.6" />
-		<PackageReference Include="DotNetty.Common" Version="0.7.6" />
-		<PackageReference Include="DotNetty.Handlers" Version="0.7.6" />
-		<PackageReference Include="DotNetty.Transport" Version="0.7.6" />
+		<PackageReference Include="Grpc.AspNetCore" Version="2.67.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Connections.Abstractions" Version="9.0.2" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.2" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.2" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.2" />

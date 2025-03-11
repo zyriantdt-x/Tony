@@ -7,25 +7,19 @@ internal class TonyClientService : ITonyClientService {
     private readonly ILogger<TonyClientService> logger;
 
     private readonly List<ITonyClient> connected_clients;
-    private readonly IClientEventHandler evt_handler;
 
-    public TonyClientService( ILogger<TonyClientService> logger, IClientEventHandler evt_handler ) {
+    public TonyClientService( ILogger<TonyClientService> logger ) {
         this.logger = logger;
 
         this.connected_clients = new();
-        this.evt_handler = evt_handler;
     }
 
     public void RegisterClient( ITonyClient client ) {
         this.connected_clients.Add( client );
-
-        _ = Task.Run( () => this.evt_handler.OnClientRegistered( client ) );
     }
 
     public void DeregisterClient( ITonyClient client ) {
         this.connected_clients.Remove( client );
-
-        _ = Task.Run( () => this.evt_handler.OnClientDeregistered( client ) );
     }
 
     public ITonyClient? GetClient( string uuid ) => this.connected_clients.FirstOrDefault( client => client.Uuid == uuid );

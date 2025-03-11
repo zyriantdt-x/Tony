@@ -5,7 +5,7 @@ namespace Tony.Sdk.Clients;
 public interface ITonyClient {
     string Uuid { get; }
     int PlayerId { get; set; }
-    IChannel Channel { get; set; }
+    //IChannel Channel { get; set; }
 
     bool HasPonged { get; set; }
 
@@ -13,5 +13,7 @@ public interface ITonyClient {
     Task SendAsync( ClientMessage message );
     Task SendQueued( ComposerBase msg_composer );
     Task SendQueued( ClientMessage message );
-    void Flush();
+    Task Flush();
+
+    Task Kill();
 }

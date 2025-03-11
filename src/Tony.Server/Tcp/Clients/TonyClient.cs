@@ -1,4 +1,5 @@
 ﻿using DotNetty.Transport.Channels;
+using System.IO.Pipelines;
 using System.Net.Sockets;
 using Tony.Sdk.Clients;
 using Tony.Sdk.Revisions;
@@ -11,19 +12,26 @@ internal class TonyClient : ITonyClient {
 
     public bool HasPonged { get; set; }
 
-    public required IChannel Channel { get; set; }
+    private readonly PipeWriter writer;
+
+    public TonyClient( PipeWriter writer ) {
+        this.writer = writer;
+    }
+
+    public async Task Kill() => await this.writer.CompleteAsync();
 
     public Task SendAsync( ComposerBase msg_composer ) => this.SendAsync( msg_composer.Compose() );
-    public Task SendAsync( ClientMessage message ) {
+    public async Task SendAsync( ClientMessage message ) {
         Console.WriteLine( $"SENT: {message.ToString()}" );
-        return this.Channel.WriteAndFlushAsync( message );
+        await this.writer.WriteAsync( message.Finalise() );
+        await this.writer.FlushAsync();
     }
 
     public Task SendQueued( ComposerBase msg_composer ) => this.SendQueued( msg_composer.Compose() );
-    public Task SendQueued( ClientMessage message ) {
+    public async Task SendQueued( ClientMessage message ) {
         Console.WriteLine( $"SENT: {message.ToString()}" );
-        return this.Channel.WriteAsync( message );
+        await this.writer.WriteAsync( message.Finalise() );
     }
 
-    public void Flush() => this.Channel.Flush();
+    public async Task Flush() => await this.writer.FlushAsync();
 }
