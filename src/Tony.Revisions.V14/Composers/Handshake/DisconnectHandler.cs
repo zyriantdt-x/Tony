@@ -1,8 +1,7 @@
-﻿using Tony.Revisions.V14.PubSub.Events.Rooms;
-using Tony.Sdk.Clients;
+﻿using Tony.Sdk.Clients;
 using Tony.Sdk.Dto;
+using Tony.Sdk.PubSub;
 using Tony.Sdk.Revisions;
-using Tony.Sdk.Revisions.PubSub;
 using Tony.Sdk.Services;
 
 namespace Tony.Revisions.V14.Composers.Handshake;
@@ -21,15 +20,9 @@ internal class DisconnectHandler : IHandler {
     public async Task Handle( ITonyClient client, object message ) {
         PlayerRoomDto? room_data = await this.player_service.GetPlayerRoom( client.PlayerId );
         if( room_data is not null ) {
-            await this.entity_service.RemoveEntityFromRoom( room_data.RoomId, room_data.InstanceId );
-
-            IEnumerable<RoomEntityDto> entities = await this.entity_service.GetEntitiesInRoom( room_data.RoomId );
-            await this.publisher.Publish( new RoomEntitiesUpdatedEvent() { // ffs i really ought to do something about this
-                Audience = entities.Where( e => e.EntityType == EntityType.PLAYER ).Select( e => e.EntityId ),
-                Entities = entities
-            } );
+            await this.entity_service.RemoveEntityFromRoom( new() { RoomId = room_data.RoomId, InstanceId = room_data.InstanceId } ); // idk if i like this
         }
-        
+
         // plan for other things here...
     }
 }

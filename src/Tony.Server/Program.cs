@@ -4,13 +4,12 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using StackExchange.Redis;
 using System.Reflection;
 using Tony.Sdk.Clients;
 using Tony.Sdk.Options;
-using Tony.Sdk.Revisions.PubSub;
+using Tony.Sdk.PubSub;
 using Tony.Sdk.Services;
 using Tony.Server.Cache;
 using Tony.Server.PubSub;
@@ -44,11 +43,8 @@ builder.Services.AddSingleton<PubSubHandlerRegistry>();
 builder.Services.AddHostedService<SubscriberService>();
 builder.Services.AddTransient<IPublisherService, PublisherService>();
 
-// add dotnetty
-//builder.Services.AddHostedService<TcpService>();
+// add client services
 builder.Services.AddSingleton<ITonyClientService, TonyClientService>();
-//builder.Services.AddSingleton<ChannelInitializer<IChannel>, TonyChannelInitialiser>();
-//builder.Services.AddSingleton<ChannelHandlerAdapter, TonyChannelHandler>();
 
 // add registries
 builder.Services.AddSingleton<HandlerRegistry>();
@@ -112,5 +108,5 @@ static void LoadRevision( string path, IServiceCollection services ) {
     }
 
     // Invoke the static method and pass IServiceCollection
-    registerMethod.Invoke( null, new object[] { services } );
+    registerMethod.Invoke( null, [ services ] );
 }

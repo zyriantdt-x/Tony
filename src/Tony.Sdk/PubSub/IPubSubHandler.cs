@@ -1,4 +1,4 @@
-﻿namespace Tony.Sdk.Revisions.PubSub;
+﻿namespace Tony.Sdk.PubSub;
 public interface IPubSubHandler {
     Task Handle( EventBase message ); // Non-generic for type safety in registry
 }

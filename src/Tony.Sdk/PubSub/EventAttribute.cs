@@ -1,4 +1,4 @@
-﻿namespace Tony.Sdk.Revisions.PubSub;
+﻿namespace Tony.Sdk.PubSub;
 public class EventAttribute : Attribute {
     public string EventName { get; }
 

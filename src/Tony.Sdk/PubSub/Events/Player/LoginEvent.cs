@@ -1,6 +1,4 @@
-﻿using Tony.Sdk.Revisions.PubSub;
-
-namespace Tony.Revisions.V14.PubSub.Events.Player;
+﻿namespace Tony.Sdk.PubSub.Events.Player;
 public class LoginEvent : EventBase {
     public override string Event => "login";
 

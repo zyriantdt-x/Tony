@@ -18,6 +18,8 @@ public class RoomEntityDto {
     public int HeadRotation { get; set; }
     public int BodyRotation { get; set; }
 
+    public int RoomId { get; set; } // annoying
+
     public ConcurrentDictionary<EntityStatusType, string> Statuses { get; set; } = [];
 }
 

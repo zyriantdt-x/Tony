@@ -4,7 +4,7 @@ using StackExchange.Redis;
 using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Tony.Sdk.Revisions.PubSub;
+using Tony.Sdk.PubSub;
 
 namespace Tony.Server.PubSub;
 internal class SubscriberService : IHostedService {

@@ -1,12 +1,10 @@
-﻿using Tony.Revisions.V14.Messages.Rooms;
-using Tony.Revisions.V14.Composers.Room;
-using Tony.Sdk.Revisions;
+﻿using Tony.Revisions.V14.Composers.Room;
+using Tony.Revisions.V14.Messages.Rooms;
 using Tony.Sdk.Clients;
-using Tony.Sdk.Services;
 using Tony.Sdk.Dto;
-using System.Reflection;
-using Tony.Sdk.Revisions.PubSub;
-using Tony.Revisions.V14.PubSub.Events.Rooms;
+using Tony.Sdk.PubSub;
+using Tony.Sdk.Revisions;
+using Tony.Sdk.Services;
 namespace Tony.Revisions.V14.Handlers.Rooms;
 [Header( 59 )]
 public class GoToRoomHandler : IHandler<GoToRoomMessage> {
@@ -49,6 +47,8 @@ public class GoToRoomHandler : IHandler<GoToRoomMessage> {
 
             HeadRotation = room_data.Model.DoorDir,
             BodyRotation = room_data.Model.DoorDir,
+
+            RoomId = room_data.Id
         };
 
         await this.player_data.SetPlayerRoom( player.Id, new() {
@@ -56,13 +56,7 @@ public class GoToRoomHandler : IHandler<GoToRoomMessage> {
             RoomId = room_data.Id
         } );
 
-        await this.entity_service.AddEntityToRoom( room_data.Id, entity );
-        IEnumerable<RoomEntityDto> updated_entities = await this.entity_service.GetEntitiesInRoom( room_data.Id );
-
-        await this.publisher.Publish( new RoomEntitiesUpdatedEvent() {
-            Audience = updated_entities.Where( entity => entity.EntityType == EntityType.PLAYER ).Select( entity => entity.EntityId ),
-            Entities = updated_entities
-        } );
+        await this.entity_service.AddEntityToRoom( entity );
 
         await client.SendAsync( new RoomUrlComposer() );
         await client.SendAsync( new RoomReadyComposer() { RoomId = room_data.Id, RoomModel = room_data.ModelId } );

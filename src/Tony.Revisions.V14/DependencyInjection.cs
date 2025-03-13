@@ -5,9 +5,7 @@ using Tony.Revisions.V14.Handlers.Messenger;
 using Tony.Revisions.V14.Handlers.Navigator;
 using Tony.Revisions.V14.Handlers.Player;
 using Tony.Revisions.V14.Handlers.Rooms;
-using Tony.Revisions.V14.PubSub.Handlers.Player;
 using Tony.Revisions.V14.PubSub.Handlers.Rooms;
-using Tony.Sdk.Clients;
 
 namespace Tony.Revisions.V14;
 public static class DependencyInjection {
@@ -44,7 +42,6 @@ public static class DependencyInjection {
         services.AddTransient<MessengerInitHandler>();
 
         /* PUBSUB */
-        services.AddTransient<LoginHandler>();
         services.AddTransient<RoomEntitiesUpdatedHandler>();
         services.AddTransient<RoomChatHandler>();
     }

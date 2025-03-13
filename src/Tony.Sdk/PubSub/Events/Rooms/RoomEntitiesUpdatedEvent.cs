@@ -1,7 +1,6 @@
 ﻿using Tony.Sdk.Dto;
-using Tony.Sdk.Revisions.PubSub;
 
-namespace Tony.Revisions.V14.PubSub.Events.Rooms;
+namespace Tony.Sdk.PubSub.Events.Player;
 public class RoomEntitiesUpdatedEvent : EventBase {
     public override string Event => "room_entities_updated";
 

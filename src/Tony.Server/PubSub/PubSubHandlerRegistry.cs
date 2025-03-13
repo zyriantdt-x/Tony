@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
 using System.Reflection;
-using Tony.Sdk.Revisions.PubSub;
+using Tony.Sdk.PubSub;
 
 namespace Tony.Server.PubSub;
 internal class PubSubHandlerRegistry {

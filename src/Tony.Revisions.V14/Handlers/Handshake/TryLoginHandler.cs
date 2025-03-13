@@ -1,12 +1,11 @@
-﻿using Tony.Revisions.V14.Messages.Handshake;
-using Tony.Revisions.V14.Composers.Alerts;
+﻿using Tony.Revisions.V14.Composers.Alerts;
 using Tony.Revisions.V14.Composers.Handshake;
 using Tony.Revisions.V14.Composers.Player;
+using Tony.Revisions.V14.Messages.Handshake;
 using Tony.Sdk.Clients;
+using Tony.Sdk.PubSub;
 using Tony.Sdk.Revisions;
 using Tony.Sdk.Services;
-using Tony.Sdk.Revisions.PubSub;
-using Tony.Revisions.V14.PubSub.Events.Player;
 namespace Tony.Revisions.V14.Handlers.Handshake;
 [Header( 4 )]
 public class TryLoginHandler : IHandler<TryLoginMessage> {
@@ -26,11 +25,6 @@ public class TryLoginHandler : IHandler<TryLoginMessage> {
         }
 
         client.PlayerId = uid;
-
-        await this.publisher.Publish( new LoginEvent() {
-            ConnectionId = client.Uuid,
-            PlayerId = uid
-        } );
 
         await client.SendAsync( new LoginComposer() );
         await client.SendAsync( new RightsComposer() );

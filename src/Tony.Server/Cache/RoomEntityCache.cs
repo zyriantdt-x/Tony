@@ -17,16 +17,26 @@ internal class RoomEntityCache {
         return entities.Select( entity => JsonSerializer.Deserialize<RoomEntityDto>( entity.Value! )! );
     }
 
-    public async Task AddEntityToRoom( int room_id, RoomEntityDto entity ) {
-        string key = $"room:{room_id}:entities";
+    public async Task<RoomEntityDto?> GetPlayerEntity( PlayerRoomDto player_room ) {
+        string key = $"room:{player_room.RoomId}:entities";
+
+        string? serialised_entity = await this.redis.HashGetAsync( key, player_room.InstanceId );
+        if( serialised_entity is null )
+            return null;
+
+        return JsonSerializer.Deserialize<RoomEntityDto>( serialised_entity );
+    }
+
+    public async Task AddEntityToRoom( RoomEntityDto entity ) {
+        string key = $"room:{entity.RoomId}:entities";
         string entity_serialised = JsonSerializer.Serialize( entity );
 
         await this.redis.HashSetAsync( key, entity.InstanceId, entity_serialised );
     }
 
-    public async Task RemoveEntityFromRoom( int room_id, int instance_id ) {
-        string key = $"room:{room_id}:entities";
+    public async Task RemoveEntityFromRoom( RoomEntityDto entity ) {
+        string key = $"room:{entity.RoomId}:entities";
 
-        await this.redis.HashDeleteAsync( key, instance_id );
+        await this.redis.HashDeleteAsync( key, entity.InstanceId );
     }
 }

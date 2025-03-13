@@ -1,7 +1,6 @@
 ﻿using Tony.Sdk.Enums;
-using Tony.Sdk.Revisions.PubSub;
 
-namespace Tony.Revisions.V14.PubSub.Events.Rooms;
+namespace Tony.Sdk.PubSub.Events.Player;
 public class RoomChatEvent : EventBase {
     public override string Event => "room_chat";
 

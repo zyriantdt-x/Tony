@@ -1,7 +1,7 @@
 ﻿using Tony.Revisions.V14.Composers.Room;
-using Tony.Revisions.V14.PubSub.Events.Rooms;
 using Tony.Sdk.Clients;
-using Tony.Sdk.Revisions.PubSub;
+using Tony.Sdk.PubSub;
+using Tony.Sdk.PubSub.Events.Player;
 
 namespace Tony.Revisions.V14.PubSub.Handlers.Rooms;
 [Event( "room_entities_updated" )]
